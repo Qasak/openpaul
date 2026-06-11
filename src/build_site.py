@@ -2,6 +2,9 @@
 
 "决赛之夜" edition v2 — cinematic dark-stadium data showcase.
   - hero carousel over the top-6 contenders (auto-cycle + click-to-switch)
+  - OpenPaul mascot above the hero: a short-legged octopus that hops over to
+    the active contender's flag on every switch (click or auto-cycle), picks
+    it up overhead (❗), and occasionally scratches its head (❓)
   - 3D probability terrain (equalizer-wave intro that settles to real data;
     manual drag only, no auto-rotate)
   - 3D night-earth globe with glowing championship pillars (auto-cruise,
@@ -170,7 +173,7 @@ nav .links a:hover{color:var(--gold2)}
 
 /* hero */
 #hero{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:center;
-  padding:110px 6vw 70px;overflow:hidden;
+  padding:64px 6vw 70px;overflow:hidden;
   background:
     radial-gradient(1100px 460px at 50% 118%, rgba(14,68,44,.45), transparent 70%),
     radial-gradient(900px 500px at 82% -10%, rgba(28,56,120,.5), transparent 65%),
@@ -178,7 +181,7 @@ nav .links a:hover{color:var(--gold2)}
 #stars{position:absolute;inset:0;pointer-events:none}
 #hero::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(120% 90% at 50% 40%,transparent 55%,rgba(2,3,8,.75) 100%)}
-.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:5vw;align-items:center}
+.hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:5vw;align-items:center;margin:auto 0}
 @media(max-width:1020px){.hero-grid{grid-template-columns:1fr}}
 .overline{font-family:var(--num);font-size:12px;letter-spacing:.34em;color:var(--gold);
   text-transform:uppercase;margin-bottom:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -226,6 +229,35 @@ nav .links a:hover{color:var(--gold2)}
 .scroll-cue::after{content:"";display:block;width:1px;height:34px;margin:8px auto 0;
   background:linear-gradient(180deg,var(--gold),transparent)}
 @keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
+
+/* OpenPaul mascot — a short-legged octopus that hops over to the active
+   contender's flag, picks it up and flashes ❗ */
+#paul{position:relative;z-index:2;width:min(680px,94vw);margin:0 auto 14px;pointer-events:none}
+#paul svg{display:block;width:100%;height:auto;overflow:visible}
+#paulBodyG{transform-box:fill-box;transform-origin:50% 62%;animation:paulBob 4.6s ease-in-out infinite}
+@keyframes paulBob{0%,100%{transform:rotate(-2deg)}30%{transform:rotate(2deg) scale(.985,1.015)}60%{transform:rotate(-1deg) scale(1.02,.98)}}
+#paulBody{font-size:64px}
+#paulArm{stroke:#b23527;stroke-width:8;fill:none;stroke-linecap:round;transform-box:fill-box;
+  transform-origin:90% 100%;transform:scale(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+#paul.scratching #paulArm{transform:scale(1);animation:paulScr .42s ease-in-out .25s 3}
+#paulHold{stroke:#b23527;stroke-width:7;fill:none;stroke-linecap:round;transform-box:fill-box;
+  transform-origin:0% 100%;transform:scale(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+#paul.held #paulHold{transform:scale(1)}
+@keyframes paulScr{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1) rotate(-14deg)}}
+#paulMark{font-size:30px;opacity:0;transform-box:fill-box;transform-origin:50% 100%}
+#paul.mark #paulMark{animation:paulPop 1.8s cubic-bezier(.25,1.5,.4,1)}
+@keyframes paulPop{0%{opacity:0;transform:scale(0) translateY(10px)}12%{opacity:1;transform:scale(1.3)}22%{transform:scale(1)}75%{opacity:1}100%{opacity:0;transform:scale(.7) translateY(-12px)}}
+#paulShadow{fill:#000;opacity:.3}
+.pmound{fill:#1b2740}
+.pfg{cursor:pointer;pointer-events:auto;outline:none}
+.pfg .hit{fill:transparent;stroke:none}
+.pfg .pole{stroke:#9fb2cd;stroke-width:2.5;stroke-linecap:round}
+.pfg .fin{fill:var(--gold)}
+.pfg image{filter:drop-shadow(0 3px 7px rgba(0,0,0,.45));transition:filter .3s}
+.pfg rect{fill:none;stroke:rgba(255,255,255,.25)}
+.pfg:hover image,.pfg:focus-visible image{filter:drop-shadow(0 0 10px rgba(240,199,94,.55))}
+.pfg.lift image{filter:drop-shadow(0 5px 14px rgba(240,199,94,.5))}
+@media (prefers-reduced-motion:reduce){#paul.mark #paulMark{opacity:1}}
 
 /* sections */
 .sec{position:relative;max-width:1320px;margin:0 auto;padding:90px 6vw 10px}
@@ -387,6 +419,24 @@ html.js .reveal.in{opacity:1;transform:none}
 
 <section id="hero">
   <canvas id="stars" aria-hidden="true"></canvas>
+  <div id="paul" role="group" aria-label="OpenPaul">
+    <svg id="paulSvg" viewBox="0 80 760 138" role="presentation">
+      <defs>
+        <clipPath id="pfClip" clipPathUnits="userSpaceOnUse"><rect x="2" y="-44" width="40" height="28" rx="4"/></clipPath>
+      </defs>
+      <g id="paulGround"></g>
+      <ellipse id="paulShadow" cx="380" cy="208" rx="24" ry="4" aria-hidden="true"/>
+      <g id="paulOcto" transform="translate(380,206)" aria-hidden="true">
+        <g id="paulBodyG">
+          <text id="paulBody" x="0" y="-6" text-anchor="middle">🐙</text>
+          <path id="paulArm" d="M-22,-26 C-38,-32 -36,-54 -10,-63"/>
+          <path id="paulHold" d="M28,-16 C40,-20 38,-34 25,-42"/>
+        </g>
+        <text id="paulMark" x="6" y="-72" text-anchor="middle">❓</text>
+      </g>
+      <g id="paulFlags"></g>
+    </svg>
+  </div>
   <div class="hero-grid">
     <div>
       <div class="overline" data-i18n="overline">Monte Carlo ×100,000 <span class="ol2">· 49,400 场历史重放</span> · 开球前存证</div>
@@ -642,6 +692,7 @@ function setHero(i){
     `${t('subProb')} [<b>${pct(r.p_s150)}</b>, <b>${pct(r.p_s0)}</b>] · ${t('subFinal')} <b>${pct(r.p_final)}</b> · ${t('subSF')} <b>${pct(r.p_sf)}</b>`;
   countUp(document.getElementById('champPct'),r.p_champion*100,1,900);
   document.querySelectorAll('#heroSide .rk').forEach((el,j)=>el.classList.toggle('active',j===i));
+  try{paulGo(i)}catch(e){}   // mascot hops over on every switch, manual or auto
 }
 function nextHero(){setHero((heroIdx+1)%TOPN)}
 function restartHeroTimer(){clearInterval(heroTimer);heroTimer=setInterval(nextHero,8000)}
@@ -688,6 +739,119 @@ function heroInit(){
     if(!document.hidden)heroTimer=setInterval(nextHero,5500);
     if(charts.globe){try{charts.globe.setOption({globe:{viewControl:{autoRotate:!document.hidden&&globeVisible}}})}catch(e){}}
   });
+}
+
+/* ---------- OpenPaul mascot: a short-legged octopus stands beside the active
+   contender's flag; on every switch (click OR auto-cycle) it hops over,
+   picks the flag up overhead and flashes ❗; idles with head-scratch + ❓.
+   rAF-driven, pauses offscreen / tab hidden; reduced-motion = static poses. */
+const PAUL={flags:[],ok:false,vis:true,mode:'idle',x:380,tgt:-1,held:-1,
+  h0:0,hx0:0,hx1:0,hn:1,hd:420,p0:0,kk:0,markT:0,carry:0,
+  reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const PAUL_GY=206,PAUL_OFF=-34,PAUL_FX=[90,205,320,435,550,665];
+function paulShowMark(ch){
+  const st=document.getElementById('paul');if(!PAUL.ok)return;
+  document.getElementById('paulMark').textContent=ch;
+  st.classList.remove('mark');void st.offsetWidth;st.classList.add('mark');
+  clearTimeout(PAUL.markT);PAUL.markT=setTimeout(()=>st.classList.remove('mark'),1900);
+}
+function paulRender(T){
+  let jy=0,sx=1,sy=1;
+  if(PAUL.mode==='hop'){
+    const u=Math.min(1,(T-PAUL.h0)/PAUL.hd);
+    PAUL.x=PAUL.hx0+(PAUL.hx1-PAUL.hx0)*u;
+    const air=Math.max(Math.abs(Math.sin(Math.PI*PAUL.hn*u)),
+      PAUL.carry*Math.max(0,1-u*3));      // retarget mid-air: old height decays into the new arc
+    jy=-38*air;sy=.86+.26*air;sx=2-sy;     // squash on the ground, stretch in the air
+    if(u>=1){PAUL.mode='pick';PAUL.p0=T;PAUL.held=PAUL.tgt;
+      PAUL.flags.forEach((f,j)=>f.g.classList.toggle('lift',j===PAUL.held));
+      document.getElementById('paul').classList.add('held')}
+  }else if(PAUL.mode==='pick'&&T-PAUL.p0>=330){PAUL.mode='idle';paulShowMark('❗')}
+  document.getElementById('paulOcto').setAttribute('transform',
+    `translate(${PAUL.x.toFixed(1)},${(PAUL_GY+jy).toFixed(1)}) scale(${sx.toFixed(3)},${sy.toFixed(3)})`);
+  const sh=document.getElementById('paulShadow');
+  sh.setAttribute('cx',PAUL.x.toFixed(1));
+  sh.setAttribute('rx',(24*(1+jy/90)).toFixed(1));
+  sh.setAttribute('opacity',(.3*(1+jy/60)).toFixed(2));
+  PAUL.flags.forEach((f,i)=>{
+    if(!PAUL.reduced)f.h+=((i===PAUL.held?1:0)-f.h)*PAUL.kk;
+    const e=f.h*f.h*(3-2*f.h);
+    const px=PAUL_FX[i]+(PAUL.x+24-PAUL_FX[i])*e,py=PAUL_GY-44*e,
+      rot=Math.sin(T*12e-4+i*2)*2.5*(1-e)+(14+Math.sin(T*3e-3)*6)*e,
+      sc=1+.08*e;
+    f.g.setAttribute('transform',`translate(${px.toFixed(1)},${py.toFixed(1)}) rotate(${rot.toFixed(1)}) scale(${sc.toFixed(3)})`);
+  });
+}
+function paulGo(i){ // the active contender changed -> hop over, pick up its flag, ❗
+  if(!PAUL.ok||i==null||i<0||i>=PAUL.flags.length)return;
+  if(i===PAUL.tgt&&(PAUL.mode!=='idle'||PAUL.held===i))return;
+  const st=document.getElementById('paul');
+  st.classList.remove('scratching');st.classList.remove('mark');clearTimeout(PAUL.markT);
+  PAUL.tgt=i;
+  const dest=PAUL_FX[i]+PAUL_OFF;
+  if(PAUL.reduced){
+    PAUL.x=dest;PAUL.held=i;PAUL.mode='idle';
+    PAUL.flags.forEach((f,j)=>{f.h=j===i?1:0;f.g.classList.toggle('lift',j===i)});
+    st.classList.add('held');
+    paulRender(performance.now());paulShowMark('❗');return;
+  }
+  PAUL.carry=PAUL.mode==='hop'
+    ?Math.abs(Math.sin(Math.PI*PAUL.hn*Math.min(1,(performance.now()-PAUL.h0)/PAUL.hd))):0;
+  PAUL.held=-1;PAUL.flags.forEach(f=>f.g.classList.remove('lift'));
+  st.classList.remove('held');
+  PAUL.mode='hop';PAUL.hx0=PAUL.x;PAUL.hx1=dest;
+  PAUL.hn=Math.max(1,Math.min(5,Math.round(Math.abs(dest-PAUL.x)/95)||1));
+  PAUL.hd=PAUL.hn*380;PAUL.h0=performance.now();
+}
+function paulLang(){
+  PAUL.flags.forEach((f,i)=>{const ti=f.g.querySelector('title');
+    if(ti)ti.textContent=nm(D.summary[i].team)});
+}
+function paulInit(){
+  const st=document.getElementById('paul'),ground=document.getElementById('paulGround'),
+    flayer=document.getElementById('paulFlags');
+  if(!st||!ground||!flayer)return;
+  const NS='http://www.w3.org/2000/svg';
+  D.summary.slice(0,TOPN).forEach((r,i)=>{
+    const m=document.createElementNS(NS,'ellipse');
+    m.setAttribute('class','pmound');m.setAttribute('cx',PAUL_FX[i]);m.setAttribute('cy',PAUL_GY+2);
+    m.setAttribute('rx',9);m.setAttribute('ry',2.6);ground.appendChild(m);
+    const fg=document.createElementNS(NS,'g');
+    fg.setAttribute('class','pfg');fg.setAttribute('role','button');fg.setAttribute('tabindex','0');
+    fg.innerHTML=`<title>${nm(r.team)}</title>
+      <rect class="hit" x="-26" y="-66" width="92" height="78" rx="10"/>
+      <line class="pole" x1="0" y1="0" x2="0" y2="-46"/>
+      <circle class="fin" cx="0" cy="-46" r="2.4"/>
+      <image href="${fl(r.team,80)}" x="2" y="-44" width="40" height="28" preserveAspectRatio="xMidYMid slice" clip-path="url(#pfClip)"/>
+      <rect x="2" y="-44" width="40" height="28" rx="4"/>`;
+    const act=()=>{setHero(i);restartHeroTimer()};   // paulGo rides along inside setHero
+    fg.addEventListener('click',act);
+    fg.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();act()}});
+    flayer.appendChild(fg);
+    PAUL.flags.push({g:fg,h:0});
+  });
+  PAUL.ok=true;
+  if(PAUL.reduced){paulGo(heroIdx);return}   // static pose: no hop loop, no scratch timer
+  new IntersectionObserver(es=>{PAUL.vis=es[es.length-1].isIntersecting}).observe(st);
+  let last=performance.now();
+  (function loop(now){
+    if(PAUL.vis&&!document.hidden){
+      PAUL.kk=1-Math.exp(-Math.min(50,now-last)/130);
+      paulRender(now);
+    }
+    last=now;requestAnimationFrame(loop);
+  })(last);
+  (function scratch(){
+    setTimeout(()=>{
+      if(PAUL.vis&&!document.hidden&&PAUL.mode==='idle'){
+        st.classList.add('scratching');paulShowMark('❓');
+        setTimeout(()=>st.classList.remove('scratching'),1950);
+      }
+      scratch();
+    },6500+Math.random()*7000);
+  })();
+  // entrance after first paint, so a cold load still shows the hop
+  requestAnimationFrame(()=>setTimeout(()=>paulGo(heroIdx),300));
 }
 
 /* ---------- particle field (pauses when hero offscreen / tab hidden) ---------- */
@@ -989,6 +1153,7 @@ function reveals(){
 function langRefresh(){
   applyStatic();renderBadges();buildHeroSide();setHero(heroIdx);renderHeroStats();
   podium();bench();groupsSec();matches();table();
+  try{paulLang()}catch(e){}
   // strip one-shot effects instantly after re-render
   document.querySelectorAll('[data-flick]').forEach(el=>{el.textContent=el.dataset.flick;el.removeAttribute('data-flick')});
   growAll(document.body);document.body.classList.add('m-seen');
@@ -1005,6 +1170,7 @@ document.getElementById('langBtn').addEventListener('click',e=>{
 
 /* ---------- boot ---------- */
 applyStatic();heroInit();stars();podium();bench();groupsSec();matchTools();matches();table();reveals();
+try{paulInit()}catch(e){}
 onSee('edge-sec',el=>{try{edge()}catch(e){} flickAll(el);growAll(el)},'0px 0px 200px 0px');
 onSee('podium-sec',el=>flickAll(el));
 onSee('groups-sec',el=>{flickAll(el);growAll(el)});
