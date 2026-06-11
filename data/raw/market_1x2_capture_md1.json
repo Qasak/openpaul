@@ -1,0 +1,215 @@
+{
+  "1x2-jun11-13": {
+    "odds": [
+      {
+        "date": "2026-06-11",
+        "match": 1,
+        "team1": "Mexico",
+        "team2": "South Africa",
+        "odds_team1": 1.4,
+        "odds_draw": 4.5,
+        "odds_team2": 9,
+        "book": "FanDuel",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-11",
+        "match": 0,
+        "team1": "South Korea",
+        "team2": "Czechia",
+        "odds_team1": 2.65,
+        "odds_draw": 3,
+        "odds_team2": 2.85,
+        "book": "FanDuel",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-12",
+        "match": 0,
+        "team1": "Canada",
+        "team2": "Bosnia and Herzegovina",
+        "odds_team1": 1.77,
+        "odds_draw": 3.6,
+        "odds_team2": 4.7,
+        "book": "FanDuel",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-12",
+        "match": 0,
+        "team1": "United States",
+        "team2": "Paraguay",
+        "odds_team1": 1.95,
+        "odds_draw": 3.3,
+        "odds_team2": 4.1,
+        "book": "FanDuel",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-13",
+        "match": 0,
+        "team1": "Haiti",
+        "team2": "Scotland",
+        "odds_team1": 6.25,
+        "odds_draw": 4.5,
+        "odds_team2": 1.36,
+        "book": "Sports Interaction",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-13",
+        "match": 0,
+        "team1": "Australia",
+        "team2": "Turkey",
+        "odds_team1": 5,
+        "odds_draw": 3.8,
+        "odds_team2": 1.71,
+        "book": "DraftKings (via RotoWire)",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-13",
+        "match": 0,
+        "team1": "Brazil",
+        "team2": "Morocco",
+        "odds_team1": 1.53,
+        "odds_draw": 3.75,
+        "odds_team2": 5,
+        "book": "Sports Interaction",
+        "captured_utc": "2026-06-10T19:51Z"
+      },
+      {
+        "date": "2026-06-13",
+        "match": 0,
+        "team1": "Qatar",
+        "team2": "Switzerland",
+        "odds_team1": 14,
+        "odds_draw": 6.5,
+        "odds_team2": 1.21,
+        "book": "FanDuel",
+        "captured_utc": "2026-06-10T19:51Z"
+      }
+    ],
+    "sources": [
+      "https://www.cbssports.com/soccer/news/mexico-south-africa-odds-prediction-time-2026-world-cup-picks-best-bets/",
+      "https://www.sportsline.com/insiders/south-korea-vs-czechia-odds-predictions-2026-world-cup-picks-from-elite-soccer-expert/",
+      "https://www.oddsshark.com/soccer/world-cup/canada-bosnia-herzegovina-odds-picks-2026",
+      "https://www.sportsline.com/insiders/usmnt-vs-paraguay-odds-predictions-2026-world-cup-picks-from-proven-soccer-expert/",
+      "https://news.sportsinteraction.com/soccer/fifa-world-cup/story/haiti-vs-scotland-odds-prediction-061426-217127",
+      "https://www.rotowire.com/betting/soccer/game/australia-vs-turkey-odds-2026-06-13-2608248",
+      "https://news.sportsinteraction.com/soccer/fifa-world-cup/story/brazil-vs-morocco-odds-prediction-061326-217120",
+      "https://www.sportsline.com/insiders/qatar-vs-switzerland-odds-predictions-2026-world-cup-picks-from-proven-soccer-expert/",
+      "https://www.espn.com/soccer/odds/_/gameId/760415"
+    ],
+    "caveats": "All 8 requested fixtures captured pre-match; none omitted. (1) Pinnacle was not directly accessible (oddschecker/vegasinsider returned 403), so US books were used: FanDuel (4 matches, quoted in CBS Sports/SportsLine/OddsShark articles dated 2026-06-08 to 2026-06-10), Sports Interaction (2 matches, articles dated 2026-06-10), DraftKings via RotoWire odds page (1 match). (2) All odds were converted from American to decimal (e.g., -250 -> 1.40, +350 -> 4.50); decimals rounded to 2 dp (exact: -130=1.769, -105=1.952, -275=1.364, -140=1.714, -190=1.526, -475=1.211). (3) Underlying odds snapshots date from Jun 8-10, 2026, i.e., 1-3 days before kickoff; lines may have moved slightly by kickoff. Cross-check for Mexico-South Africa: ESPN/DraftKings showed Mexico -240 / South Africa +750 (no draw listed), consistent with the FanDuel line recorded. (4) Haiti-Scotland: the Sports Interaction article contained two snapshots (table: +525/+350/-275; older text: +475/+333/-190); the table values were recorded; bet365 was reported elsewhere at Scotland -225. (5) Brazil-Morocco: article also cited an earlier snapshot (-160/+290/+425); the current table values (-190/+275/+400) were recorded. (6) Australia-Turkey kicks off late Jun 13 local (early Jun 14 UTC); recorded under its fixture date 2026-06-13. (7) Official match numbers: only the opener (Match 1, Mexico-South Africa) is certain; others set to 0. (8) captured_utc reflects the local machine clock (2026-06-10T19:51Z) at retrieval time, which appears to run slightly behind the capture-day date of 2026-06-11; in either case capture precedes the first kickoff (Jun 11, 19:00 UTC)."
+  },
+  "1x2-jun14-15": {
+    "odds": [
+      {
+        "date": "2026-06-14",
+        "match": 0,
+        "team1": "Ivory Coast",
+        "team2": "Ecuador",
+        "odds_team1": 3.6,
+        "odds_draw": 2.8,
+        "odds_team2": 2.38,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:52:00Z"
+      },
+      {
+        "date": "2026-06-14",
+        "match": 0,
+        "team1": "Germany",
+        "team2": "Curaçao",
+        "odds_team1": 1.03,
+        "odds_draw": 19,
+        "odds_team2": 34,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:48:00Z"
+      },
+      {
+        "date": "2026-06-14",
+        "match": 0,
+        "team1": "Netherlands",
+        "team2": "Japan",
+        "odds_team1": 2,
+        "odds_draw": 3.6,
+        "odds_team2": 3.6,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:49:00Z"
+      },
+      {
+        "date": "2026-06-14",
+        "match": 0,
+        "team1": "Sweden",
+        "team2": "Tunisia",
+        "odds_team1": 1.85,
+        "odds_draw": 3.4,
+        "odds_team2": 4.33,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:49:00Z"
+      },
+      {
+        "date": "2026-06-15",
+        "match": 0,
+        "team1": "Saudi Arabia",
+        "team2": "Uruguay",
+        "odds_team1": 7.5,
+        "odds_draw": 4.33,
+        "odds_team2": 1.44,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:45:00Z"
+      },
+      {
+        "date": "2026-06-15",
+        "match": 0,
+        "team1": "Spain",
+        "team2": "Cape Verde",
+        "odds_team1": 1.08,
+        "odds_draw": 10,
+        "odds_team2": 25,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:53:00Z"
+      },
+      {
+        "date": "2026-06-15",
+        "match": 0,
+        "team1": "Belgium",
+        "team2": "Egypt",
+        "odds_team1": 1.65,
+        "odds_draw": 3.8,
+        "odds_team2": 5.5,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:50:00Z"
+      },
+      {
+        "date": "2026-06-15",
+        "match": 0,
+        "team1": "Iran",
+        "team2": "New Zealand",
+        "odds_team1": 1.85,
+        "odds_draw": 3.4,
+        "odds_team2": 4.5,
+        "book": "bet365 (via kickoff.co.uk)",
+        "captured_utc": "2026-06-10T19:51:00Z"
+      }
+    ],
+    "sources": [
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/cote-d-ivoire-vs-ecuador/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/germany-vs-curacao/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/netherlands-vs-japan/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/sweden-vs-tunisia/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/saudi-arabia-vs-uruguay/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/spain-vs-cape-verde-islands/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/belgium-vs-egypt/",
+      "https://www.kickoff.co.uk/world-cup-predictions-stats-odds/iran-vs-new-zealand/",
+      "https://news.sportsinteraction.com/soccer/fifa-world-cup/story/ivory-coast-vs-ecuador-odds-prediction-061426-217159",
+      "https://news.sportsinteraction.com/soccer/fifa-world-cup/story/germany-vs-curacao-odds-prediction-061426-217139",
+      "https://www.dimers.com/bet-hub/swc/schedule/2026_1_ned_jpn",
+      "https://www.dimers.com/bet-hub/swc/schedule/2026_1_swe_tun",
+      "https://www.espn.com/soccer/odds/_/gameId/760423",
+      "https://www.espn.com/soccer/story/_/id/48939282/2026-fifa-world-cup-fixtures-results-match-schedule-group-stage-knockout-rounds-bracket"
+    ],
+    "caveats": "All 8 fixtures captured pre-match. (1) Book: all primary odds are bet365 prices as displayed on kickoff.co.uk match pages; Pinnacle's own page (pinnacle.com/.../netherlands-vs-japan/1620849619/) is JS-rendered and returned no odds via fetch, and oddschecker, oddsportal-style aggregators, vegasinsider, squawka and sportytrader returned HTTP 403. (2) Fractional-to-decimal conversions performed: Germany 1/33=1.03, draw 18/1=19.0, Curaçao 33/1=34.0; Saudi Arabia 13/2=7.50, draw 10/3=4.33, Uruguay 4/9=1.44; Spain 1/12=1.08. (3) Cross-checks: Ivory Coast-Ecuador consistent with Sports Interaction (+260/+180/+140 = 3.60/2.80/2.40) and FanDuel via SportsLine (+250/+180/+145); Germany-Curaçao FanDuel was -2000/+1900/+4000 (1.05/20.0/41.0), so the heavy-favorite tails vary notably between books; Netherlands-Japan: another June-10 bet365 quote was +100/+275/+240 (2.00/3.75/3.40) vs kickoff snapshot 2.00/3.60/3.60 — normal line movement, treat draw/away as approximate to ±0.2. (4) Iran-New Zealand kicks off 02:00 BST June 16 (~01:00 UTC June 16) but is officially scheduled for June 15 local (Los Angeles); recorded under 2026-06-15. (5) Official FIFA match numbers not confirmed from sources, set to 0. (6) captured_utc values are from the local system clock which read 2026-06-10T19:54Z at completion while the the capture log dates it as 2026-06-11; possible clock skew of up to a few hours, immaterial since all kickoffs are 3+ days after capture. June 15 also includes Belgium-Egypt and Iran-New Zealand beyond the two named fixtures; both captured."
+  }
+}

@@ -1,0 +1,287 @@
+{
+  "teams": [
+    {
+      "team": "France",
+      "key_absences": [
+        {
+          "player": "Hugo Ekitike",
+          "reason": "Ruptured Achilles tendon; ruled out of the tournament",
+          "importance": "medium"
+        },
+        {
+          "player": "Eduardo Camavinga",
+          "reason": "Omitted by Deschamps after an injury-hit, low-minutes season at Real Madrid",
+          "importance": "low"
+        },
+        {
+          "player": "Randal Kolo Muani",
+          "reason": "Omitted; Jean-Philippe Mateta preferred in the 26-man squad",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Topped their UEFA qualifying group and remain among the favourites in Deschamps' final tournament, but suffered a shock 1-2 home defeat to Ivory Coast on 2026-06-04 before beating Northern Ireland 3-1 (Olise hat-trick) in their last warm-up. Mbappé is recovering from a minor muscle injury but is expected to be fit; Saliba (back) is also expected to play."
+    },
+    {
+      "team": "Spain",
+      "key_absences": [
+        {
+          "player": "Fermín López",
+          "reason": "Metatarsal fracture (broken foot) suffered 2026-05-17; ruled out",
+          "importance": "medium"
+        },
+        {
+          "player": "Dani Carvajal",
+          "reason": "Omitted — part of a squad with no Real Madrid players for the first time",
+          "importance": "medium"
+        },
+        {
+          "player": "Álvaro Morata",
+          "reason": "Omitted from the final 26",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Reigning European champions who went unbeaten through World Cup qualifying and lost the June 2025 Nations League final to Portugal only on penalties (2-2, 5-3 pens), extending a years-long unbeaten competitive run. Lamine Yamal (partially torn hamstring) is in the squad and expected fit for the 2026-06-15 opener, though Spain were held to a draw by Iraq in a June warm-up."
+    },
+    {
+      "team": "Argentina",
+      "key_absences": [
+        {
+          "player": "Leonardo Balerdi",
+          "reason": "Soleus muscle injury in right leg; ruled out",
+          "importance": "low"
+        },
+        {
+          "player": "Franco Mastantuono",
+          "reason": "Surprise omission from the final 26",
+          "importance": "low"
+        },
+        {
+          "player": "Marcos Acuña",
+          "reason": "Omitted from the final 26",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Defending world champions who topped CONMEBOL qualifying, and beat Honduras 2-0 (Lautaro, Simeone) before a final warm-up vs Iceland on 2026-06-09; the planned March Finalissima vs Spain was cancelled. They carry multiple fitness concerns into the tournament: Messi (hamstring overload, admitted not fully fit), Cristian Romero (knee ligament sprain), Emiliano Martínez (fractured finger, expected fit), plus Molina, Montiel and Nico González returning from knocks."
+    },
+    {
+      "team": "England",
+      "key_absences": [
+        {
+          "player": "Levi Colwill",
+          "reason": "Torn ACL (August 2025); would likely have made the squad if fit",
+          "importance": "medium"
+        },
+        {
+          "player": "Cole Palmer",
+          "reason": "Omitted by Tuchel after a below-par Chelsea season",
+          "importance": "medium"
+        },
+        {
+          "player": "Phil Foden",
+          "reason": "Omitted after a below-par Manchester City season",
+          "importance": "medium"
+        },
+        {
+          "player": "Trent Alexander-Arnold",
+          "reason": "Omitted from the final 26",
+          "importance": "low"
+        },
+        {
+          "player": "Harry Maguire",
+          "reason": "Omitted; Jarell Quansah preferred",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Historically strong qualifying under Tuchel: won all 8 matches, 22-0 on aggregate — the first European team to qualify without conceding a goal. Warm-ups: 1-0 over New Zealand on 2026-06-07 and a final friendly vs Costa Rica on 2026-06-10; Livramento (thigh) and Spence (broken jaw) were selected despite fitness issues, and Saka joined camp late after the Champions League final but is fit."
+    },
+    {
+      "team": "Brazil",
+      "key_absences": [
+        {
+          "player": "Rodrygo",
+          "reason": "Torn ACL and meniscus (March 2026); ruled out",
+          "importance": "high"
+        },
+        {
+          "player": "Éder Militão",
+          "reason": "Torn hamstring requiring surgery; ruled out",
+          "importance": "high"
+        },
+        {
+          "player": "Estêvão",
+          "reason": "Torn hamstring; ruled out (his spot effectively went to Neymar)",
+          "importance": "high"
+        },
+        {
+          "player": "Wesley França",
+          "reason": "Torn left adductor in the 2026-06-06 Egypt friendly; replaced by Ederson (Atalanta), leaving no specialist right-back",
+          "importance": "medium"
+        }
+      ],
+      "form_note": "Rebuilt under Carlo Ancelotti after finishing only fifth in CONMEBOL qualifying, and won their June warm-ups 6-2 vs Panama (2026-05-31) and 2-1 vs Egypt. The attack is badly depleted by injuries, and the recalled 34-year-old Neymar is himself racing to be fit after a calf strain sustained 2026-05-17."
+    },
+    {
+      "team": "Germany",
+      "key_absences": [
+        {
+          "player": "Serge Gnabry",
+          "reason": "Torn adductor (mid-April); ruled out — no German played more games across qualifying and the March friendlies",
+          "importance": "medium"
+        },
+        {
+          "player": "Marc-André ter Stegen",
+          "reason": "Torn thigh muscle after injury-plagued season; Oliver Baumann is No. 1 instead",
+          "importance": "medium"
+        },
+        {
+          "player": "Lennart Karl",
+          "reason": "Torn thigh muscle in training; replaced in squad by Assan Ouédraogo",
+          "importance": "medium"
+        }
+      ],
+      "form_note": "Eased through qualifying with five wins from six (avenging an opening defeat in Slovakia with a 6-0 rout to top the group) and Nagelsmann's squad is regarded as one of the strongest at the tournament despite poor recent World Cup history. Won their final warm-up 2-1 against the USA in Chicago on 2026-06-06; Neuer returns to the squad."
+    },
+    {
+      "team": "Portugal",
+      "key_absences": [
+        {
+          "player": "Diogo Jota",
+          "reason": "Deceased (July 2025); the squad announcement carried a symbolic tribute to him",
+          "importance": "medium"
+        }
+      ],
+      "form_note": "Reigning Nations League champions (beat Spain on penalties in the June 2025 final after beating Germany in the semi) and topped their qualifying group. Warm-up wins over the USA (2-0, March) and Chile (2-1, June); Cristiano Ronaldo, 41, recovered from a March thigh muscle injury and captains the squad at a record sixth World Cup, with no World Cup-threatening injuries reported in the final 26."
+    },
+    {
+      "team": "Netherlands",
+      "key_absences": [
+        {
+          "player": "Xavi Simons",
+          "reason": "Ruptured ACL (April 2026); ruled out — leaves Koeman without a natural No. 10",
+          "importance": "high"
+        },
+        {
+          "player": "Jurriën Timber",
+          "reason": "Groin strain suffered after the Champions League final; replaced by Lutsharel Geertruida",
+          "importance": "high"
+        },
+        {
+          "player": "Matthijs de Ligt",
+          "reason": "Back surgery; ruled out",
+          "importance": "medium"
+        },
+        {
+          "player": "Stefan de Vrij",
+          "reason": "Injury; ruled out",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Topped their UEFA qualifying group (no playoff needed) and won their June warm-up 2-1 against Uzbekistan. Injuries have stripped out several defensive regulars and their first-choice creator, but the Van Dijk-led back line (van de Ven, Aké, Dumfries) remains one of the meanest in the field."
+    },
+    {
+      "team": "Belgium",
+      "key_absences": [],
+      "form_note": "Topped their UEFA qualifying group and arrive in strong form, hammering the USA 5-2 in March and Tunisia 5-0 in their June warm-up. No stars are ruled out, but fitness is a theme: De Bruyne only returned in March from October surgery, Lukaku played just seven club games all season (one goal) due to recurring muscle injuries, and Courtois is back as No. 1 after his own injury-disrupted run."
+    },
+    {
+      "team": "United States",
+      "key_absences": [
+        {
+          "player": "Johnny Cardoso",
+          "reason": "High-grade ankle sprain requiring surgery; ruled out",
+          "importance": "high"
+        },
+        {
+          "player": "Tanner Tessmann",
+          "reason": "Muscle strain / omitted — leaves Tyler Adams as the only true defensive midfielder",
+          "importance": "medium"
+        },
+        {
+          "player": "Patrick Agyemang",
+          "reason": "Torn Achilles (April); ruled out",
+          "importance": "low"
+        },
+        {
+          "player": "Diego Luna",
+          "reason": "Omitted from the final 26 despite being expected to make it",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Mixed pre-tournament form under Pochettino as co-hosts: heavy March friendly defeats to Belgium (2-5) and Portugal (0-2), then a 3-2 win over Senegal on 2026-05-31 and a 1-2 loss to Germany in the final warm-up on 2026-06-06. Chris Richards (torn ankle ligaments) is in the squad but still working back to match fitness before the 2026-06-12 opener vs Paraguay; Gio Reyna was included despite limited club minutes."
+    },
+    {
+      "team": "Mexico",
+      "key_absences": [
+        {
+          "player": "Hirving Lozano",
+          "reason": "Omitted amid disciplinary questions and limited playing time at San Diego FC",
+          "importance": "medium"
+        },
+        {
+          "player": "Luis Ángel Malagón",
+          "reason": "Goalkeeper missed out while recovering from injury",
+          "importance": "medium"
+        },
+        {
+          "player": "Henry Martín",
+          "reason": "Missed out while recovering from injury",
+          "importance": "low"
+        },
+        {
+          "player": "Rodrigo Huescas",
+          "reason": "Full-back missed out while recovering from injury",
+          "importance": "low"
+        },
+        {
+          "player": "Germán Berterame",
+          "reason": "Late cut from the final squad",
+          "importance": "low"
+        }
+      ],
+      "form_note": "Auto-qualified as hosts; 2025 Gold Cup champions who hit form just in time, thrashing Serbia 5-1 in their 2026-06-04 warm-up before opening the tournament vs South Africa on 2026-06-11 in Mexico City. 40-year-old Guillermo Ochoa is set for a record-equalling sixth World Cup, with 17-year-old Gilberto Mora the emerging star."
+    }
+  ],
+  "sources": [
+    "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/european-qualifiers-play-off-final-review",
+    "https://www.foxsports.com/stories/soccer/world-cup-qualifying-uefa-intercontinental-italy-turkiye-sweden-poland",
+    "https://www.espn.com/soccer/story/_/id/48572979/2026-fifa-world-cup-injuries-tracker-which-stars-miss-latest-info",
+    "https://www.espn.com/soccer/story/_/id/48771039/france-2026-world-cup-squad-mbappe-camavinga-kolo-muani-dembele",
+    "https://www.espn.com/soccer/story/_/id/48870392/spain-world-cup-2026-squad-confirmed-lamine-yamal-stars-no-real-madrid-players",
+    "https://www.goal.com/en-us/lists/lionel-messi-won-t-join-argentina-world-cup-squad-fully-fit-admits-lionel-scaloni/bltdd2d68668cc7337d",
+    "https://worldsoccertalk.com/amp/world-cup/lionel-scaloni-doesnt-rule-out-more-changes-to-argentinas-world-cup-squad-after-leonardo-balerdis-injury/",
+    "https://www.batimes.com.ar/news/sports/messi-in-mastanuono-out-argentina-confirms-26-man-squad-for-world-cup-2026.phtml",
+    "https://www.espn.com/soccer/story/_/id/48907909/messi-leads-experienced-argentina-world-cup-squad-scaloni-opts-continuity",
+    "https://www.skysports.com/football/news/12016/13543455/england-world-cup-squad-announcement-ruthless-thomas-tuchel-leaves-big-names-out-of-26-man-squad",
+    "https://www.espn.com/soccer/story/_/id/48842639/eleven-unlucky-players-miss-england-2026-world-cup-squad",
+    "https://www.foxsports.com/stories/soccer/england-completes-perfect-world-cup-qualifying-campaign-with-8-wins-0-goals-conceded",
+    "https://www.sportsmole.co.uk/football/england/world-cup-2026/news/england-injury-boost-four-players-join-wc-camp-as-tuchels-lineup-questioned_598790.html",
+    "https://www.aljazeera.com/sports/2026/5/19/fifa-world-cup-2026-all-to-know-about-neymar-surprise-brazil-selection-ancelotti",
+    "https://www.goal.com/en/lists/biggest-stars-miss-2026-world-cup-injury-suspension-selection/bltd6ff2d56ebf99a62",
+    "https://athlonsports.com/soccer/carlo-ancelotti-calls-up-ederson-replace-injured-wesley-for-brazil-world-cup-squad",
+    "https://www.espn.com/soccer/report/_/gameId/401864003",
+    "https://www.fourfourtwo.com/team/germany-world-cup-2026-squad",
+    "https://www.sportsmole.co.uk/football/germany/world-cup/feature/germany-2026-world-cup-preview-squad-fixtures-and-prediction_598811.html",
+    "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cristiano-ronaldo-roberto-martinez-portugal-squad-announcement",
+    "https://www.plataformamedia.com/en/2026/03/25/ronaldo-portugal-muscle-injury-world-cup-2026/",
+    "https://www.football-oranje.com/netherlands-squad-announced-for-2026-world-cup/",
+    "https://www.beinsports.com/en-us/soccer/fifa-world-cup-2026/articles/ronald-koeman-s-official-netherlands-squad-for-the-2026-fifa-world-cup-2026-05-27",
+    "https://www.beinsports.com/en-us/soccer/fifa-world-cup-2026/articles/de-bruyne-and-lukaku-named-in-belgium-world-cup-squad-despite-injuries-2026-05-15",
+    "https://worldsoccertalk.com/amp/world-cup/2026-world-cup-courtois-de-bruyne-headline-belgium-squad-as-lukaku-included-despite-napoli-struggles/",
+    "https://www.cbssports.com/soccer/news/full-usmnt-world-cup-roster-2026/",
+    "https://www.espn.com/soccer/story/_/id/48854192/usa-2026-world-cup-roster-gio-reyna-diego-luna-zendejas",
+    "https://www.nbcsports.com/soccer/news/usmnt-2026-schedule-results",
+    "https://www.foxsports.com/stories/soccer/javier-aguirre-excludes-chucky-lozano-from-mexicos-world-cup-roster",
+    "https://rg.org/en-ca/sportsbooks/world-cup-2026/mexico",
+    "https://www.espn.com/soccer/match/_/gameId/401861776/serbia-mexico",
+    "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads",
+    "https://en.wikipedia.org/wiki/2026_Finalissima",
+    "https://www.france24.com/en/sport/20260604-france-stunned-by-ivory-coast-in-world-cup-warm-up-defeat",
+    "https://khelnow.com/football/world-football-important-things-learned-france-win-northern-ireland-pre-world-cup-202606",
+    "https://www.foxsports.com/stories/soccer/france-stunned-by-ivory-coast-in-world-cup-warmup-spain-held-by-iraq",
+    "https://www.uefa.com/uefanationsleague/news/029a-1df446a2d81d-0bc47d9324a5-1000--portugal-vs-spain-highlights-and-report-selecao-create-natio/",
+    "https://en.wikipedia.org/wiki/2025_UEFA_Nations_League_Finals",
+    "https://www.football365.com/news/world-cup-2026-warm-up-friendly-fixtures-results-kick-off-times-what-tv-channel",
+    "https://www.101greatgoals.com/football/argentina-identity-intact-says-scaloni-after-friendly-win/"
+  ],
+  "caveats": "ITALY IS EXCLUDED: verified via FIFA and FOX Sports that Italy did NOT qualify — eliminated by Bosnia and Herzegovina on penalties (1-1, 4-1 pens) in the UEFA playoff final in March 2026, their third consecutive World Cup miss. Other caveats: (1) Results of the very last warm-ups (England vs Costa Rica 2026-06-10, Argentina vs Iceland 2026-06-09) were not yet available at research time; (2) the exact score of Spain's draw with Iraq was not confirmed, only the result; (3) fitness doubts for players who ARE in squads (Messi, Romero, E. Martínez, Yamal, Neymar, Mbappé, Saliba, De Bruyne, Lukaku, Richards, Livramento, Spence) are noted in form_notes rather than listed as absences; (4) one ESPN tracker entry listed Livramento as ruled out, but multiple squad lists (Sky Sports, NewsHub) confirm he was named in England's final 26 — treated as selected; (5) Brazil's fifth-place CONMEBOL qualifying finish is from qualifying that concluded September 2025; (6) USA and Mexico qualified automatically as hosts, so no qualifying form exists for them; (7) the Argentina-Spain Finalissima scheduled for 2026-03-27 in Qatar was cancelled for security reasons, removing a key comparative form data point; (8) Diogo Jota (Portugal) is listed under absences as deceased (July 2025) since it materially changes Portugal's attacking depth versus 2022 — reclassify if the model treats absences strictly as injury/suspension/omission."
+}

@@ -1,0 +1,383 @@
+team,book,decimal_odds
+Spain,DraftKings,5.5
+Spain,FanDuel,5.6
+Spain,BetMGM,5.5
+Spain,Caesars,5.5
+Spain,Pinnacle,5.75
+Spain,Betfair Exchange,5.9
+Spain,Polymarket,6.08
+Spain,Kalshi,5.76
+France,DraftKings,5.75
+France,FanDuel,6.0
+France,BetMGM,6.0
+France,Caesars,5.5
+France,Pinnacle,5.75
+France,Betfair Exchange,6.2
+France,Polymarket,6.23
+France,Kalshi,6.23
+England,DraftKings,8.5
+England,FanDuel,8.0
+England,BetMGM,8.0
+England,Caesars,8.0
+England,Pinnacle,9.0
+England,Betfair Exchange,9.2
+England,Polymarket,9.22
+England,Kalshi,9.3
+Portugal,DraftKings,9.0
+Portugal,FanDuel,9.0
+Portugal,BetMGM,9.0
+Portugal,Caesars,9.0
+Portugal,Pinnacle,9.5
+Portugal,Betfair Exchange,9.6
+Portugal,Polymarket,9.48
+Portugal,Kalshi,9.57
+Brazil,DraftKings,10.0
+Brazil,FanDuel,9.5
+Brazil,BetMGM,10.0
+Brazil,Caesars,10.0
+Brazil,Pinnacle,10.5
+Brazil,Betfair Exchange,11.5
+Brazil,Polymarket,11.83
+Brazil,Kalshi,11.98
+Argentina,DraftKings,10.0
+Argentina,FanDuel,11.0
+Argentina,BetMGM,10.0
+Argentina,Caesars,10.0
+Argentina,Pinnacle,11.0
+Argentina,Betfair Exchange,11.5
+Argentina,Polymarket,11.7
+Argentina,Kalshi,11.56
+Germany,DraftKings,15.0
+Germany,FanDuel,14.0
+Germany,BetMGM,15.0
+Germany,Caesars,15.0
+Germany,Pinnacle,16.0
+Germany,Betfair Exchange,17.5
+Germany,Polymarket,19.05
+Germany,Kalshi,18.02
+Netherlands,DraftKings,21.0
+Netherlands,FanDuel,17.0
+Netherlands,BetMGM,21.0
+Netherlands,Caesars,21.0
+Netherlands,Pinnacle,20.0
+Netherlands,Betfair Exchange,22.0
+Netherlands,Polymarket,24.69
+Netherlands,Kalshi,21.98
+Norway,DraftKings,31.0
+Norway,FanDuel,34.0
+Norway,BetMGM,34.0
+Norway,Caesars,31.0
+Norway,Pinnacle,33.9
+Norway,Betfair Exchange,38.0
+Norway,Polymarket,40.82
+Norway,Kalshi,40.82
+Belgium,DraftKings,41.0
+Belgium,FanDuel,23.0
+Belgium,BetMGM,34.0
+Belgium,Caesars,36.0
+Belgium,Pinnacle,41.0
+Belgium,Betfair Exchange,46.0
+Belgium,Polymarket,46.51
+Belgium,Kalshi,44.44
+Colombia,DraftKings,41.0
+Colombia,FanDuel,36.0
+Colombia,BetMGM,41.0
+Colombia,Caesars,41.0
+Colombia,Pinnacle,46.0
+Colombia,Betfair Exchange,60.0
+Colombia,Polymarket,54.05
+Colombia,Kalshi,51.28
+Morocco,DraftKings,51.0
+Morocco,FanDuel,51.0
+Morocco,BetMGM,41.0
+Morocco,Caesars,66.0
+Morocco,Pinnacle,51.0
+Morocco,Betfair Exchange,60.0
+Morocco,Polymarket,60.61
+Morocco,Kalshi,60.61
+Japan,DraftKings,56.0
+Japan,FanDuel,46.0
+Japan,BetMGM,51.0
+Japan,Caesars,61.0
+Japan,Pinnacle,46.0
+Japan,Betfair Exchange,65.0
+Japan,Polymarket,57.14
+Japan,Kalshi,60.61
+United States,DraftKings,61.0
+United States,FanDuel,56.0
+United States,BetMGM,51.0
+United States,Caesars,51.0
+United States,Pinnacle,66.0
+United States,Betfair Exchange,85.0
+United States,Polymarket,86.96
+United States,Kalshi,62.5
+Mexico,DraftKings,66.0
+Mexico,FanDuel,56.0
+Mexico,BetMGM,67.0
+Mexico,Caesars,51.0
+Mexico,Pinnacle,61.0
+Mexico,Betfair Exchange,65.0
+Mexico,Polymarket,74.07
+Mexico,Kalshi,57.14
+Switzerland,DraftKings,66.0
+Switzerland,FanDuel,66.0
+Switzerland,BetMGM,67.0
+Switzerland,Caesars,51.0
+Switzerland,Pinnacle,81.0
+Switzerland,Betfair Exchange,90.0
+Switzerland,Polymarket,86.96
+Switzerland,Kalshi,105.26
+Uruguay,DraftKings,66.0
+Uruguay,FanDuel,56.0
+Uruguay,BetMGM,67.0
+Uruguay,Caesars,61.0
+Uruguay,Pinnacle,81.0
+Uruguay,Betfair Exchange,95.0
+Uruguay,Polymarket,95.24
+Uruguay,Kalshi,105.26
+Turkey,FanDuel,66.0
+Turkey,BetMGM,67.0
+Turkey,Pinnacle,81.0
+Turkey,Betfair Exchange,100.0
+Turkey,Polymarket,80.0
+Turkey,Kalshi,86.96
+Croatia,DraftKings,91.0
+Croatia,FanDuel,71.0
+Croatia,BetMGM,81.0
+Croatia,Caesars,66.0
+Croatia,Pinnacle,101.0
+Croatia,Betfair Exchange,140.0
+Croatia,Polymarket,105.26
+Croatia,Kalshi,105.26
+Ecuador,DraftKings,81.0
+Ecuador,FanDuel,101.0
+Ecuador,BetMGM,81.0
+Ecuador,Caesars,101.0
+Ecuador,Pinnacle,101.0
+Ecuador,Betfair Exchange,100.0
+Ecuador,Polymarket,117.65
+Ecuador,Kalshi,117.65
+Senegal,DraftKings,91.0
+Senegal,FanDuel,126.0
+Senegal,BetMGM,67.0
+Senegal,Caesars,126.0
+Senegal,Pinnacle,101.0
+Senegal,Betfair Exchange,130.0
+Senegal,Polymarket,133.33
+Senegal,Kalshi,133.33
+Austria,DraftKings,151.0
+Austria,FanDuel,101.0
+Austria,BetMGM,151.0
+Austria,Caesars,101.0
+Austria,Pinnacle,151.0
+Austria,Betfair Exchange,220.0
+Austria,Polymarket,222.22
+Austria,Kalshi,222.22
+Sweden,DraftKings,121.0
+Sweden,FanDuel,151.0
+Sweden,BetMGM,101.0
+Sweden,Caesars,151.0
+Sweden,Pinnacle,151.0
+Sweden,Betfair Exchange,280.0
+Sweden,Polymarket,285.71
+Sweden,Kalshi,285.71
+Canada,DraftKings,201.0
+Canada,FanDuel,176.0
+Canada,BetMGM,151.0
+Canada,Caesars,151.0
+Canada,Pinnacle,251.0
+Canada,Betfair Exchange,380.0
+Canada,Polymarket,285.71
+Canada,Kalshi,285.71
+Ivory Coast,DraftKings,251.0
+Ivory Coast,FanDuel,151.0
+Ivory Coast,BetMGM,201.0
+Ivory Coast,Caesars,251.0
+Ivory Coast,Pinnacle,151.0
+Ivory Coast,Betfair Exchange,240.0
+Ivory Coast,Polymarket,222.22
+Ivory Coast,Kalshi,285.71
+Czechia,DraftKings,251.0
+Czechia,FanDuel,601.0
+Czechia,BetMGM,251.0
+Czechia,Caesars,251.0
+Czechia,Pinnacle,251.0
+Czechia,Betfair Exchange,490.0
+Czechia,Polymarket,400.0
+Czechia,Kalshi,200.0
+Scotland,DraftKings,201.0
+Scotland,FanDuel,176.0
+Scotland,BetMGM,251.0
+Scotland,Caesars,301.0
+Scotland,Pinnacle,251.0
+Scotland,Betfair Exchange,320.0
+Scotland,Polymarket,400.0
+Scotland,Kalshi,400.0
+Paraguay,DraftKings,301.0
+Paraguay,FanDuel,251.0
+Paraguay,BetMGM,251.0
+Paraguay,Caesars,201.0
+Paraguay,Pinnacle,401.0
+Paraguay,Betfair Exchange,580.0
+Paraguay,Polymarket,666.67
+Paraguay,Kalshi,400.0
+Algeria,DraftKings,351.0
+Algeria,FanDuel,301.0
+Algeria,BetMGM,251.0
+Algeria,Caesars,351.0
+Algeria,Pinnacle,401.0
+Algeria,Betfair Exchange,560.0
+Algeria,Polymarket,666.67
+Algeria,Kalshi,666.67
+South Korea,DraftKings,401.0
+South Korea,FanDuel,401.0
+South Korea,BetMGM,251.0
+South Korea,Caesars,301.0
+South Korea,Pinnacle,251.0
+South Korea,Betfair Exchange,570.0
+South Korea,Polymarket,400.0
+South Korea,Kalshi,400.0
+Egypt,DraftKings,301.0
+Egypt,FanDuel,251.0
+Egypt,BetMGM,251.0
+Egypt,Caesars,401.0
+Egypt,Pinnacle,401.0
+Egypt,Betfair Exchange,600.0
+Egypt,Polymarket,400.0
+Egypt,Kalshi,666.67
+Ghana,DraftKings,301.0
+Ghana,FanDuel,351.0
+Ghana,BetMGM,501.0
+Ghana,Caesars,401.0
+Ghana,Pinnacle,501.0
+Ghana,Betfair Exchange,730.0
+Ghana,Polymarket,666.67
+Ghana,Kalshi,666.67
+Bosnia and Herzegovina,DraftKings,501.0
+Bosnia and Herzegovina,FanDuel,751.0
+Bosnia and Herzegovina,BetMGM,251.0
+Bosnia and Herzegovina,Caesars,401.0
+Bosnia and Herzegovina,Pinnacle,501.0
+Bosnia and Herzegovina,Betfair Exchange,810.0
+Bosnia and Herzegovina,Polymarket,666.67
+Bosnia and Herzegovina,Kalshi,200.0
+Australia,DraftKings,601.0
+Australia,FanDuel,1501.0
+Australia,BetMGM,501.0
+Australia,Caesars,751.0
+Australia,Pinnacle,401.0
+Australia,Betfair Exchange,390.0
+Australia,Polymarket,666.67
+Australia,Kalshi,666.67
+Iran,DraftKings,701.0
+Iran,FanDuel,751.0
+Iran,BetMGM,501.0
+Iran,Caesars,751.0
+Iran,Pinnacle,501.0
+Iran,Betfair Exchange,1000.0
+Iran,Polymarket,666.67
+Iran,Kalshi,2000.0
+DR Congo,DraftKings,1001.0
+DR Congo,FanDuel,2501.0
+DR Congo,BetMGM,751.0
+DR Congo,Caesars,1001.0
+DR Congo,Pinnacle,601.0
+DR Congo,Betfair Exchange,1000.0
+DR Congo,Polymarket,666.67
+DR Congo,Kalshi,200.0
+Tunisia,DraftKings,501.0
+Tunisia,FanDuel,1001.0
+Tunisia,BetMGM,501.0
+Tunisia,Caesars,751.0
+Tunisia,Pinnacle,501.0
+Tunisia,Betfair Exchange,1000.0
+Tunisia,Polymarket,2000.0
+Tunisia,Kalshi,2000.0
+Saudi Arabia,DraftKings,1001.0
+Saudi Arabia,FanDuel,2501.0
+Saudi Arabia,BetMGM,1001.0
+Saudi Arabia,Caesars,1001.0
+Saudi Arabia,Pinnacle,1001.0
+Saudi Arabia,Betfair Exchange,1000.0
+Saudi Arabia,Polymarket,2000.0
+Saudi Arabia,Kalshi,2000.0
+South Africa,DraftKings,1001.0
+South Africa,FanDuel,2501.0
+South Africa,BetMGM,1001.0
+South Africa,Caesars,1001.0
+South Africa,Pinnacle,751.0
+South Africa,Betfair Exchange,1000.0
+South Africa,Polymarket,2000.0
+South Africa,Kalshi,2000.0
+Iraq,DraftKings,1501.0
+Iraq,FanDuel,2501.0
+Iraq,BetMGM,1001.0
+Iraq,Caesars,2001.0
+Iraq,Pinnacle,751.0
+Iraq,Betfair Exchange,1000.0
+Iraq,Polymarket,2000.0
+Iraq,Kalshi,200.0
+Panama,DraftKings,1001.0
+Panama,FanDuel,2501.0
+Panama,BetMGM,1001.0
+Panama,Caesars,1501.0
+Panama,Pinnacle,1501.0
+Panama,Betfair Exchange,1000.0
+Panama,Polymarket,2000.0
+Panama,Kalshi,2000.0
+Cape Verde,DraftKings,1001.0
+Cape Verde,FanDuel,2501.0
+Cape Verde,BetMGM,1001.0
+Cape Verde,Caesars,2001.0
+Cape Verde,Pinnacle,1501.0
+Cape Verde,Betfair Exchange,1000.0
+Cape Verde,Polymarket,2000.0
+Cape Verde,Kalshi,2000.0
+Qatar,DraftKings,1501.0
+Qatar,FanDuel,2501.0
+Qatar,BetMGM,1001.0
+Qatar,Caesars,2001.0
+Qatar,Pinnacle,1001.0
+Qatar,Betfair Exchange,1000.0
+Qatar,Polymarket,2000.0
+Qatar,Kalshi,2000.0
+New Zealand,DraftKings,1501.0
+New Zealand,FanDuel,2501.0
+New Zealand,BetMGM,1001.0
+New Zealand,Caesars,2501.0
+New Zealand,Pinnacle,1501.0
+New Zealand,Betfair Exchange,1000.0
+New Zealand,Polymarket,2000.0
+New Zealand,Kalshi,2000.0
+Uzbekistan,DraftKings,1501.0
+Uzbekistan,FanDuel,2501.0
+Uzbekistan,BetMGM,1001.0
+Uzbekistan,Caesars,2001.0
+Uzbekistan,Pinnacle,1501.0
+Uzbekistan,Betfair Exchange,1000.0
+Uzbekistan,Polymarket,2000.0
+Uzbekistan,Kalshi,2000.0
+Jordan,DraftKings,2501.0
+Jordan,FanDuel,2501.0
+Jordan,BetMGM,1001.0
+Jordan,Caesars,2501.0
+Jordan,Pinnacle,1501.0
+Jordan,Betfair Exchange,1000.0
+Jordan,Polymarket,2000.0
+Jordan,Kalshi,2000.0
+Haiti,DraftKings,2501.0
+Haiti,FanDuel,2501.0
+Haiti,BetMGM,2501.0
+Haiti,Caesars,2501.0
+Haiti,Pinnacle,1501.0
+Haiti,Betfair Exchange,1000.0
+Haiti,Polymarket,2000.0
+Haiti,Kalshi,2000.0
+Curaçao,DraftKings,2501.0
+Curaçao,FanDuel,2501.0
+Curaçao,BetMGM,2501.0
+Curaçao,Caesars,2501.0
+Curaçao,Pinnacle,1501.0
+Curaçao,Betfair Exchange,1000.0
+Curaçao,Polymarket,2000.0
+Curaçao,Kalshi,2000.0

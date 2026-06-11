@@ -1,0 +1,269 @@
+{
+  "rounds": [
+    {
+      "round": "R32",
+      "slots": [
+        {
+          "match": 73,
+          "home_source": "Runner-up Group A",
+          "away_source": "Runner-up Group B",
+          "date": "2026-06-28",
+          "city": "Inglewood (Los Angeles)"
+        },
+        {
+          "match": 74,
+          "home_source": "Winner Group E",
+          "away_source": "3rd Group A/B/C/D/F",
+          "date": "2026-06-29",
+          "city": "Foxborough (Boston)"
+        },
+        {
+          "match": 75,
+          "home_source": "Winner Group F",
+          "away_source": "Runner-up Group C",
+          "date": "2026-06-29",
+          "city": "Guadalupe (Monterrey)"
+        },
+        {
+          "match": 76,
+          "home_source": "Winner Group C",
+          "away_source": "Runner-up Group F",
+          "date": "2026-06-29",
+          "city": "Houston"
+        },
+        {
+          "match": 77,
+          "home_source": "Winner Group I",
+          "away_source": "3rd Group C/D/F/G/H",
+          "date": "2026-06-30",
+          "city": "East Rutherford (New York/New Jersey)"
+        },
+        {
+          "match": 78,
+          "home_source": "Runner-up Group E",
+          "away_source": "Runner-up Group I",
+          "date": "2026-06-30",
+          "city": "Arlington (Dallas)"
+        },
+        {
+          "match": 79,
+          "home_source": "Winner Group A",
+          "away_source": "3rd Group C/E/F/H/I",
+          "date": "2026-06-30",
+          "city": "Mexico City"
+        },
+        {
+          "match": 80,
+          "home_source": "Winner Group L",
+          "away_source": "3rd Group E/H/I/J/K",
+          "date": "2026-07-01",
+          "city": "Atlanta"
+        },
+        {
+          "match": 81,
+          "home_source": "Winner Group D",
+          "away_source": "3rd Group B/E/F/I/J",
+          "date": "2026-07-01",
+          "city": "Santa Clara (San Francisco Bay Area)"
+        },
+        {
+          "match": 82,
+          "home_source": "Winner Group G",
+          "away_source": "3rd Group A/E/H/I/J",
+          "date": "2026-07-01",
+          "city": "Seattle"
+        },
+        {
+          "match": 83,
+          "home_source": "Runner-up Group K",
+          "away_source": "Runner-up Group L",
+          "date": "2026-07-02",
+          "city": "Toronto"
+        },
+        {
+          "match": 84,
+          "home_source": "Winner Group H",
+          "away_source": "Runner-up Group J",
+          "date": "2026-07-02",
+          "city": "Inglewood (Los Angeles)"
+        },
+        {
+          "match": 85,
+          "home_source": "Winner Group B",
+          "away_source": "3rd Group E/F/G/I/J",
+          "date": "2026-07-02",
+          "city": "Vancouver"
+        },
+        {
+          "match": 86,
+          "home_source": "Winner Group J",
+          "away_source": "Runner-up Group H",
+          "date": "2026-07-03",
+          "city": "Miami Gardens (Miami)"
+        },
+        {
+          "match": 87,
+          "home_source": "Winner Group K",
+          "away_source": "3rd Group D/E/I/J/L",
+          "date": "2026-07-03",
+          "city": "Kansas City"
+        },
+        {
+          "match": 88,
+          "home_source": "Runner-up Group D",
+          "away_source": "Runner-up Group G",
+          "date": "2026-07-03",
+          "city": "Arlington (Dallas)"
+        }
+      ]
+    },
+    {
+      "round": "R16",
+      "slots": [
+        {
+          "match": 89,
+          "home_source": "Winner Match 74",
+          "away_source": "Winner Match 77",
+          "date": "2026-07-04",
+          "city": "Philadelphia"
+        },
+        {
+          "match": 90,
+          "home_source": "Winner Match 73",
+          "away_source": "Winner Match 75",
+          "date": "2026-07-04",
+          "city": "Houston"
+        },
+        {
+          "match": 91,
+          "home_source": "Winner Match 76",
+          "away_source": "Winner Match 78",
+          "date": "2026-07-05",
+          "city": "East Rutherford (New York/New Jersey)"
+        },
+        {
+          "match": 92,
+          "home_source": "Winner Match 79",
+          "away_source": "Winner Match 80",
+          "date": "2026-07-05",
+          "city": "Mexico City"
+        },
+        {
+          "match": 93,
+          "home_source": "Winner Match 83",
+          "away_source": "Winner Match 84",
+          "date": "2026-07-06",
+          "city": "Arlington (Dallas)"
+        },
+        {
+          "match": 94,
+          "home_source": "Winner Match 81",
+          "away_source": "Winner Match 82",
+          "date": "2026-07-06",
+          "city": "Seattle"
+        },
+        {
+          "match": 95,
+          "home_source": "Winner Match 86",
+          "away_source": "Winner Match 88",
+          "date": "2026-07-07",
+          "city": "Atlanta"
+        },
+        {
+          "match": 96,
+          "home_source": "Winner Match 85",
+          "away_source": "Winner Match 87",
+          "date": "2026-07-07",
+          "city": "Vancouver"
+        }
+      ]
+    },
+    {
+      "round": "QF",
+      "slots": [
+        {
+          "match": 97,
+          "home_source": "Winner Match 89",
+          "away_source": "Winner Match 90",
+          "date": "2026-07-09",
+          "city": "Foxborough (Boston)"
+        },
+        {
+          "match": 98,
+          "home_source": "Winner Match 93",
+          "away_source": "Winner Match 94",
+          "date": "2026-07-10",
+          "city": "Inglewood (Los Angeles)"
+        },
+        {
+          "match": 99,
+          "home_source": "Winner Match 91",
+          "away_source": "Winner Match 92",
+          "date": "2026-07-11",
+          "city": "Miami Gardens (Miami)"
+        },
+        {
+          "match": 100,
+          "home_source": "Winner Match 95",
+          "away_source": "Winner Match 96",
+          "date": "2026-07-11",
+          "city": "Kansas City"
+        }
+      ]
+    },
+    {
+      "round": "SF",
+      "slots": [
+        {
+          "match": 101,
+          "home_source": "Winner Match 97",
+          "away_source": "Winner Match 98",
+          "date": "2026-07-14",
+          "city": "Arlington (Dallas)"
+        },
+        {
+          "match": 102,
+          "home_source": "Winner Match 99",
+          "away_source": "Winner Match 100",
+          "date": "2026-07-15",
+          "city": "Atlanta"
+        }
+      ]
+    },
+    {
+      "round": "THIRD",
+      "slots": [
+        {
+          "match": 103,
+          "home_source": "Loser Match 101",
+          "away_source": "Loser Match 102",
+          "date": "2026-07-18",
+          "city": "Miami Gardens (Miami)"
+        }
+      ]
+    },
+    {
+      "round": "FINAL",
+      "slots": [
+        {
+          "match": 104,
+          "home_source": "Winner Match 101",
+          "away_source": "Winner Match 102",
+          "date": "2026-07-19",
+          "city": "East Rutherford (New York/New Jersey)"
+        }
+      ]
+    }
+  ],
+  "third_place_rule": "RANKING: The 12 third-placed teams are ranked by: (1) points in all group matches; (2) goal difference in all group matches; (3) goals scored in all group matches; (4) team conduct (\"fair play\") score (yellow card -1, indirect red/second yellow -3, direct red -4, yellow + direct red in same match -5, applied to players and team officials); (5) FIFA/Coca-Cola Men's World Ranking (most recent edition first). The top 8 advance to the Round of 32. ALLOCATION: There is no draw and no fixed \"1st-best vs X\" mapping. FIFA pre-published a lookup table in Annex C of the tournament regulations covering all C(12,8)=495 possible combinations of which 8 groups supply a qualifying third-placed team. For each combination, the table fixes which qualified third-placed team goes to which of the eight R32 slots (matches 74, 77, 79, 80, 81, 82, 85, 87). The mapping is constrained so that no team meets a team from its own group in the Round of 32 (each group winner's slot only admits third-placed teams from 5 specific other groups, as encoded in the away_source fields: M74 Winner E vs 3rd A/B/C/D/F; M77 Winner I vs 3rd C/D/F/G/H; M79 Winner A vs 3rd C/E/F/H/I; M80 Winner L vs 3rd E/H/I/J/K; M81 Winner D vs 3rd B/E/F/I/J; M82 Winner G vs 3rd A/E/H/I/J; M85 Winner B vs 3rd E/F/G/I/J; M87 Winner K vs 3rd D/E/I/J/L). Once the eight qualifiers are known after the final group matches, the corresponding Annex C row locks the bracket automatically; for simulation purposes the row-level table (495 rows) must be taken from FIFA Regulations Annex C (also reproduced as a table on the Wikipedia knockout-stage article).",
+  "tiebreaker_rules": "Teams ranked in groups by points (win 3, draw 1, loss 0). If two or more teams are equal on points, the order is: (1) most points in group matches between the teams concerned (head-to-head); (2) goal difference in matches between the teams concerned; (3) goals scored in matches between the teams concerned; (4) goal difference in ALL group matches; (5) goals scored in ALL group matches; (6) highest team conduct (\"fair play\") score in all group matches (yellow card -1, indirect red card/second yellow -3, direct red card -4, yellow card plus direct red card in same match -5; counted for players and team officials); (7) FIFA/Coca-Cola Men's World Ranking (most recently published edition first, earlier editions sequentially if still tied). Note: head-to-head comes BEFORE overall goal difference at the 2026 edition, and there is no drawing of lots (replaced by FIFA ranking). Cross-checked across ESPN, worldcuplocaltime and FIFA-derived summaries.",
+  "sources": [
+    "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_knockout_stage",
+    "https://www.skysports.com/football/news/11095/13481245/world-cup-2026-fixture-schedule-and-uk-kick-off-times-day-by-day-breakdown-of-all-104-matches-including-england-scotland",
+    "https://www.espn.com/soccer/story/_/id/48703925/world-cup-group-stage-explained-tiebreakers-third-place-teams",
+    "https://worldcuplocaltime.com/world-cup-2026-tiebreaker-rules/",
+    "https://worldcuplocaltime.com/world-cup-2026-495-scenarios-round-of-32/",
+    "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup"
+  ],
+  "caveats": "1) Dates are local (venue) dates per Wikipedia; Sky Sports lists UK kick-off times, which push three late-evening games (matches 92, 94, 100) to the next calendar day in UK time — I used local dates (92: 07-05, 94: 07-06, 100: 07-11). All match pairings are identical across both sources. 2) home_source/away_source ordering follows the official schedule listing; the \"home\" designation is nominal. 3) The full 495-row Annex C combination table (exact slot assignment for every possible set of 8 qualifying third-place groups) exists on the Wikipedia knockout-stage page and in FIFA Regulations Annex C but is too large to reproduce here; only the per-slot allowed-group constraints (5 groups per slot, verified internally consistent: 8 slots x 5 = 40 appearances, no same-group winner/3rd pairing) are encoded above. A simulator that needs exact deterministic slotting (not just the allowed-group sets) must ingest that table separately. 4) FIFA.com pages (knockout bracket article, tie-breakers article) did not render via fetch (JS-only), so FIFA primary-source text was obtained via secondary outlets quoting the regulations; the regulations PDF itself was not fetched. 5) Bracket-side/path constraints for third-placed teams beyond the allowed-group lists (e.g. which combination row applies) are deterministic per Annex C, not drawn."
+}

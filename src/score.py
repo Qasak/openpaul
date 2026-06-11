@@ -1,0 +1,129 @@
+"""Score archived per-match forecasts against real results (public verification).
+
+For every completed match in data/results.csv, looks up the archived pre-match
+forecast in predictions/<file> and computes per-match Brier score and log-loss.
+If a market 1X2 baseline file exists (predictions/market_1x2*.csv), scores the
+de-vigged market probabilities on the same matches for comparison.
+
+Usage:  python3 -m src.score [forecast_csv]
+        (default: predictions/2026-06-11_round2_matches.csv — the canonical
+         scoring record declared in REPORT §9)
+Writes: data/score_log.csv and prints a summary.
+"""
+from __future__ import annotations
+
+import glob
+import os
+import sys
+
+import numpy as np
+import pandas as pd
+
+from .load_data import DATA, canon
+
+ROOT = os.path.dirname(DATA)
+DEFAULT_FORECAST = os.path.join(ROOT, "predictions", "2026-06-11_round2_matches.csv")
+
+
+def outcome_index(s1: int, s2: int) -> int:
+    return 0 if s1 > s2 else (1 if s1 == s2 else 2)
+
+
+def brier_logloss(p: np.ndarray, obs: int) -> tuple[float, float]:
+    onehot = np.zeros(3)
+    onehot[obs] = 1.0
+    return float(((p - onehot) ** 2).sum()), float(-np.log(max(p[obs], 1e-12)))
+
+
+def devig_1x2(o1: float, od: float, o2: float) -> np.ndarray:
+    q = np.array([1 / o1, 1 / od, 1 / o2])
+    return q / q.sum()
+
+
+def main(forecast_path: str = DEFAULT_FORECAST) -> None:
+    fc = pd.read_csv(forecast_path)
+    fc["team1"] = fc["team1"].map(canon)
+    fc["team2"] = fc["team2"].map(canon)
+    res = pd.read_csv(os.path.join(DATA, "results.csv"))
+    res = res.dropna(subset=["score1", "score2"])
+    if not len(res):
+        print("no completed matches in data/results.csv yet — nothing to score")
+        return
+    res["team1"] = res["team1"].map(canon)
+    res["team2"] = res["team2"].map(canon)
+
+    market = []
+    for p in sorted(glob.glob(os.path.join(ROOT, "predictions", "market_1x2*.csv"))):
+        market.append(pd.read_csv(p))
+    mk = pd.concat(market, ignore_index=True) if market else None
+    if mk is not None:
+        mk["team1"] = mk["team1"].map(canon)
+        mk["team2"] = mk["team2"].map(canon)
+
+    rows = []
+    for _, r in res.iterrows():
+        # join on official match number first (robust to knockout rematches of
+        # group-stage pairings); fall back to the team pair
+        m = pd.DataFrame()
+        flip = False
+        if "match" in fc.columns and not pd.isna(r.get("match")):
+            m = fc[fc["match"] == int(r["match"])]
+            if len(m) and {m.iloc[0]["team1"], m.iloc[0]["team2"]} != \
+                    {r["team1"], r["team2"]}:
+                print(f"WARNING: match {int(r['match'])} teams disagree between "
+                      f"forecast and result — skipping")
+                continue
+            if len(m):
+                flip = m.iloc[0]["team1"] != r["team1"]
+        if not len(m):
+            m = fc[(fc["team1"] == r["team1"]) & (fc["team2"] == r["team2"])]
+            if not len(m):
+                m = fc[(fc["team1"] == r["team2"]) & (fc["team2"] == r["team1"])]
+                flip = True
+        if not len(m):
+            print(f"WARNING: no forecast found for {r['team1']} vs {r['team2']}")
+            continue
+        m = m.iloc[0]
+        p_model = np.array([m["p_team1_win"], m["p_draw"], m["p_team2_win"]])
+        if flip:
+            p_model = p_model[::-1]
+        obs = outcome_index(int(r["score1"]), int(r["score2"]))
+        br, ll = brier_logloss(p_model, obs)
+        row = {"match": r.get("match"), "team1": r["team1"], "team2": r["team2"],
+               "score": f"{int(r['score1'])}-{int(r['score2'])}",
+               "p_model": round(float(p_model[obs]), 4),
+               "brier_model": round(br, 4), "logloss_model": round(ll, 4)}
+        if mk is not None:
+            q = mk[(mk["team1"] == r["team1"]) & (mk["team2"] == r["team2"])]
+            qflip = False
+            if not len(q):
+                q = mk[(mk["team1"] == r["team2"]) & (mk["team2"] == r["team1"])]
+                qflip = True
+            if len(q):
+                q = q.iloc[0]
+                p_mkt = devig_1x2(q["odds_team1"], q["odds_draw"], q["odds_team2"])
+                if qflip:
+                    p_mkt = p_mkt[::-1]
+                br_m, ll_m = brier_logloss(p_mkt, obs)
+                row.update({"brier_market": round(br_m, 4),
+                            "logloss_market": round(ll_m, 4),
+                            "market_book": q.get("book", "")})
+        rows.append(row)
+
+    if not rows:
+        print("no scoreable matches (results exist but none match the forecast "
+              "archive — knockout forecasts are archived separately)")
+        return
+    out = pd.DataFrame(rows)
+    out.to_csv(os.path.join(DATA, "score_log.csv"), index=False)
+    print(out.to_string(index=False))
+    print(f"\nmodel:  mean Brier {out['brier_model'].mean():.4f}  "
+          f"mean logloss {out['logloss_model'].mean():.4f}  (n={len(out)})")
+    if "brier_market" in out.columns and out["brier_market"].notna().any():
+        ok = out.dropna(subset=["brier_market"])
+        print(f"market: mean Brier {ok['brier_market'].mean():.4f}  "
+              f"mean logloss {ok['logloss_market'].mean():.4f}  (n={len(ok)})")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1] if len(sys.argv) > 1 else DEFAULT_FORECAST)

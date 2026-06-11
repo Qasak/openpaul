@@ -1,0 +1,13 @@
+{
+  "a": 0.1609754065366933,
+  "b": 0.001725884133755433,
+  "rho": -0.041429417843253616,
+  "home_elo": 100.0,
+  "base_lambda": 1.1746560795974386,
+  "max_goals": 10,
+  "lambda_clip": [
+    0.15,
+    6.0
+  ],
+  "fit": "MLE on international matches 2018-01-01..2026-06-09 (n=8103), recomputed Elo affine-mapped to official scale"
+}

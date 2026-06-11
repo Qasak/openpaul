@@ -1,0 +1,12 @@
+{
+  "n_matches": 369,
+  "window": [
+    "2018-03-23",
+    "2026-06-09"
+  ],
+  "expected_score_share": 0.6210793977235869,
+  "actual_score_share": 0.6422764227642277,
+  "actual_minus_expected": 0.021197025040640843,
+  "se": 0.01846579484856713,
+  "interpretation": "negative actual_minus_expected = CONMEBOL underperforms its Elo expectation in inter-confederation play (supports the 'Elo overrates CONMEBOL' explanation); positive = outperforms (supports genuine market underpricing of South American teams)"
+}

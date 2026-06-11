@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 世界杯冠军预测看板</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+:root{
+  --bg:#0b1220; --card:#121b2d; --card2:#0f1726; --line:#1f2c45;
+  --txt:#dce6f5; --dim:#8194b3; --gold:#e8c469; --gold2:#f5dfa0;
+  --pos:#3ad6a8; --neg:#ff6b81; --blue:#5aa2ff; --draw:#7a8aa8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(1200px 600px at 80% -100px,#16223a 0%,var(--bg) 60%);
+  color:var(--txt);font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;
+  font-size:14px;line-height:1.55;min-height:100vh}
+.wrap{max-width:1280px;margin:0 auto;padding:22px 26px 80px}
+header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+h1{font-size:24px;font-weight:700;letter-spacing:.5px}
+h1 .cup{color:var(--gold)}
+.badge{font-size:12px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);color:var(--dim);background:var(--card2)}
+.badge.ok{color:var(--pos);border-color:rgba(58,214,168,.35)}
+.badge.gold{color:var(--gold);border-color:rgba(232,196,105,.4)}
+.spacer{flex:1}
+button{cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--txt);
+  border-radius:9px;padding:7px 14px;font-size:13px;transition:.15s}
+button:hover{border-color:var(--gold);color:var(--gold2)}
+button.primary{background:linear-gradient(135deg,#36507e,#22324f);border-color:#3d5b94}
+button:disabled{opacity:.45;cursor:not-allowed}
+.subtitle{color:var(--dim);font-size:12.5px;margin-bottom:18px}
+#recalcBar{display:none;position:sticky;top:0;z-index:50;margin:0 -26px 16px;padding:10px 26px;
+  background:linear-gradient(90deg,#1b2a14,#152238);border-bottom:1px solid rgba(232,196,105,.35);
+  font-size:13px;color:var(--gold2)}
+#recalcBar .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);
+  margin-right:8px;animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:18px}
+.card{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);
+  border-radius:14px;padding:16px 18px;position:relative;overflow:hidden}
+.card .k{color:var(--dim);font-size:12px;margin-bottom:6px;letter-spacing:.5px}
+.card .v{font-size:26px;font-weight:700}
+.card .v small{font-size:13px;color:var(--dim);font-weight:400;margin-left:6px}
+.card .s{font-size:12px;color:var(--dim);margin-top:5px}
+.card.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;
+  border-radius:50%;background:radial-gradient(circle,rgba(232,196,105,.18),transparent 70%)}
+.card{transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-3px);border-color:rgba(232,196,105,.45);box-shadow:0 12px 30px rgba(0,0,0,.38)}
+.gold{color:var(--gold)} .pos{color:var(--pos)} .neg{color:var(--neg)} .blue{color:var(--blue)}
+section{margin-top:26px}
+.sec-title{font-size:16px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.sec-title::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--gold)}
+.sec-sub{color:var(--dim);font-size:12px;margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}
+@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:14px}
+.chart{width:100%;height:430px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--dim);font-weight:500;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--card)}
+th:hover{color:var(--gold)}
+tr:hover td{background:rgba(90,162,255,.05)}
+.tablebox{max-height:560px;overflow:auto;border-radius:10px}
+.host{color:var(--gold);font-size:11px;margin-left:4px}
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px}
+.gcard{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+.gcard h4{font-size:13px;color:var(--gold);margin-bottom:8px}
+.gteam{display:flex;align-items:center;gap:8px;font-size:12.5px;margin:5px 0}
+.gteam .nm{flex:1;overflow:hidden;text-overflow:ellipsis}
+.gbar{width:64px;height:6px;border-radius:3px;background:#1c2740;overflow:hidden}
+.gbar i{display:block;height:100%;background:linear-gradient(90deg,#3a6fd8,#5aa2ff)}
+.gpct{width:42px;text-align:right;color:var(--dim);font-size:11.5px}
+.mtools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+select,input[type=number]{background:var(--card2);border:1px solid var(--line);color:var(--txt);
+  border-radius:8px;padding:6px 9px;font-size:13px}
+input[type=number]{width:64px;text-align:center}
+.match{display:grid;grid-template-columns:52px 1fr 190px 1fr 130px;gap:10px;align-items:center;
+  padding:9px 12px;border-bottom:1px solid var(--line)}
+.match:hover{background:rgba(90,162,255,.04)}
+.mno{color:var(--dim);font-size:11.5px}
+.t1{text-align:right;font-weight:600}.t2{text-align:left;font-weight:600}
+.xg{display:block;color:var(--dim);font-size:11px;font-weight:400}
+.wdl{height:22px;border-radius:6px;overflow:hidden;display:flex;font-size:10.5px;color:#08101e;font-weight:700}
+.wdl i{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wdl .w{background:linear-gradient(180deg,#74b6ff,#5aa2ff)}
+.wdl .d{background:#5d6f8e;color:#dce6f5}
+.wdl .l{background:linear-gradient(180deg,#ffd29a,#e8b169)}
+.mact{text-align:right}
+.chip{display:inline-block;padding:2px 9px;border-radius:8px;font-size:12px;border:1px solid var(--line)}
+.chip.res{background:rgba(58,214,168,.12);border-color:rgba(58,214,168,.4);color:var(--pos);font-weight:700}
+.chip.brier{color:var(--dim);font-size:11px;margin-left:5px}
+.entry{grid-column:1/-1;background:var(--card2);border:1px dashed var(--line);border-radius:10px;
+  padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px}
+.footer{margin-top:34px;color:var(--dim);font-size:12px;border-top:1px solid var(--line);padding-top:14px}
+.footer b{color:var(--txt)}
+.err{color:var(--neg);font-size:12.5px;margin-left:8px}
+.benchrow td{font-variant-numeric:tabular-nums}
+.loading{color:var(--dim);padding:60px;text-align:center;font-size:15px}
+</style>
+</head>
+<body>
+<div id="recalcBar"><span class="dot"></span><span id="recalcTxt">重算中…</span></div>
+<div class="wrap">
+  <header>
+    <h1>🐙 OpenPaul · <span class="cup">世界杯</span>预测控制台</h1>
+    <span class="badge ok">Round 3 评审已收敛</span>
+    <span class="badge gold" id="bDate">数据加载中</span>
+    <span class="badge" id="bResults">—</span>
+    <span class="spacer"></span>
+    <button onclick="recalc('quick')">⟳ 快速重算 (2万次)</button>
+    <button class="primary" onclick="recalc('full')">⟳ 完整重算 (10万次)</button>
+  </header>
+  <div class="subtitle">Elo 驱动 Dixon-Coles（49,400 场 MLE 拟合 + 样本外验证）× σ=75 实力扰动（2018/2022 回测选定）× 10 万次蒙特卡洛 · 已完赛场次锁定真实结果条件重模拟 · 方法论演示，非投注建议</div>
+
+  <div id="app" class="loading">正在加载数据…</div>
+</div>
+
+<script>
+let D=null, sortKey='p_champion', sortAsc=false, openEntry=null, charts={};
+const pct=(x,d=1)=>x==null?'—':(x*100).toFixed(d)+'%';
+const num=(x,d=2)=>x==null?'—':(+x).toFixed(d);
+const sgn=x=>x==null?'—':(x>0?'+':'')+(+x).toFixed(1);
+
+async function load(){
+  const r=await fetch('/api/all'); D=await r.json();
+  document.getElementById('bDate').textContent='Elo/赔率 2026-06-10 · 模拟 '+(D.meta.sim?D.meta.sim.n_sims.toLocaleString():'—')+' 次';
+  document.getElementById('bResults').textContent='已完赛 '+D.results_count+' 场'+(D.meta.sim&&D.meta.sim.locked_matches?'（已锁定 '+D.meta.sim.locked_matches+'）':'');
+  render(); pollStatus(true);
+}
+
+function render(){
+  const top=D.summary[0]||{};
+  const byEdge=[...D.summary].filter(x=>x.edge_sharp_pp!=null).sort((a,b)=>b.edge_sharp_pp-a.edge_sharp_pp);
+  const ger=D.summary.find(x=>x.team==='Germany')||{};
+  const fit=D.meta.fit||{}, bt=D.meta.backtest||{};
+  document.getElementById('app').innerHTML=`
+  <div class="cards">
+    <div class="card hero"><div class="k">冠军热门（绝对概率层）</div>
+      <div class="v gold">${zh(top.team)} ${pct(top.p_champion)}</div>
+      <div class="s">敏感区间 [${pct(top.p_s150)}, ${pct(top.p_s0)}] · 进决赛 ${pct(top.p_final)}</div></div>
+    <div class="card"><div class="k">最大价值（模型 − 锐利盘）</div>
+      <div class="v pos">${zh(byEdge[0].team)} +${num(byEdge[0].edge_sharp_pp,1)}pp</div>
+      <div class="s">模型 ${pct(byEdge[0].p_champion)} vs 市场 ${pct(byEdge[0].p_market_sharp)} · EV ${sgn(byEdge[0].ev_sharp*100)}%</div></div>
+    <div class="card"><div class="k">德国 · 模型阵营分歧</div>
+      <div class="v"><span class="neg">${sgn(ger.edge_sharp_pp)}pp</span><small>vs 协变量系 ~11%</small></div>
+      <div class="s">模型 ${pct(ger.p_champion)} vs 锐利盘 ${pct(ger.p_market_sharp)} —— 赛果系≈市场</div></div>
+    <div class="card"><div class="k">模型校验</div>
+      <div class="v blue">${fit.test_mle?fit.test_mle.logloss.toFixed(4):'—'}<small>样本外 logloss</small></div>
+      <div class="s">vs 曲线参数 ${fit.test_curve?fit.test_curve.logloss.toFixed(4):'—'} · 1,309 场 · σ*=${bt.sigma_star??'—'}</div></div>
+  </div>
+
+  <section><div class="grid2">
+    <div class="panel"><div class="sec-title">夺冠概率 Top 14</div>
+      <div class="sec-sub">金条 = σ=75 主模型 · 细线 = [σ=150, σ=0] 敏感性区间 · ◆ = 锐利盘隐含</div>
+      <div id="chChamp" class="chart"></div></div>
+    <div class="panel"><div class="sec-title">价值偏差（模型 − 锐利盘隐含）</div>
+      <div class="sec-sub">模型概率 − 锐利盘隐含 · 正值 = 被市场低估</div>
+      <div id="chEdge" class="chart"></div></div>
+  </div></section>
+
+  <section><div class="sec-title">与第三方模型对比（夺冠概率 %）</div>
+    <div class="sec-sub">德国一行体现两大阵营分歧：赛果系（本模型/Opta）≈ 市场，离群的是协变量系模型</div>
+    <div class="panel tablebox" style="max-height:none">${benchTable()}</div></section>
+
+  <section><div class="sec-title">小组形势</div>
+    <div class="sec-sub">条形 = 小组头名概率 · 百分比 = 晋级 32 强概率 · ★ = 东道主</div>
+    <div class="groups">${Object.keys(D.groups).sort().map(g=>`
+      <div class="gcard"><h4>${g} 组</h4>${D.groups[g].map(t=>`
+        <div class="gteam"><span class="nm">${zh(t.team)}${t.is_host?'<span class="host">★</span>':''}</span>
+        <span class="gbar"><i style="width:${(t.p_group_winner*100).toFixed(0)}%"></i></span>
+        <span class="gpct">${pct(t.p_r32,0)}</span></div>`).join('')}</div>`).join('')}
+    </div></section>
+
+  <section><div class="sec-title">赛程 · 赛前预测 · 结果录入</div>
+    <div class="sec-sub">概率条为开球前存证预测（蓝=主队胜 / 灰=平 / 金=客队胜，git+RFC3161 锚定不变）· 点击「录入」提交真实比分并触发条件重算</div>
+    <div class="panel">
+      <div class="mtools">
+        <select id="fDate" onchange="renderMatches()"><option value="">全部日期</option>
+          ${[...new Set(D.matches.map(m=>m.date))].map(d=>`<option>${d}</option>`).join('')}</select>
+        <select id="fGroup" onchange="renderMatches()"><option value="">全部小组</option>
+          ${[...new Set(D.matches.map(m=>m.group))].sort().map(g=>`<option>${g}</option>`).join('')}</select>
+        <select id="fState" onchange="renderMatches()"><option value="">全部状态</option>
+          <option value="done">已完赛</option><option value="todo">未开赛</option></select>
+        <span class="spacer"></span>
+        <span class="badge" id="scoreSummary"></span>
+      </div>
+      <div id="matchList"></div>
+    </div></section>
+
+  <section><div class="sec-title">48 队全量概率表</div>
+    <div class="sec-sub">点击表头排序 · 边际/EV 以锐利盘（Pinnacle/Betfair/Polymarket/Kalshi 均值）为基准</div>
+    <div class="panel tablebox"><table id="fullTable"></table></div></section>
+
+  <div class="footer">
+    <b>方法链：</b>eloratings.net 06-10 评级 → MLE (a,b,ρ)=(${D.meta.sim?D.meta.sim.params.a.toFixed(3):''}, ${D.meta.sim?D.meta.sim.params.b.toFixed(5):''}, ${D.meta.sim?D.meta.sim.params.rho.toFixed(3):''}) → σ=75 扰动 → ${D.meta.sim?D.meta.sim.n_sims.toLocaleString():''} 次模拟（seed ${D.meta.sim?D.meta.sim.seed:''}，锁定 ${D.meta.sim?D.meta.sim.locked_matches:0} 场）
+    · <b>CONMEBOL 检验：</b>${D.meta.conmebol?`369 场跨大洲赛实际−Elo期望 = ${sgn(D.meta.conmebol.actual_minus_expected*100)}±${(D.meta.conmebol.se*100).toFixed(1)}pp（"Elo 高估南美"未获支持）`:'—'}
+    · <b>存证：</b>72 场逐场预测于开球前提交（RFC3161 锚定 06-11 07:10 UTC）<br>
+    本看板为方法论演示，非投注建议。
+  </div>`;
+  drawChamp(); drawEdge(); renderMatches(); renderTable(); renderScoreSummary();
+}
+
+const ZH={Spain:'西班牙',Argentina:'阿根廷',France:'法国',England:'英格兰',Brazil:'巴西',Portugal:'葡萄牙',
+Colombia:'哥伦比亚',Netherlands:'荷兰',Ecuador:'厄瓜多尔',Germany:'德国',Turkey:'土耳其',Norway:'挪威',
+Japan:'日本',Switzerland:'瑞士',Belgium:'比利时',Croatia:'克罗地亚',Mexico:'墨西哥',Uruguay:'乌拉圭',
+Morocco:'摩洛哥','United States':'美国',Senegal:'塞内加尔',Canada:'加拿大','South Korea':'韩国',
+Czechia:'捷克',Austria:'奥地利',Denmark:'丹麦',Sweden:'瑞典',Paraguay:'巴拉圭',Australia:'澳大利亚',
+'Ivory Coast':'科特迪瓦',Egypt:'埃及',Iran:'伊朗','New Zealand':'新西兰','Saudi Arabia':'沙特',
+'Cape Verde':'佛得角',Algeria:'阿尔及利亚',Jordan:'约旦',Uzbekistan:'乌兹别克斯坦','DR Congo':'刚果民主共和国',
+Ghana:'加纳',Panama:'巴拿马',Tunisia:'突尼斯',Scotland:'苏格兰',Haiti:'海地',Qatar:'卡塔尔',
+'South Africa':'南非',Iraq:'伊拉克','Bosnia and Herzegovina':'波黑',Curaçao:'库拉索'};
+const zh=t=>ZH[t]||t;
+
+function drawChamp(){
+  const rows=[...D.summary].sort((a,b)=>a.p_champion-b.p_champion).slice(-14);
+  const c=echarts.init(document.getElementById('chChamp'),null,{renderer:'svg'});
+  charts.champ=c;
+  c.setOption({
+    backgroundColor:'transparent',
+    grid:{left:8,right:60,top:6,bottom:6,containLabel:true},
+    xAxis:{type:'value',axisLabel:{color:'#8194b3',formatter:v=>(v*100)+'%'},
+      splitLine:{lineStyle:{color:'#1f2c45'}},max:v=>Math.ceil(v.max*110)/100},
+    yAxis:{type:'category',data:rows.map((r,i)=>{const rk=rows.length-i;
+        return (rk===1?'🥇':rk===2?'🥈':rk===3?'🥉':rk+'.')+' '+zh(r.team)}),
+      axisLabel:{color:'#e9f1ff',fontSize:13,fontWeight:600},axisLine:{show:false},axisTick:{show:false}},
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},backgroundColor:'#16223a',
+      borderColor:'#2a3b5d',textStyle:{color:'#dce6f5'},
+      formatter:ps=>{const i=ps[0].dataIndex,r=rows[i];
+        return `<b>${zh(r.team)}</b><br>夺冠 σ75：${pct(r.p_champion)}<br>区间 [σ150,σ0]：[${pct(r.p_s150)}, ${pct(r.p_s0)}]<br>锐利盘隐含：${pct(r.p_market_sharp)}<br>进决赛：${pct(r.p_final)} · 四强：${pct(r.p_sf)}`}},
+    series:[
+      {type:'bar',barWidth:19,
+        showBackground:true,backgroundStyle:{color:'rgba(90,162,255,.07)',borderRadius:[0,7,7,0]},
+        data:rows.map((r,i)=>{
+          const top=i===rows.length-1, t3=i>=rows.length-3;
+          return {value:r.p_champion, itemStyle:{borderRadius:[0,7,7,0],
+            color:top?new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#d4a73c'},{offset:1,color:'#ffe9a8'}]):
+              t3?new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#3c6cc0'},{offset:1,color:'#8cc4ff'}]):
+              new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#31538e'},{offset:1,color:'#5fa6ff'}]),
+            shadowColor:top?'rgba(232,196,105,.55)':'rgba(90,162,255,.35)',
+            shadowBlur:12,shadowOffsetX:2}};
+        }),
+        label:{show:true,position:'right',color:'#f0f6ff',fontSize:12.5,fontWeight:700,
+          backgroundColor:'rgba(11,18,32,.78)',padding:[2,6],borderRadius:5,
+          formatter:p=>pct(p.value)},
+        animationDuration:900,animationEasing:'cubicOut',
+        animationDelay:i=>(rows.length-i)*55},
+      {type:'custom',renderItem:(params,api)=>{
+          const i=params.dataIndex,r=rows[i];
+          const y=api.coord([0,i])[1];
+          const x1=api.coord([Math.min(r.p_s0,r.p_s150),i])[0];
+          const x2=api.coord([Math.max(r.p_s0,r.p_s150),i])[0];
+          return {type:'group',children:[
+            {type:'line',shape:{x1,y1:y,x2,y2:y},style:{stroke:'#e8c469',lineWidth:1.6,opacity:.9}},
+            {type:'line',shape:{x1,y1:y-4,x2:x1,y2:y+4},style:{stroke:'#e8c469',lineWidth:1.6}},
+            {type:'line',shape:{x1:x2,y1:y-4,x2,y2:y+4},style:{stroke:'#e8c469',lineWidth:1.6}}]};
+        },data:rows.map((r,i)=>[Math.max(r.p_s0??r.p_champion,r.p_s150??r.p_champion),i]),z:10,silent:true},
+      {type:'scatter',symbol:'diamond',symbolSize:9,silent:true,z:11,
+        data:rows.map((r,i)=>[r.p_market_sharp,i]),
+        itemStyle:{color:'#ff9eb0',borderColor:'#0b1220',borderWidth:1}}
+    ]});
+}
+
+function drawEdge(){
+  const rows=[...D.summary].filter(x=>x.edge_sharp_pp!=null).sort((a,b)=>b.edge_sharp_pp-a.edge_sharp_pp);
+  const sel=[...rows.slice(0,7),...rows.slice(-6)].sort((a,b)=>a.edge_sharp_pp-b.edge_sharp_pp);
+  const c=echarts.init(document.getElementById('chEdge'),null,{renderer:'svg'});
+  charts.edge=c;
+  c.setOption({backgroundColor:'transparent',
+    grid:{left:8,right:56,top:6,bottom:6,containLabel:true},
+    xAxis:{type:'value',axisLabel:{color:'#8194b3',formatter:v=>v+'pp'},splitLine:{lineStyle:{color:'#1f2c45'}}},
+    yAxis:{type:'category',data:sel.map(r=>zh(r.team)),axisLabel:{color:'#dce6f5',fontSize:12.5},
+      axisLine:{show:false},axisTick:{show:false}},
+    tooltip:{backgroundColor:'#16223a',borderColor:'#2a3b5d',textStyle:{color:'#dce6f5'},
+      formatter:p=>{const r=sel[p.dataIndex];
+        return `<b>${zh(r.team)}</b><br>模型 ${pct(r.p_champion)} − 市场 ${pct(r.p_market_sharp)}<br>边际 ${sgn(r.edge_sharp_pp)}pp · EV ${sgn(r.ev_sharp*100)}%`}},
+    series:[{type:'bar',data:sel.map(r=>({value:+r.edge_sharp_pp.toFixed(2),
+        itemStyle:{color:r.edge_sharp_pp>=0?
+            new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#1e8f6e'},{offset:1,color:'#4ef0bd'}]):
+            new echarts.graphic.LinearGradient(1,0,0,0,[{offset:0,color:'#c84a60'},{offset:1,color:'#ff8c9e'}]),
+          borderRadius:r.edge_sharp_pp>=0?[0,7,7,0]:[7,0,0,7],
+          shadowColor:r.edge_sharp_pp>=0?'rgba(58,214,168,.35)':'rgba(255,107,129,.3)',shadowBlur:10}})),
+      barWidth:16,label:{show:true,position:'right',color:'#aebdd6',fontSize:11.5,fontWeight:600,
+        formatter:p=>sgn(p.value)+'pp'},
+      animationDuration:900,animationEasing:'cubicOut',animationDelay:i=>i*50}]});
+}
+
+function benchTable(){
+  const teams=['Spain','France','England','Argentina','Germany'];
+  const mine=Object.fromEntries(D.summary.map(r=>[r.team,r]));
+  let rows=[{source:'本模型 (σ=75)',probs:Object.fromEntries(teams.map(t=>[t,mine[t]?mine[t].p_champion*100:null])),pick:'Spain'}];
+  rows=rows.concat(D.benchmarks);
+  rows.push({source:'锐利盘市场',pick:'Spain',probs:Object.fromEntries(teams.map(t=>[t,mine[t]&&mine[t].p_market_sharp!=null?mine[t].p_market_sharp*100:null]))});
+  return `<table><tr><th>来源</th><th>头条选择</th>${teams.map(t=>`<th>${zh(t)}</th>`).join('')}</tr>`+
+    rows.map(r=>`<tr class="benchrow"><td>${r.source}</td><td>${zh(r.pick)||'—'}</td>${
+      teams.map(t=>{const v=r.probs?r.probs[t]:null;
+        const hot=t==='Germany'&&v!=null;
+        return `<td${hot?' style="color:'+(v>8?'var(--neg)':'var(--pos)')+'"':''}>${v!=null?(+v).toFixed(1)+'%':'—'}</td>`}).join('')}</tr>`).join('')+
+    `</table><div style="color:var(--dim);font-size:11.5px;margin-top:8px">德国列：红 = 协变量系模型（≈11%），绿 = 赛果系/市场（≈3–5%）。</div>`;
+}
+
+function renderMatches(){
+  const fd=document.getElementById('fDate').value,fg=document.getElementById('fGroup').value,fs=document.getElementById('fState').value;
+  const list=D.matches.filter(m=>(!fd||m.date===fd)&&(!fg||m.group===fg)&&
+    (!fs||(fs==='done'?m.score1!=null:m.score1==null)));
+  document.getElementById('matchList').innerHTML=list.map(m=>{
+    const done=m.score1!=null;
+    const wdl=m.p1!=null?`<div class="wdl" title="主胜 ${pct(m.p1)} / 平 ${pct(m.pd_)} / 客胜 ${pct(m.p2)}">
+      <i class="w" style="flex:${m.p1}">${m.p1>=.16?pct(m.p1,0):''}</i>
+      <i class="d" style="flex:${m.pd_}">${m.pd_>=.16?pct(m.pd_,0):''}</i>
+      <i class="l" style="flex:${m.p2}">${m.p2>=.16?pct(m.p2,0):''}</i></div>`:'<span class="mno">无预测</span>';
+    const act=done?`<span class="chip res">${m.score1} : ${m.score2}</span>${m.brier!=null?`<span class="chip brier" title="模型 Brier（市场 ${m.brier_mkt!=null?num(m.brier_mkt):'—'}）">B ${num(m.brier)}</span>`:''}`
+      :`<button onclick="toggleEntry(${m.match})">录入</button>`;
+    const entry=openEntry===m.match?`
+      <div class="entry">
+        <b>第 ${m.match} 场</b> ${zh(m.team1)}
+        <input type="number" id="s1_${m.match}" min="0" max="20" value="0"> :
+        <input type="number" id="s2_${m.match}" min="0" max="20" value="0"> ${zh(m.team2)}
+        <button class="primary" onclick="submitResult(${m.match},'quick')">提交 + 快速重算</button>
+        <button onclick="submitResult(${m.match},'full')">提交 + 完整重算</button>
+        <button onclick="toggleEntry(null)">取消</button>
+        <span class="err" id="err_${m.match}"></span>
+      </div>`:'';
+    return `<div class="match">
+      <span class="mno">#${m.match}<br>${m.date.slice(5)} · ${m.group}组</span>
+      <div class="t1">${zh(m.team1)}${m.xg1!=null?`<span class="xg">xG ${num(m.xg1,2)}</span>`:''}</div>
+      ${wdl}
+      <div class="t2">${zh(m.team2)}${m.xg2!=null?`<span class="xg">xG ${num(m.xg2,2)}</span>`:''}</div>
+      <div class="mact">${act}${m.mk1?`<div class="mno" title="${m.mkbook}">盘口 ${num(m.mk1)} / ${num(m.mkd)} / ${num(m.mk2)}</div>`:''}</div>
+    </div>${entry}`;
+  }).join('')||'<div class="loading">没有符合筛选的比赛</div>';
+}
+
+function renderScoreSummary(){
+  const s=D.score_log||[];
+  const el=document.getElementById('scoreSummary');
+  if(!s.length){el.textContent='尚无计分（首场完赛后自动产生 Brier 对照）';return}
+  const bm=s.reduce((a,x)=>a+x.brier_model,0)/s.length;
+  const wm=s.filter(x=>x.brier_market!=null);
+  const bk=wm.length?wm.reduce((a,x)=>a+x.brier_market,0)/wm.length:null;
+  el.innerHTML=`已计分 ${s.length} 场 · 模型 Brier <b style="color:var(--gold)">${bm.toFixed(4)}</b>${bk!=null?` vs 市场 ${bk.toFixed(4)} ${bm<bk?'<span class="pos">模型领先</span>':'<span class="neg">市场领先</span>'}`:''}`;
+}
+
+const COLS=[['team','队伍'],['elo','Elo'],['p_champion','夺冠'],['p_final','决赛'],['p_sf','四强'],
+  ['p_qf','八强'],['p_r16','16强'],['p_r32','32强'],['decimal_odds_sharp','锐利赔率'],
+  ['p_market_sharp','市场隐含'],['edge_sharp_pp','边际pp'],['ev_sharp','EV']];
+function renderTable(){
+  const rows=[...D.summary].sort((a,b)=>{
+    const x=a[sortKey],y=b[sortKey];
+    if(x==null)return 1;if(y==null)return -1;
+    return (x<y?-1:x>y?1:0)*(sortAsc?1:-1);
+  });
+  document.getElementById('fullTable').innerHTML=
+    `<tr>${COLS.map(([k,l])=>`<th onclick="setSort('${k}')">${l}${sortKey===k?(sortAsc?' ▲':' ▼'):''}</th>`).join('')}</tr>`+
+    rows.map(r=>`<tr>
+      <td>${zh(r.team)}</td><td>${r.elo??'—'}</td>
+      <td style="color:var(--gold)">${pct(r.p_champion,2)}</td>
+      <td>${pct(r.p_final)}</td><td>${pct(r.p_sf)}</td><td>${pct(r.p_qf)}</td>
+      <td>${pct(r.p_r16)}</td><td>${pct(r.p_r32)}</td>
+      <td>${num(r.decimal_odds_sharp)}</td><td>${pct(r.p_market_sharp,2)}</td>
+      <td class="${r.edge_sharp_pp>0?'pos':'neg'}">${sgn(r.edge_sharp_pp)}</td>
+      <td class="${r.ev_sharp>0?'pos':'neg'}">${sgn(r.ev_sharp*100)}%</td></tr>`).join('');
+}
+function setSort(k){if(sortKey===k)sortAsc=!sortAsc;else{sortKey=k;sortAsc=false}renderTable()}
+function toggleEntry(m){openEntry=openEntry===m?null:m;renderMatches()}
+
+async function submitResult(match,mode){
+  const s1=+document.getElementById('s1_'+match).value,s2=+document.getElementById('s2_'+match).value;
+  const err=document.getElementById('err_'+match);err.textContent='';
+  try{
+    const r=await fetch('/api/result',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({match,score1:s1,score2:s2,recalc:true,mode})});
+    const j=await r.json();
+    if(j.error)throw new Error(j.error);
+    openEntry=null; pollStatus(false);
+  }catch(e){err.textContent=e.message}
+}
+async function recalc(mode){
+  const r=await fetch('/api/recalc',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({mode})});
+  const j=await r.json(); if(j.ok)pollStatus(false); else alert(j.note||'无法启动');
+}
+
+let pollTimer=null;
+async function pollStatus(once){
+  const r=await fetch('/api/status');const s=await r.json();
+  const bar=document.getElementById('recalcBar'),txt=document.getElementById('recalcTxt');
+  if(s.running){
+    bar.style.display='block';
+    txt.textContent=`重算中（${s.mode==='full'?'10 万':'2 万'}次模拟）：${s.step} [${s.progress}] —— 完成后自动刷新`;
+    clearTimeout(pollTimer);pollTimer=setTimeout(()=>pollStatus(false),2000);
+  }else{
+    if(bar.style.display==='block'){
+      bar.style.display='none';
+      if(s.error)alert('重算出错：\n'+s.error.slice(0,600)); else await load();
+    }
+    if(!once&&!s.error){await load()}
+  }
+}
+window.addEventListener('resize',()=>Object.values(charts).forEach(c=>c.resize()));
+load();
+</script>
+</body>
+</html>

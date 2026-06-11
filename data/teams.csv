@@ -1,0 +1,49 @@
+team,group,fifa_code,confederation,is_host
+Czechia,A,CZE,UEFA,False
+Mexico,A,MEX,CONCACAF,True
+South Africa,A,RSA,CAF,False
+South Korea,A,KOR,AFC,False
+Bosnia and Herzegovina,B,BIH,UEFA,False
+Canada,B,CAN,CONCACAF,True
+Qatar,B,QAT,AFC,False
+Switzerland,B,SUI,UEFA,False
+Brazil,C,BRA,CONMEBOL,False
+Haiti,C,HAI,CONCACAF,False
+Morocco,C,MAR,CAF,False
+Scotland,C,SCO,UEFA,False
+Australia,D,AUS,AFC,False
+Paraguay,D,PAR,CONMEBOL,False
+Turkey,D,TUR,UEFA,False
+United States,D,USA,CONCACAF,True
+Curaçao,E,CUW,CONCACAF,False
+Ecuador,E,ECU,CONMEBOL,False
+Germany,E,GER,UEFA,False
+Ivory Coast,E,CIV,CAF,False
+Japan,F,JPN,AFC,False
+Netherlands,F,NED,UEFA,False
+Sweden,F,SWE,UEFA,False
+Tunisia,F,TUN,CAF,False
+Belgium,G,BEL,UEFA,False
+Egypt,G,EGY,CAF,False
+Iran,G,IRN,AFC,False
+New Zealand,G,NZL,OFC,False
+Cape Verde,H,CPV,CAF,False
+Saudi Arabia,H,KSA,AFC,False
+Spain,H,ESP,UEFA,False
+Uruguay,H,URU,CONMEBOL,False
+France,I,FRA,UEFA,False
+Iraq,I,IRQ,AFC,False
+Norway,I,NOR,UEFA,False
+Senegal,I,SEN,CAF,False
+Algeria,J,ALG,CAF,False
+Argentina,J,ARG,CONMEBOL,False
+Austria,J,AUT,UEFA,False
+Jordan,J,JOR,AFC,False
+Colombia,K,COL,CONMEBOL,False
+DR Congo,K,COD,CAF,False
+Portugal,K,POR,UEFA,False
+Uzbekistan,K,UZB,AFC,False
+Croatia,L,CRO,UEFA,False
+England,L,ENG,UEFA,False
+Ghana,L,GHA,CAF,False
+Panama,L,PAN,CONCACAF,False

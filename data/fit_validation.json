@@ -1,0 +1,49 @@
+{
+  "train_window": [
+    "2018-01-01",
+    "2024-12-31"
+  ],
+  "n_train": 6794,
+  "test_window": [
+    "2024-12-31",
+    "2026-06-09"
+  ],
+  "n_test": 1309,
+  "empirical_test": {
+    "draw_rate": 0.22536287242169595,
+    "avg_goals": 2.8372803666921316
+  },
+  "curve_params": {
+    "a": 0.26236426446749106,
+    "b": 0.0021617297547995595,
+    "rho": -0.1
+  },
+  "mle_params_train": {
+    "a": 0.15307058081385816,
+    "b": 0.0017373190746789197,
+    "rho": -0.0377499953209596
+  },
+  "test_curve": {
+    "logloss": 0.8428189977739102,
+    "brier": 0.4925151908192227,
+    "n": 1309,
+    "draw_rate_pred": 0.187875104609893
+  },
+  "test_mle": {
+    "logloss": 0.8324939119161477,
+    "brier": 0.48812148366109603,
+    "n": 1309,
+    "draw_rate_pred": 0.21680325063762373
+  },
+  "paired_diff": {
+    "mean": 0.010325085857762501,
+    "se": 0.005645670866975044,
+    "note": "mean per-match logloss(curve) - logloss(MLE) on the test window; mean/se > 2 indicates a statistically solid improvement"
+  },
+  "test_uniform_logloss": 1.0986122886681098,
+  "mle_params_full": {
+    "a": 0.1609754065366933,
+    "b": 0.001725884133755433,
+    "rho": -0.041429417843253616
+  }
+}

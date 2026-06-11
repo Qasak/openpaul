@@ -1,0 +1,17 @@
+match,date,team1,team2,odds_team1,odds_draw,odds_team2,book,captured_utc
+1,2026-06-11,Mexico,South Africa,1.4,4.5,9.0,FanDuel,2026-06-10T19:51Z
+2,2026-06-11,South Korea,Czechia,2.65,3.0,2.85,FanDuel,2026-06-10T19:51Z
+3,2026-06-12,Canada,Bosnia and Herzegovina,1.77,3.6,4.7,FanDuel,2026-06-10T19:51Z
+4,2026-06-12,United States,Paraguay,1.95,3.3,4.1,FanDuel,2026-06-10T19:51Z
+5,2026-06-13,Haiti,Scotland,6.25,4.5,1.36,Sports Interaction,2026-06-10T19:51Z
+6,2026-06-13,Australia,Turkey,5.0,3.8,1.71,DraftKings (via RotoWire),2026-06-10T19:51Z
+7,2026-06-13,Brazil,Morocco,1.53,3.75,5.0,Sports Interaction,2026-06-10T19:51Z
+8,2026-06-13,Qatar,Switzerland,14.0,6.5,1.21,FanDuel,2026-06-10T19:51Z
+9,2026-06-14,Ivory Coast,Ecuador,3.6,2.8,2.38,bet365 (via kickoff.co.uk),2026-06-10T19:52:00Z
+10,2026-06-14,Germany,Curaçao,1.03,19.0,34.0,bet365 (via kickoff.co.uk),2026-06-10T19:48:00Z
+11,2026-06-14,Netherlands,Japan,2.0,3.6,3.6,bet365 (via kickoff.co.uk),2026-06-10T19:49:00Z
+12,2026-06-14,Sweden,Tunisia,1.85,3.4,4.33,bet365 (via kickoff.co.uk),2026-06-10T19:49:00Z
+13,2026-06-15,Saudi Arabia,Uruguay,7.5,4.33,1.44,bet365 (via kickoff.co.uk),2026-06-10T19:45:00Z
+14,2026-06-15,Spain,Cape Verde,1.08,10.0,25.0,bet365 (via kickoff.co.uk),2026-06-10T19:53:00Z
+15,2026-06-15,Iran,New Zealand,1.85,3.4,4.5,bet365 (via kickoff.co.uk),2026-06-10T19:51:00Z
+16,2026-06-15,Belgium,Egypt,1.65,3.8,5.5,bet365 (via kickoff.co.uk),2026-06-10T19:50:00Z

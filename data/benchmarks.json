@@ -1,0 +1,173 @@
+{
+  "predictions": [
+    {
+      "source_name": "Opta supercomputer (Opta Analyst / Stats Perform)",
+      "method": "25,000 pre-tournament Monte Carlo simulations using Opta team ratings and match-level win probability model; published 2026-06-01",
+      "url": "https://theanalyst.com/articles/who-will-win-2026-fifa-world-cup-predictions-opta-supercomputer",
+      "top_pick": "Spain",
+      "probabilities": [
+        {
+          "team": "Spain",
+          "champion_prob_pct": 16.1
+        },
+        {
+          "team": "France",
+          "champion_prob_pct": 13
+        },
+        {
+          "team": "England",
+          "champion_prob_pct": 11.2
+        },
+        {
+          "team": "Argentina",
+          "champion_prob_pct": 10.4
+        },
+        {
+          "team": "Portugal",
+          "champion_prob_pct": 7
+        },
+        {
+          "team": "Brazil",
+          "champion_prob_pct": 6.6
+        },
+        {
+          "team": "Germany",
+          "champion_prob_pct": 5.1
+        },
+        {
+          "team": "Netherlands",
+          "champion_prob_pct": 3.6
+        },
+        {
+          "team": "Norway",
+          "champion_prob_pct": 3.5
+        },
+        {
+          "team": "Belgium",
+          "champion_prob_pct": 2.4
+        },
+        {
+          "team": "Colombia",
+          "champion_prob_pct": 2.1
+        },
+        {
+          "team": "Morocco",
+          "champion_prob_pct": 1.9
+        },
+        {
+          "team": "Croatia",
+          "champion_prob_pct": 1.6
+        },
+        {
+          "team": "Ecuador",
+          "champion_prob_pct": 1.4
+        },
+        {
+          "team": "United States",
+          "champion_prob_pct": 1.2
+        },
+        {
+          "team": "Mexico",
+          "champion_prob_pct": 1
+        },
+        {
+          "team": "Senegal",
+          "champion_prob_pct": 1
+        },
+        {
+          "team": "Egypt",
+          "champion_prob_pct": 0.4
+        },
+        {
+          "team": "Australia",
+          "champion_prob_pct": 0.3
+        },
+        {
+          "team": "Scotland",
+          "champion_prob_pct": 0.2
+        }
+      ]
+    },
+    {
+      "source_name": "Academic model: Groll, Hanekov, Hvattum, Michels, Schauberger, Sukhanova, Witte, Zeileis (TU Dortmund / Innsbruck / Molde / TU Munich)",
+      "method": "Hybrid random-forest machine learning combining 8 years of historical match abilities, bookmaker consensus from 24 bookmakers (margin-adjusted), plus-minus player ratings, and Transfermarkt market values; goals modeled via independent Poisson; 100,000 tournament simulations; published 2026-06-02 (R-bloggers) and 2026-06-09 (The Conversation)",
+      "url": "https://www.r-bloggers.com/2026/06/football-meets-machine-learning-forecasting-the-2026-fifa-world-cup/",
+      "top_pick": "Spain",
+      "probabilities": [
+        {
+          "team": "Spain",
+          "champion_prob_pct": 14.5
+        },
+        {
+          "team": "England",
+          "champion_prob_pct": 12.4
+        },
+        {
+          "team": "France",
+          "champion_prob_pct": 12.4
+        },
+        {
+          "team": "Germany",
+          "champion_prob_pct": 11.2
+        },
+        {
+          "team": "Portugal",
+          "champion_prob_pct": 8.9
+        },
+        {
+          "team": "Argentina",
+          "champion_prob_pct": 8.2
+        }
+      ]
+    },
+    {
+      "source_name": "EA Sports (EA Sports FC 26 in-game simulation)",
+      "method": "Single full-tournament simulation of all 104 fixtures in the licensed in-game World Cup mode; EA correctly predicted the previous four World Cup winners (Spain 2010, Germany 2014, France 2018, Argentina 2022); published ~2026-06-07. No per-team probabilities published. Side predictions: Lamine Yamal top scorer, Pedri most assists",
+      "url": "https://www.videogameschronicle.com/news/ea-has-predicted-who-will-win-the-2026-fifa-world-cup-after-getting-the-last-four-right/",
+      "top_pick": "Spain",
+      "probabilities": []
+    },
+    {
+      "source_name": "Bookmaker-implied probabilities (FanDuel and US sportsbook consensus, early June 2026)",
+      "method": "Raw implied probabilities converted from outright winner odds (not normalized for overround): Spain +475, France +500, England +650, Argentina +900; Brazil ~+850 biggest non-European favorite",
+      "url": "https://www.foxsports.com/stories/soccer/world-cup-2026-champion-odds",
+      "top_pick": "Spain",
+      "probabilities": [
+        {
+          "team": "Spain",
+          "champion_prob_pct": 17.4
+        },
+        {
+          "team": "France",
+          "champion_prob_pct": 16.7
+        },
+        {
+          "team": "England",
+          "champion_prob_pct": 13.3
+        },
+        {
+          "team": "Argentina",
+          "champion_prob_pct": 10
+        }
+      ]
+    },
+    {
+      "source_name": "Silver Bulletin / Nate Silver PELE model (FiveThirtyEight-style)",
+      "method": "PELE soccer power-rating model (successor incorporating SPI features) with player market values, home-field advantage and attack/defense Tilt rating; 100,000 tournament simulations; published 2026-06-10. Spain is the top-rated team in PELE; exact per-team championship percentages are subscriber-only (not retrievable). Notes prediction markets have France and Spain as co-favorites at ~16%",
+      "url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+      "top_pick": "Spain",
+      "probabilities": []
+    }
+  ],
+  "sources": [
+    "https://theanalyst.com/articles/who-will-win-2026-fifa-world-cup-predictions-opta-supercomputer",
+    "https://x.com/DataOfStats/status/2063212898504290540",
+    "https://www.r-bloggers.com/2026/06/football-meets-machine-learning-forecasting-the-2026-fifa-world-cup/",
+    "https://theconversation.com/we-ran-100-000-computer-simulations-of-the-world-cup-and-the-winner-will-be-284629",
+    "https://www.videogameschronicle.com/news/ea-has-predicted-who-will-win-the-2026-fifa-world-cup-after-getting-the-last-four-right/",
+    "https://www.sportbible.com/football/football-news/fifa-world-cup/ea-sports-world-cup-2026-winner-prediction-666182-20260607",
+    "https://www.foxsports.com/stories/soccer/world-cup-2026-champion-odds",
+    "https://www.espn.com/espn/betting/story/_/id/48386952/espn-soccer-futbol-world-cup-betting-odds-championship-groups",
+    "https://www.natesilver.net/p/world-cup-2026-odds-predictions"
+  ]
+}

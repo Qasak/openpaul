@@ -1,0 +1,24 @@
+{
+  "n_sims": 100000,
+  "seed": 42,
+  "sigma": 0.0,
+  "params": {
+    "a": 0.1609754065366933,
+    "b": 0.001725884133755433,
+    "rho": -0.041429417843253616,
+    "home_elo": 100.0,
+    "base_lambda": 1.1746560795974386,
+    "max_goals": 10,
+    "lambda_clip": [
+      0.15,
+      6.0
+    ],
+    "fit": "MLE on international matches 2018-01-01..2026-06-09 (n=8103), recomputed Elo affine-mapped to official scale"
+  },
+  "params_path": "data/params_fit.json",
+  "locked_matches": 0,
+  "locked_knockout": 0,
+  "ko_lock_mismatches": 0,
+  "runtime_s": 26.4,
+  "third_alloc_fallbacks": 0
+}
