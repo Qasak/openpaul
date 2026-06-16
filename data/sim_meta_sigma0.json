@@ -16,9 +16,9 @@
     "fit": "MLE on international matches 2018-01-01..2026-06-09 (n=8103), recomputed Elo affine-mapped to official scale"
   },
   "params_path": "/Users/wangjingsen/worldcup/data/params_fit.json",
-  "locked_matches": 16,
+  "locked_matches": 17,
   "locked_knockout": 0,
   "ko_lock_mismatches": 0,
-  "runtime_s": 28.4,
+  "runtime_s": 28.3,
   "third_alloc_fallbacks": 0
 }
