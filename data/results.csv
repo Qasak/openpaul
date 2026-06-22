@@ -31,3 +31,8 @@ match,date,group,team1,team2,score1,score2,winner
 30,2026-06-19,C,Scotland,Morocco,0,1,
 31,2026-06-19,D,Turkey,Paraguay,0,1,
 32,2026-06-19,D,United States,Australia,2,0,
+36,2026-06-20,F,Tunisia,Japan,0,4,
+37,2026-06-21,H,Uruguay,Cape Verde,2,2,
+38,2026-06-21,H,Spain,Saudi Arabia,4,0,
+39,2026-06-21,G,Belgium,Iran,0,0,
+40,2026-06-21,G,New Zealand,Egypt,1,3,
