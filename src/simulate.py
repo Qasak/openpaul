@@ -12,6 +12,7 @@ Outputs:
 """
 from __future__ import annotations
 
+import csv
 import json
 import os
 import sys
@@ -110,6 +111,30 @@ def run(n_sims: int = 100_000, seed: int = 42, sigma: float = 0.0,
     for i, (grp, _, _) in enumerate(fixtures):
         group_fixture_idx[grp].append(i)
 
+    # Once all 72 group results are locked the thirds are deterministic, and
+    # the REAL third-place slot assignment (announced pairings captured in
+    # data/schedule_ko.csv by build_schedule_ko) overrides the Annex-C
+    # backtracking approximation — reality check 2026-07-02: the
+    # approximation crossed two pairs of slots (74/77 and 82/85).
+    alloc_override = None
+    ko_sched_path = os.path.join(DATA, "schedule_ko.csv")
+    if n_locked == len(sched) and os.path.exists(ko_sched_path):
+        with open(ko_sched_path, encoding="utf-8") as f:
+            by_match = {int(r["match"]): (canon(r["team1"]), canon(r["team2"]))
+                        for r in csv.DictReader(f)}
+        team_group = dict(zip(data["teams"]["team"], data["teams"]["group"]))
+        cand = {}
+        for m, allowed in bracket.third_slots():
+            slot = next(s for s in bracket.slots if s["match"] == m)
+            t_side = 0 if slot["home"][0] == "T" else 1
+            g = team_group.get(by_match.get(m, (None, None))[t_side])
+            if g not in allowed:
+                cand = None
+                break
+            cand[m] = g
+        if cand and len(set(cand.values())) == len(cand):
+            alloc_override = cand
+
     counts = {s: Counter() for s in STAGES}
     third_alloc_fallbacks = 0
     ko_lock_mismatches = 0
@@ -127,11 +152,14 @@ def run(n_sims: int = 100_000, seed: int = 42, sigma: float = 0.0,
             thirds_stats.append((grp, third, pts[third], gd[third], gf[third]))
             counts["group_winner"][ranked[0]] += 1
 
-        qualified_third_groups = rank_thirds(thirds_stats, fifa_rank)
-        alloc, used_fallback = allocate_thirds(qualified_third_groups,
-                                               bracket.third_slots())
-        if used_fallback:
-            third_alloc_fallbacks += 1
+        if alloc_override is not None:
+            alloc = alloc_override
+        else:
+            qualified_third_groups = rank_thirds(thirds_stats, fifa_rank)
+            alloc, used_fallback = allocate_thirds(qualified_third_groups,
+                                                   bracket.third_slots())
+            if used_fallback:
+                third_alloc_fallbacks += 1
 
         # ---- knockout
         match_winner, match_loser = {}, {}
@@ -211,6 +239,8 @@ def run(n_sims: int = 100_000, seed: int = 42, sigma: float = 0.0,
         "ko_lock_mismatches": ko_lock_mismatches,
         "runtime_s": round(time.time() - t0, 1),
         "third_alloc_fallbacks": third_alloc_fallbacks,
+        "third_alloc_source": ("schedule_ko.csv (real pairings)"
+                               if alloc_override else "annex_c_backtracking"),
     }
     with open(os.path.join(DATA, f"sim_meta{out_suffix}.json"), "w") as f:
         json.dump(meta, f, indent=2)

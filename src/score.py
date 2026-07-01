@@ -40,12 +40,61 @@ def devig_1x2(o1: float, od: float, o2: float) -> np.ndarray:
     return q / q.sum()
 
 
+def score_knockout() -> None:
+    """Binary advancement Brier for knockout matches, scored ONLY against the
+    pre-match ledger predictions/ko_forecasts.csv (rows appended before
+    kickoff, never rewritten). Two-class sum convention: 2*(p-o)^2 — not
+    directly comparable to the 3-outcome group-stage Brier."""
+    ledger = os.path.join(ROOT, "predictions", "ko_forecasts.csv")
+    if not os.path.exists(ledger):
+        return
+    fc = pd.read_csv(ledger)
+    res = pd.read_csv(os.path.join(DATA, "results.csv"))
+    res = res[res["match"] >= 73].dropna(subset=["winner"])
+    rows = []
+    for _, r in res.iterrows():
+        m = fc[fc["match"] == int(r["match"])]
+        if not len(m):
+            continue                    # played before the ledger existed
+        m = m.iloc[0]
+        if {canon(m["team1"]), canon(m["team2"])} != \
+                {canon(r["team1"]), canon(r["team2"])}:
+            print(f"WARNING: ko match {int(r['match'])} teams disagree between "
+                  f"ledger and result — skipping")
+            continue
+        p1 = float(m["p1_advance"])
+        o1 = 1.0 if canon(r["winner"]) == canon(m["team1"]) else 0.0
+        p_win = p1 if o1 else 1.0 - p1
+        rows.append({"match": int(r["match"]), "round": r.get("group", ""),
+                     "team1": canon(m["team1"]), "team2": canon(m["team2"]),
+                     "winner": canon(r["winner"]),
+                     "p_advancer": round(p_win, 4),
+                     "brier": round(2 * (p1 - o1) ** 2, 4),
+                     "logloss": round(-float(np.log(max(p_win, 1e-12))), 4),
+                     "forecast_at": m["forecast_at"]})
+    if not rows:
+        return
+    out = pd.DataFrame(rows).sort_values("match")
+    out.to_csv(os.path.join(DATA, "score_log_ko.csv"), index=False)
+    print("\nknockout (pre-match ledger only):")
+    print(out.to_string(index=False))
+    print(f"ko: mean Brier {out['brier'].mean():.4f}  "
+          f"mean logloss {out['logloss'].mean():.4f}  (n={len(out)}, "
+          f"binary two-class convention)")
+
+
 def main(forecast_path: str = DEFAULT_FORECAST) -> None:
+    score_group(forecast_path)
+    score_knockout()
+
+
+def score_group(forecast_path: str = DEFAULT_FORECAST) -> None:
     fc = pd.read_csv(forecast_path)
     fc["team1"] = fc["team1"].map(canon)
     fc["team2"] = fc["team2"].map(canon)
     res = pd.read_csv(os.path.join(DATA, "results.csv"))
     res = res.dropna(subset=["score1", "score2"])
+    res = res[res["match"] <= 72]        # knockout scoring: score_knockout()
     if not len(res):
         print("no completed matches in data/results.csv yet — nothing to score")
         return

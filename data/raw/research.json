@@ -1,0 +1,3104 @@
+{
+  "failed": [],
+  "groups": {
+    "groups": [
+      {
+        "group": "A",
+        "teams": [
+          {
+            "name": "Mexico",
+            "fifa_code": "MEX",
+            "confederation": "CONCACAF",
+            "is_host": true
+          },
+          {
+            "name": "South Africa",
+            "fifa_code": "RSA",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "South Korea",
+            "fifa_code": "KOR",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "Czech Republic",
+            "fifa_code": "CZE",
+            "confederation": "UEFA",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "B",
+        "teams": [
+          {
+            "name": "Canada",
+            "fifa_code": "CAN",
+            "confederation": "CONCACAF",
+            "is_host": true
+          },
+          {
+            "name": "Bosnia and Herzegovina",
+            "fifa_code": "BIH",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Qatar",
+            "fifa_code": "QAT",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "Switzerland",
+            "fifa_code": "SUI",
+            "confederation": "UEFA",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "C",
+        "teams": [
+          {
+            "name": "Brazil",
+            "fifa_code": "BRA",
+            "confederation": "CONMEBOL",
+            "is_host": false
+          },
+          {
+            "name": "Morocco",
+            "fifa_code": "MAR",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Haiti",
+            "fifa_code": "HAI",
+            "confederation": "CONCACAF",
+            "is_host": false
+          },
+          {
+            "name": "Scotland",
+            "fifa_code": "SCO",
+            "confederation": "UEFA",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "D",
+        "teams": [
+          {
+            "name": "United States",
+            "fifa_code": "USA",
+            "confederation": "CONCACAF",
+            "is_host": true
+          },
+          {
+            "name": "Paraguay",
+            "fifa_code": "PAR",
+            "confederation": "CONMEBOL",
+            "is_host": false
+          },
+          {
+            "name": "Australia",
+            "fifa_code": "AUS",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "Turkey",
+            "fifa_code": "TUR",
+            "confederation": "UEFA",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "E",
+        "teams": [
+          {
+            "name": "Germany",
+            "fifa_code": "GER",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Ecuador",
+            "fifa_code": "ECU",
+            "confederation": "CONMEBOL",
+            "is_host": false
+          },
+          {
+            "name": "Ivory Coast",
+            "fifa_code": "CIV",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Curaçao",
+            "fifa_code": "CUW",
+            "confederation": "CONCACAF",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "F",
+        "teams": [
+          {
+            "name": "Netherlands",
+            "fifa_code": "NED",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Japan",
+            "fifa_code": "JPN",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "Tunisia",
+            "fifa_code": "TUN",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Sweden",
+            "fifa_code": "SWE",
+            "confederation": "UEFA",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "G",
+        "teams": [
+          {
+            "name": "Belgium",
+            "fifa_code": "BEL",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Egypt",
+            "fifa_code": "EGY",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Iran",
+            "fifa_code": "IRN",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "New Zealand",
+            "fifa_code": "NZL",
+            "confederation": "OFC",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "H",
+        "teams": [
+          {
+            "name": "Spain",
+            "fifa_code": "ESP",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Uruguay",
+            "fifa_code": "URU",
+            "confederation": "CONMEBOL",
+            "is_host": false
+          },
+          {
+            "name": "Saudi Arabia",
+            "fifa_code": "KSA",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "Cape Verde",
+            "fifa_code": "CPV",
+            "confederation": "CAF",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "I",
+        "teams": [
+          {
+            "name": "France",
+            "fifa_code": "FRA",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Senegal",
+            "fifa_code": "SEN",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Norway",
+            "fifa_code": "NOR",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Iraq",
+            "fifa_code": "IRQ",
+            "confederation": "AFC",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "J",
+        "teams": [
+          {
+            "name": "Argentina",
+            "fifa_code": "ARG",
+            "confederation": "CONMEBOL",
+            "is_host": false
+          },
+          {
+            "name": "Algeria",
+            "fifa_code": "ALG",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Austria",
+            "fifa_code": "AUT",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Jordan",
+            "fifa_code": "JOR",
+            "confederation": "AFC",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "K",
+        "teams": [
+          {
+            "name": "Portugal",
+            "fifa_code": "POR",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Colombia",
+            "fifa_code": "COL",
+            "confederation": "CONMEBOL",
+            "is_host": false
+          },
+          {
+            "name": "Uzbekistan",
+            "fifa_code": "UZB",
+            "confederation": "AFC",
+            "is_host": false
+          },
+          {
+            "name": "DR Congo",
+            "fifa_code": "COD",
+            "confederation": "CAF",
+            "is_host": false
+          }
+        ]
+      },
+      {
+        "group": "L",
+        "teams": [
+          {
+            "name": "England",
+            "fifa_code": "ENG",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Croatia",
+            "fifa_code": "CRO",
+            "confederation": "UEFA",
+            "is_host": false
+          },
+          {
+            "name": "Ghana",
+            "fifa_code": "GHA",
+            "confederation": "CAF",
+            "is_host": false
+          },
+          {
+            "name": "Panama",
+            "fifa_code": "PAN",
+            "confederation": "CONCACAF",
+            "is_host": false
+          }
+        ]
+      }
+    ],
+    "sources": [
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_A",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_B",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_C",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_D",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_E",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_F",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_G",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_H",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_I",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_J",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_K",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_L",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_qualification_(inter-confederation_play-offs)",
+      "https://www.foxsports.com/live-blog/soccer/world-cup-playoffs-scores-live-updates-dr-congo-jamaica-bolivia-iraq-action",
+      "https://sports.yahoo.com/articles/2026-world-cup-inter-confederation-202432025.html",
+      "https://www.olympics.com/en/news/football-2026-fifa-world-cup-playoff-tournament-and-european-play-offs-all-results-scores-and-schedule",
+      "https://www.espn.com/soccer/story/_/id/48871263/world-cup-2026-key-players-facts-expectations-fixtures-odds-all-48-teams"
+    ],
+    "caveats": "This is the final post-playoff composition (draw 2025-12-05; last 6 spots decided 2026-03-26 to 2026-03-31): UEFA playoff winners Bosnia and Herzegovina (Path A, Group B), Sweden (Path B, Group F), Turkey (Path C, Group D), Czech Republic (Path D, Group A); inter-confederation playoff winners DR Congo (Path 1, Group K, beat Jamaica) and Iraq (Path 2, Group I, beat Bolivia). All group rosters were verified against the individual English Wikipedia group pages and cross-checked with ESPN/FOX Sports/Yahoo/Olympics.com coverage; no discrepancies found. Naming follows English Wikipedia common names per task rules — note FIFA officially styles some teams differently: Czechia (Czech Republic), Türkiye (Turkey), Korea Republic (South Korea), Côte d'Ivoire (Ivory Coast), IR Iran (Iran). FIFA 3-letter codes are the standard FIFA codes for each association."
+  },
+  "group-schedule": {
+    "matches": [
+      {
+        "match": 1,
+        "date": "2026-06-11",
+        "group": "A",
+        "team1": "Mexico",
+        "team2": "South Africa",
+        "city": "Mexico City",
+        "country": "Mexico"
+      },
+      {
+        "match": 2,
+        "date": "2026-06-11",
+        "group": "A",
+        "team1": "South Korea",
+        "team2": "Czech Republic",
+        "city": "Zapopan",
+        "country": "Mexico"
+      },
+      {
+        "match": 3,
+        "date": "2026-06-12",
+        "group": "B",
+        "team1": "Canada",
+        "team2": "Bosnia and Herzegovina",
+        "city": "Toronto",
+        "country": "Canada"
+      },
+      {
+        "match": 4,
+        "date": "2026-06-12",
+        "group": "D",
+        "team1": "United States",
+        "team2": "Paraguay",
+        "city": "Inglewood",
+        "country": "USA"
+      },
+      {
+        "match": 5,
+        "date": "2026-06-13",
+        "group": "C",
+        "team1": "Haiti",
+        "team2": "Scotland",
+        "city": "Foxborough",
+        "country": "USA"
+      },
+      {
+        "match": 6,
+        "date": "2026-06-13",
+        "group": "D",
+        "team1": "Australia",
+        "team2": "Turkey",
+        "city": "Vancouver",
+        "country": "Canada"
+      },
+      {
+        "match": 7,
+        "date": "2026-06-13",
+        "group": "C",
+        "team1": "Brazil",
+        "team2": "Morocco",
+        "city": "East Rutherford",
+        "country": "USA"
+      },
+      {
+        "match": 8,
+        "date": "2026-06-13",
+        "group": "B",
+        "team1": "Qatar",
+        "team2": "Switzerland",
+        "city": "Santa Clara",
+        "country": "USA"
+      },
+      {
+        "match": 9,
+        "date": "2026-06-14",
+        "group": "E",
+        "team1": "Ivory Coast",
+        "team2": "Ecuador",
+        "city": "Philadelphia",
+        "country": "USA"
+      },
+      {
+        "match": 10,
+        "date": "2026-06-14",
+        "group": "E",
+        "team1": "Germany",
+        "team2": "Curaçao",
+        "city": "Houston",
+        "country": "USA"
+      },
+      {
+        "match": 11,
+        "date": "2026-06-14",
+        "group": "F",
+        "team1": "Netherlands",
+        "team2": "Japan",
+        "city": "Arlington",
+        "country": "USA"
+      },
+      {
+        "match": 12,
+        "date": "2026-06-14",
+        "group": "F",
+        "team1": "Sweden",
+        "team2": "Tunisia",
+        "city": "Guadalupe",
+        "country": "Mexico"
+      },
+      {
+        "match": 13,
+        "date": "2026-06-15",
+        "group": "H",
+        "team1": "Saudi Arabia",
+        "team2": "Uruguay",
+        "city": "Miami Gardens",
+        "country": "USA"
+      },
+      {
+        "match": 14,
+        "date": "2026-06-15",
+        "group": "H",
+        "team1": "Spain",
+        "team2": "Cape Verde",
+        "city": "Atlanta",
+        "country": "USA"
+      },
+      {
+        "match": 15,
+        "date": "2026-06-15",
+        "group": "G",
+        "team1": "Iran",
+        "team2": "New Zealand",
+        "city": "Inglewood",
+        "country": "USA"
+      },
+      {
+        "match": 16,
+        "date": "2026-06-15",
+        "group": "G",
+        "team1": "Belgium",
+        "team2": "Egypt",
+        "city": "Seattle",
+        "country": "USA"
+      },
+      {
+        "match": 17,
+        "date": "2026-06-16",
+        "group": "I",
+        "team1": "France",
+        "team2": "Senegal",
+        "city": "East Rutherford",
+        "country": "USA"
+      },
+      {
+        "match": 18,
+        "date": "2026-06-16",
+        "group": "I",
+        "team1": "Iraq",
+        "team2": "Norway",
+        "city": "Foxborough",
+        "country": "USA"
+      },
+      {
+        "match": 19,
+        "date": "2026-06-16",
+        "group": "J",
+        "team1": "Argentina",
+        "team2": "Algeria",
+        "city": "Kansas City",
+        "country": "USA"
+      },
+      {
+        "match": 20,
+        "date": "2026-06-16",
+        "group": "J",
+        "team1": "Austria",
+        "team2": "Jordan",
+        "city": "Santa Clara",
+        "country": "USA"
+      },
+      {
+        "match": 21,
+        "date": "2026-06-17",
+        "group": "L",
+        "team1": "Ghana",
+        "team2": "Panama",
+        "city": "Toronto",
+        "country": "Canada"
+      },
+      {
+        "match": 22,
+        "date": "2026-06-17",
+        "group": "L",
+        "team1": "England",
+        "team2": "Croatia",
+        "city": "Arlington",
+        "country": "USA"
+      },
+      {
+        "match": 23,
+        "date": "2026-06-17",
+        "group": "K",
+        "team1": "Portugal",
+        "team2": "DR Congo",
+        "city": "Houston",
+        "country": "USA"
+      },
+      {
+        "match": 24,
+        "date": "2026-06-17",
+        "group": "K",
+        "team1": "Uzbekistan",
+        "team2": "Colombia",
+        "city": "Mexico City",
+        "country": "Mexico"
+      },
+      {
+        "match": 25,
+        "date": "2026-06-18",
+        "group": "A",
+        "team1": "Czech Republic",
+        "team2": "South Africa",
+        "city": "Atlanta",
+        "country": "USA"
+      },
+      {
+        "match": 26,
+        "date": "2026-06-18",
+        "group": "B",
+        "team1": "Switzerland",
+        "team2": "Bosnia and Herzegovina",
+        "city": "Inglewood",
+        "country": "USA"
+      },
+      {
+        "match": 27,
+        "date": "2026-06-18",
+        "group": "B",
+        "team1": "Canada",
+        "team2": "Qatar",
+        "city": "Vancouver",
+        "country": "Canada"
+      },
+      {
+        "match": 28,
+        "date": "2026-06-18",
+        "group": "A",
+        "team1": "Mexico",
+        "team2": "South Korea",
+        "city": "Zapopan",
+        "country": "Mexico"
+      },
+      {
+        "match": 29,
+        "date": "2026-06-19",
+        "group": "C",
+        "team1": "Brazil",
+        "team2": "Haiti",
+        "city": "Philadelphia",
+        "country": "USA"
+      },
+      {
+        "match": 30,
+        "date": "2026-06-19",
+        "group": "C",
+        "team1": "Scotland",
+        "team2": "Morocco",
+        "city": "Foxborough",
+        "country": "USA"
+      },
+      {
+        "match": 31,
+        "date": "2026-06-19",
+        "group": "D",
+        "team1": "Turkey",
+        "team2": "Paraguay",
+        "city": "Santa Clara",
+        "country": "USA"
+      },
+      {
+        "match": 32,
+        "date": "2026-06-19",
+        "group": "D",
+        "team1": "United States",
+        "team2": "Australia",
+        "city": "Seattle",
+        "country": "USA"
+      },
+      {
+        "match": 33,
+        "date": "2026-06-20",
+        "group": "E",
+        "team1": "Germany",
+        "team2": "Ivory Coast",
+        "city": "Toronto",
+        "country": "Canada"
+      },
+      {
+        "match": 34,
+        "date": "2026-06-20",
+        "group": "E",
+        "team1": "Ecuador",
+        "team2": "Curaçao",
+        "city": "Kansas City",
+        "country": "USA"
+      },
+      {
+        "match": 35,
+        "date": "2026-06-20",
+        "group": "F",
+        "team1": "Netherlands",
+        "team2": "Sweden",
+        "city": "Houston",
+        "country": "USA"
+      },
+      {
+        "match": 36,
+        "date": "2026-06-20",
+        "group": "F",
+        "team1": "Tunisia",
+        "team2": "Japan",
+        "city": "Guadalupe",
+        "country": "Mexico"
+      },
+      {
+        "match": 37,
+        "date": "2026-06-21",
+        "group": "H",
+        "team1": "Uruguay",
+        "team2": "Cape Verde",
+        "city": "Miami Gardens",
+        "country": "USA"
+      },
+      {
+        "match": 38,
+        "date": "2026-06-21",
+        "group": "H",
+        "team1": "Spain",
+        "team2": "Saudi Arabia",
+        "city": "Atlanta",
+        "country": "USA"
+      },
+      {
+        "match": 39,
+        "date": "2026-06-21",
+        "group": "G",
+        "team1": "Belgium",
+        "team2": "Iran",
+        "city": "Inglewood",
+        "country": "USA"
+      },
+      {
+        "match": 40,
+        "date": "2026-06-21",
+        "group": "G",
+        "team1": "New Zealand",
+        "team2": "Egypt",
+        "city": "Vancouver",
+        "country": "Canada"
+      },
+      {
+        "match": 41,
+        "date": "2026-06-22",
+        "group": "I",
+        "team1": "Norway",
+        "team2": "Senegal",
+        "city": "East Rutherford",
+        "country": "USA"
+      },
+      {
+        "match": 42,
+        "date": "2026-06-22",
+        "group": "I",
+        "team1": "France",
+        "team2": "Iraq",
+        "city": "Philadelphia",
+        "country": "USA"
+      },
+      {
+        "match": 43,
+        "date": "2026-06-22",
+        "group": "J",
+        "team1": "Argentina",
+        "team2": "Austria",
+        "city": "Arlington",
+        "country": "USA"
+      },
+      {
+        "match": 44,
+        "date": "2026-06-22",
+        "group": "J",
+        "team1": "Jordan",
+        "team2": "Algeria",
+        "city": "Santa Clara",
+        "country": "USA"
+      },
+      {
+        "match": 45,
+        "date": "2026-06-23",
+        "group": "L",
+        "team1": "England",
+        "team2": "Ghana",
+        "city": "Foxborough",
+        "country": "USA"
+      },
+      {
+        "match": 46,
+        "date": "2026-06-23",
+        "group": "L",
+        "team1": "Panama",
+        "team2": "Croatia",
+        "city": "Toronto",
+        "country": "Canada"
+      },
+      {
+        "match": 47,
+        "date": "2026-06-23",
+        "group": "K",
+        "team1": "Portugal",
+        "team2": "Uzbekistan",
+        "city": "Houston",
+        "country": "USA"
+      },
+      {
+        "match": 48,
+        "date": "2026-06-23",
+        "group": "K",
+        "team1": "Colombia",
+        "team2": "DR Congo",
+        "city": "Zapopan",
+        "country": "Mexico"
+      },
+      {
+        "match": 49,
+        "date": "2026-06-24",
+        "group": "C",
+        "team1": "Scotland",
+        "team2": "Brazil",
+        "city": "Miami Gardens",
+        "country": "USA"
+      },
+      {
+        "match": 50,
+        "date": "2026-06-24",
+        "group": "C",
+        "team1": "Morocco",
+        "team2": "Haiti",
+        "city": "Atlanta",
+        "country": "USA"
+      },
+      {
+        "match": 51,
+        "date": "2026-06-24",
+        "group": "B",
+        "team1": "Switzerland",
+        "team2": "Canada",
+        "city": "Vancouver",
+        "country": "Canada"
+      },
+      {
+        "match": 52,
+        "date": "2026-06-24",
+        "group": "B",
+        "team1": "Bosnia and Herzegovina",
+        "team2": "Qatar",
+        "city": "Seattle",
+        "country": "USA"
+      },
+      {
+        "match": 53,
+        "date": "2026-06-24",
+        "group": "A",
+        "team1": "Czech Republic",
+        "team2": "Mexico",
+        "city": "Mexico City",
+        "country": "Mexico"
+      },
+      {
+        "match": 54,
+        "date": "2026-06-24",
+        "group": "A",
+        "team1": "South Africa",
+        "team2": "South Korea",
+        "city": "Guadalupe",
+        "country": "Mexico"
+      },
+      {
+        "match": 55,
+        "date": "2026-06-25",
+        "group": "E",
+        "team1": "Curaçao",
+        "team2": "Ivory Coast",
+        "city": "Philadelphia",
+        "country": "USA"
+      },
+      {
+        "match": 56,
+        "date": "2026-06-25",
+        "group": "E",
+        "team1": "Ecuador",
+        "team2": "Germany",
+        "city": "East Rutherford",
+        "country": "USA"
+      },
+      {
+        "match": 57,
+        "date": "2026-06-25",
+        "group": "F",
+        "team1": "Japan",
+        "team2": "Sweden",
+        "city": "Arlington",
+        "country": "USA"
+      },
+      {
+        "match": 58,
+        "date": "2026-06-25",
+        "group": "F",
+        "team1": "Tunisia",
+        "team2": "Netherlands",
+        "city": "Kansas City",
+        "country": "USA"
+      },
+      {
+        "match": 59,
+        "date": "2026-06-25",
+        "group": "D",
+        "team1": "Turkey",
+        "team2": "United States",
+        "city": "Inglewood",
+        "country": "USA"
+      },
+      {
+        "match": 60,
+        "date": "2026-06-25",
+        "group": "D",
+        "team1": "Paraguay",
+        "team2": "Australia",
+        "city": "Santa Clara",
+        "country": "USA"
+      },
+      {
+        "match": 61,
+        "date": "2026-06-26",
+        "group": "I",
+        "team1": "Norway",
+        "team2": "France",
+        "city": "Foxborough",
+        "country": "USA"
+      },
+      {
+        "match": 62,
+        "date": "2026-06-26",
+        "group": "I",
+        "team1": "Senegal",
+        "team2": "Iraq",
+        "city": "Toronto",
+        "country": "Canada"
+      },
+      {
+        "match": 63,
+        "date": "2026-06-26",
+        "group": "G",
+        "team1": "Egypt",
+        "team2": "Iran",
+        "city": "Seattle",
+        "country": "USA"
+      },
+      {
+        "match": 64,
+        "date": "2026-06-26",
+        "group": "G",
+        "team1": "New Zealand",
+        "team2": "Belgium",
+        "city": "Vancouver",
+        "country": "Canada"
+      },
+      {
+        "match": 65,
+        "date": "2026-06-26",
+        "group": "H",
+        "team1": "Cape Verde",
+        "team2": "Saudi Arabia",
+        "city": "Houston",
+        "country": "USA"
+      },
+      {
+        "match": 66,
+        "date": "2026-06-26",
+        "group": "H",
+        "team1": "Uruguay",
+        "team2": "Spain",
+        "city": "Zapopan",
+        "country": "Mexico"
+      },
+      {
+        "match": 67,
+        "date": "2026-06-27",
+        "group": "L",
+        "team1": "Panama",
+        "team2": "England",
+        "city": "East Rutherford",
+        "country": "USA"
+      },
+      {
+        "match": 68,
+        "date": "2026-06-27",
+        "group": "L",
+        "team1": "Croatia",
+        "team2": "Ghana",
+        "city": "Philadelphia",
+        "country": "USA"
+      },
+      {
+        "match": 69,
+        "date": "2026-06-27",
+        "group": "J",
+        "team1": "Algeria",
+        "team2": "Austria",
+        "city": "Kansas City",
+        "country": "USA"
+      },
+      {
+        "match": 70,
+        "date": "2026-06-27",
+        "group": "J",
+        "team1": "Jordan",
+        "team2": "Argentina",
+        "city": "Arlington",
+        "country": "USA"
+      },
+      {
+        "match": 71,
+        "date": "2026-06-27",
+        "group": "K",
+        "team1": "Colombia",
+        "team2": "Portugal",
+        "city": "Miami Gardens",
+        "country": "USA"
+      },
+      {
+        "match": 72,
+        "date": "2026-06-27",
+        "group": "K",
+        "team1": "DR Congo",
+        "team2": "Uzbekistan",
+        "city": "Atlanta",
+        "country": "USA"
+      }
+    ],
+    "sources": [
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_A",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_B",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_C",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_D",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_E",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_F",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_G",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_H",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_I",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_J",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_K",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_L",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+      "https://www.nbcsports.com/soccer/news/2026-world-cup-group-stage-table-full-standings-for-all-12-groups"
+    ],
+    "caveats": "All 72 matches verified: each group has exactly 6 matches and match numbers 1-72 each appear exactly once. Match numbers, dates, pairings, and venues are from English Wikipedia per-group pages (fetched 2026-06-11); group compositions were independently confirmed against NBC Sports, and the opening match (Mexico vs South Africa, Estadio Azteca, 2026-06-11) plus the 72-match total were confirmed via the main Wikipedia article and FIFA.com/Sky Sports search results. Dates are local dates at the venue. Team names follow English Wikipedia conventions: \"Czech Republic\" (NBC uses \"Czechia\") and \"Turkey\" (FIFA uses \"Turkiye\"). City names are the actual stadium municipalities as listed by Wikipedia rather than FIFA's metro-area branding: Zapopan = FIFA \"Guadalajara\", Guadalupe = \"Monterrey\", Inglewood = \"Los Angeles\", East Rutherford = \"New York New Jersey\", Santa Clara = \"San Francisco Bay Area\", Foxborough = \"Boston\", Arlington = \"Dallas\", Miami Gardens = \"Miami\". Kickoff times were not collected as they were outside the requested fields."
+  },
+  "bracket": {
+    "rounds": [
+      {
+        "round": "R32",
+        "slots": [
+          {
+            "match": 73,
+            "home_source": "Runner-up Group A",
+            "away_source": "Runner-up Group B",
+            "date": "2026-06-28",
+            "city": "Inglewood (Los Angeles)"
+          },
+          {
+            "match": 74,
+            "home_source": "Winner Group E",
+            "away_source": "3rd Group A/B/C/D/F",
+            "date": "2026-06-29",
+            "city": "Foxborough (Boston)"
+          },
+          {
+            "match": 75,
+            "home_source": "Winner Group F",
+            "away_source": "Runner-up Group C",
+            "date": "2026-06-29",
+            "city": "Guadalupe (Monterrey)"
+          },
+          {
+            "match": 76,
+            "home_source": "Winner Group C",
+            "away_source": "Runner-up Group F",
+            "date": "2026-06-29",
+            "city": "Houston"
+          },
+          {
+            "match": 77,
+            "home_source": "Winner Group I",
+            "away_source": "3rd Group C/D/F/G/H",
+            "date": "2026-06-30",
+            "city": "East Rutherford (New York/New Jersey)"
+          },
+          {
+            "match": 78,
+            "home_source": "Runner-up Group E",
+            "away_source": "Runner-up Group I",
+            "date": "2026-06-30",
+            "city": "Arlington (Dallas)"
+          },
+          {
+            "match": 79,
+            "home_source": "Winner Group A",
+            "away_source": "3rd Group C/E/F/H/I",
+            "date": "2026-06-30",
+            "city": "Mexico City"
+          },
+          {
+            "match": 80,
+            "home_source": "Winner Group L",
+            "away_source": "3rd Group E/H/I/J/K",
+            "date": "2026-07-01",
+            "city": "Atlanta"
+          },
+          {
+            "match": 81,
+            "home_source": "Winner Group D",
+            "away_source": "3rd Group B/E/F/I/J",
+            "date": "2026-07-01",
+            "city": "Santa Clara (San Francisco Bay Area)"
+          },
+          {
+            "match": 82,
+            "home_source": "Winner Group G",
+            "away_source": "3rd Group A/E/H/I/J",
+            "date": "2026-07-01",
+            "city": "Seattle"
+          },
+          {
+            "match": 83,
+            "home_source": "Runner-up Group K",
+            "away_source": "Runner-up Group L",
+            "date": "2026-07-02",
+            "city": "Toronto"
+          },
+          {
+            "match": 84,
+            "home_source": "Winner Group H",
+            "away_source": "Runner-up Group J",
+            "date": "2026-07-02",
+            "city": "Inglewood (Los Angeles)"
+          },
+          {
+            "match": 85,
+            "home_source": "Winner Group B",
+            "away_source": "3rd Group E/F/G/I/J",
+            "date": "2026-07-02",
+            "city": "Vancouver"
+          },
+          {
+            "match": 86,
+            "home_source": "Winner Group J",
+            "away_source": "Runner-up Group H",
+            "date": "2026-07-03",
+            "city": "Miami Gardens (Miami)"
+          },
+          {
+            "match": 87,
+            "home_source": "Winner Group K",
+            "away_source": "3rd Group D/E/I/J/L",
+            "date": "2026-07-03",
+            "city": "Kansas City"
+          },
+          {
+            "match": 88,
+            "home_source": "Runner-up Group D",
+            "away_source": "Runner-up Group G",
+            "date": "2026-07-03",
+            "city": "Arlington (Dallas)"
+          }
+        ]
+      },
+      {
+        "round": "R16",
+        "slots": [
+          {
+            "match": 89,
+            "home_source": "Winner Match 74",
+            "away_source": "Winner Match 77",
+            "date": "2026-07-04",
+            "city": "Philadelphia"
+          },
+          {
+            "match": 90,
+            "home_source": "Winner Match 73",
+            "away_source": "Winner Match 75",
+            "date": "2026-07-04",
+            "city": "Houston"
+          },
+          {
+            "match": 91,
+            "home_source": "Winner Match 76",
+            "away_source": "Winner Match 78",
+            "date": "2026-07-05",
+            "city": "East Rutherford (New York/New Jersey)"
+          },
+          {
+            "match": 92,
+            "home_source": "Winner Match 79",
+            "away_source": "Winner Match 80",
+            "date": "2026-07-05",
+            "city": "Mexico City"
+          },
+          {
+            "match": 93,
+            "home_source": "Winner Match 83",
+            "away_source": "Winner Match 84",
+            "date": "2026-07-06",
+            "city": "Arlington (Dallas)"
+          },
+          {
+            "match": 94,
+            "home_source": "Winner Match 81",
+            "away_source": "Winner Match 82",
+            "date": "2026-07-06",
+            "city": "Seattle"
+          },
+          {
+            "match": 95,
+            "home_source": "Winner Match 86",
+            "away_source": "Winner Match 88",
+            "date": "2026-07-07",
+            "city": "Atlanta"
+          },
+          {
+            "match": 96,
+            "home_source": "Winner Match 85",
+            "away_source": "Winner Match 87",
+            "date": "2026-07-07",
+            "city": "Vancouver"
+          }
+        ]
+      },
+      {
+        "round": "QF",
+        "slots": [
+          {
+            "match": 97,
+            "home_source": "Winner Match 89",
+            "away_source": "Winner Match 90",
+            "date": "2026-07-09",
+            "city": "Foxborough (Boston)"
+          },
+          {
+            "match": 98,
+            "home_source": "Winner Match 93",
+            "away_source": "Winner Match 94",
+            "date": "2026-07-10",
+            "city": "Inglewood (Los Angeles)"
+          },
+          {
+            "match": 99,
+            "home_source": "Winner Match 91",
+            "away_source": "Winner Match 92",
+            "date": "2026-07-11",
+            "city": "Miami Gardens (Miami)"
+          },
+          {
+            "match": 100,
+            "home_source": "Winner Match 95",
+            "away_source": "Winner Match 96",
+            "date": "2026-07-11",
+            "city": "Kansas City"
+          }
+        ]
+      },
+      {
+        "round": "SF",
+        "slots": [
+          {
+            "match": 101,
+            "home_source": "Winner Match 97",
+            "away_source": "Winner Match 98",
+            "date": "2026-07-14",
+            "city": "Arlington (Dallas)"
+          },
+          {
+            "match": 102,
+            "home_source": "Winner Match 99",
+            "away_source": "Winner Match 100",
+            "date": "2026-07-15",
+            "city": "Atlanta"
+          }
+        ]
+      },
+      {
+        "round": "THIRD",
+        "slots": [
+          {
+            "match": 103,
+            "home_source": "Loser Match 101",
+            "away_source": "Loser Match 102",
+            "date": "2026-07-18",
+            "city": "Miami Gardens (Miami)"
+          }
+        ]
+      },
+      {
+        "round": "FINAL",
+        "slots": [
+          {
+            "match": 104,
+            "home_source": "Winner Match 101",
+            "away_source": "Winner Match 102",
+            "date": "2026-07-19",
+            "city": "East Rutherford (New York/New Jersey)"
+          }
+        ]
+      }
+    ],
+    "third_place_rule": "RANKING: The 12 third-placed teams are ranked by: (1) points in all group matches; (2) goal difference in all group matches; (3) goals scored in all group matches; (4) team conduct (\"fair play\") score (yellow card -1, indirect red/second yellow -3, direct red -4, yellow + direct red in same match -5, applied to players and team officials); (5) FIFA/Coca-Cola Men's World Ranking (most recent edition first). The top 8 advance to the Round of 32. ALLOCATION: There is no draw and no fixed \"1st-best vs X\" mapping. FIFA pre-published a lookup table in Annex C of the tournament regulations covering all C(12,8)=495 possible combinations of which 8 groups supply a qualifying third-placed team. For each combination, the table fixes which qualified third-placed team goes to which of the eight R32 slots (matches 74, 77, 79, 80, 81, 82, 85, 87). The mapping is constrained so that no team meets a team from its own group in the Round of 32 (each group winner's slot only admits third-placed teams from 5 specific other groups, as encoded in the away_source fields: M74 Winner E vs 3rd A/B/C/D/F; M77 Winner I vs 3rd C/D/F/G/H; M79 Winner A vs 3rd C/E/F/H/I; M80 Winner L vs 3rd E/H/I/J/K; M81 Winner D vs 3rd B/E/F/I/J; M82 Winner G vs 3rd A/E/H/I/J; M85 Winner B vs 3rd E/F/G/I/J; M87 Winner K vs 3rd D/E/I/J/L). Once the eight qualifiers are known after the final group matches, the corresponding Annex C row locks the bracket automatically; for simulation purposes the row-level table (495 rows) must be taken from FIFA Regulations Annex C (also reproduced as a table on the Wikipedia knockout-stage article).",
+    "tiebreaker_rules": "Teams ranked in groups by points (win 3, draw 1, loss 0). If two or more teams are equal on points, the order is: (1) most points in group matches between the teams concerned (head-to-head); (2) goal difference in matches between the teams concerned; (3) goals scored in matches between the teams concerned; (4) goal difference in ALL group matches; (5) goals scored in ALL group matches; (6) highest team conduct (\"fair play\") score in all group matches (yellow card -1, indirect red card/second yellow -3, direct red card -4, yellow card plus direct red card in same match -5; counted for players and team officials); (7) FIFA/Coca-Cola Men's World Ranking (most recently published edition first, earlier editions sequentially if still tied). Note: head-to-head comes BEFORE overall goal difference at the 2026 edition, and there is no drawing of lots (replaced by FIFA ranking). Cross-checked across ESPN, worldcuplocaltime and FIFA-derived summaries.",
+    "sources": [
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_knockout_stage",
+      "https://www.skysports.com/football/news/11095/13481245/world-cup-2026-fixture-schedule-and-uk-kick-off-times-day-by-day-breakdown-of-all-104-matches-including-england-scotland",
+      "https://www.espn.com/soccer/story/_/id/48703925/world-cup-group-stage-explained-tiebreakers-third-place-teams",
+      "https://worldcuplocaltime.com/world-cup-2026-tiebreaker-rules/",
+      "https://worldcuplocaltime.com/world-cup-2026-495-scenarios-round-of-32/",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup"
+    ],
+    "caveats": "1) Dates are local (venue) dates per Wikipedia; Sky Sports lists UK kick-off times, which push three late-evening games (matches 92, 94, 100) to the next calendar day in UK time — I used local dates (92: 07-05, 94: 07-06, 100: 07-11). All match pairings are identical across both sources. 2) home_source/away_source ordering follows the official schedule listing; the \"home\" designation is nominal. 3) The full 495-row Annex C combination table (exact slot assignment for every possible set of 8 qualifying third-place groups) exists on the Wikipedia knockout-stage page and in FIFA Regulations Annex C but is too large to reproduce here; only the per-slot allowed-group constraints (5 groups per slot, verified internally consistent: 8 slots x 5 = 40 appearances, no same-group winner/3rd pairing) are encoded above. A simulator that needs exact deterministic slotting (not just the allowed-group sets) must ingest that table separately. 4) FIFA.com pages (knockout bracket article, tie-breakers article) did not render via fetch (JS-only), so FIFA primary-source text was obtained via secondary outlets quoting the regulations; the regulations PDF itself was not fetched. 5) Bracket-side/path constraints for third-placed teams beyond the allowed-group lists (e.g. which combination row applies) are deterministic per Annex C, not drawn."
+  },
+  "elo": {
+    "ratings": [
+      {
+        "team": "Spain",
+        "elo": 2157,
+        "world_rank": 1
+      },
+      {
+        "team": "Argentina",
+        "elo": 2115,
+        "world_rank": 2
+      },
+      {
+        "team": "France",
+        "elo": 2063,
+        "world_rank": 3
+      },
+      {
+        "team": "England",
+        "elo": 2021,
+        "world_rank": 4
+      },
+      {
+        "team": "Brazil",
+        "elo": 1991,
+        "world_rank": 5
+      },
+      {
+        "team": "Portugal",
+        "elo": 1986,
+        "world_rank": 6
+      },
+      {
+        "team": "Colombia",
+        "elo": 1982,
+        "world_rank": 7
+      },
+      {
+        "team": "Netherlands",
+        "elo": 1948,
+        "world_rank": 8
+      },
+      {
+        "team": "Ecuador",
+        "elo": 1938,
+        "world_rank": 9
+      },
+      {
+        "team": "Germany",
+        "elo": 1932,
+        "world_rank": 10
+      },
+      {
+        "team": "Norway",
+        "elo": 1914,
+        "world_rank": 11
+      },
+      {
+        "team": "Croatia",
+        "elo": 1912,
+        "world_rank": 12
+      },
+      {
+        "team": "Turkey",
+        "elo": 1911,
+        "world_rank": 13
+      },
+      {
+        "team": "Japan",
+        "elo": 1906,
+        "world_rank": 14
+      },
+      {
+        "team": "Belgium",
+        "elo": 1894,
+        "world_rank": 15
+      },
+      {
+        "team": "Uruguay",
+        "elo": 1892,
+        "world_rank": 16
+      },
+      {
+        "team": "Switzerland",
+        "elo": 1891,
+        "world_rank": 17
+      },
+      {
+        "team": "Mexico",
+        "elo": 1875,
+        "world_rank": 18
+      },
+      {
+        "team": "Senegal",
+        "elo": 1860,
+        "world_rank": 21
+      },
+      {
+        "team": "Paraguay",
+        "elo": 1834,
+        "world_rank": 22
+      },
+      {
+        "team": "Austria",
+        "elo": 1830,
+        "world_rank": 23
+      },
+      {
+        "team": "Morocco",
+        "elo": 1827,
+        "world_rank": 24
+      },
+      {
+        "team": "Canada",
+        "elo": 1788,
+        "world_rank": 25
+      },
+      {
+        "team": "Scotland",
+        "elo": 1782,
+        "world_rank": 26
+      },
+      {
+        "team": "Australia",
+        "elo": 1777,
+        "world_rank": 28
+      },
+      {
+        "team": "Iran",
+        "elo": 1772,
+        "world_rank": 29
+      },
+      {
+        "team": "Algeria",
+        "elo": 1760,
+        "world_rank": 32
+      },
+      {
+        "team": "South Korea",
+        "elo": 1758,
+        "world_rank": 33
+      },
+      {
+        "team": "Czech Republic",
+        "elo": 1740,
+        "world_rank": 35
+      },
+      {
+        "team": "Panama",
+        "elo": 1730,
+        "world_rank": 38
+      },
+      {
+        "team": "United States",
+        "elo": 1726,
+        "world_rank": 39
+      },
+      {
+        "team": "Uzbekistan",
+        "elo": 1714,
+        "world_rank": 42
+      },
+      {
+        "team": "Sweden",
+        "elo": 1712,
+        "world_rank": 43
+      },
+      {
+        "team": "Egypt",
+        "elo": 1696,
+        "world_rank": 48
+      },
+      {
+        "team": "Ivory Coast",
+        "elo": 1695,
+        "world_rank": 49
+      },
+      {
+        "team": "Jordan",
+        "elo": 1680,
+        "world_rank": 52
+      },
+      {
+        "team": "DR Congo",
+        "elo": 1652,
+        "world_rank": 55
+      },
+      {
+        "team": "Tunisia",
+        "elo": 1628,
+        "world_rank": 59
+      },
+      {
+        "team": "Iraq",
+        "elo": 1607,
+        "world_rank": 63
+      },
+      {
+        "team": "Bosnia and Herzegovina",
+        "elo": 1595,
+        "world_rank": 65
+      },
+      {
+        "team": "Cape Verde",
+        "elo": 1578,
+        "world_rank": 68
+      },
+      {
+        "team": "Saudi Arabia",
+        "elo": 1576,
+        "world_rank": 69
+      },
+      {
+        "team": "New Zealand",
+        "elo": 1562,
+        "world_rank": 72
+      },
+      {
+        "team": "Haiti",
+        "elo": 1548,
+        "world_rank": 73
+      },
+      {
+        "team": "South Africa",
+        "elo": 1517,
+        "world_rank": 80
+      },
+      {
+        "team": "Ghana",
+        "elo": 1510,
+        "world_rank": 81
+      },
+      {
+        "team": "Curaçao",
+        "elo": 1434,
+        "world_rank": 91
+      },
+      {
+        "team": "Qatar",
+        "elo": 1421,
+        "world_rank": 96
+      }
+    ],
+    "as_of_date": "2026-06-10",
+    "sources": [
+      "https://www.eloratings.net/World.tsv",
+      "https://www.eloratings.net/en.teams.tsv",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+      "https://en.wikipedia.org/wiki/World_Football_Elo_Ratings"
+    ],
+    "missing_teams": [],
+    "caveats": "Ratings taken directly from eloratings.net's raw data file World.tsv, whose HTTP Last-Modified header was 2026-06-10 10:54 UTC, i.e. updated the day before the tournament opener and including the early-June 2026 pre-tournament friendlies (fresher than requested post-March-2026 threshold). Team-code-to-name mapping was taken from eloratings.net's own mapping file en.teams.tsv (note unusual codes: Scotland=SQ; Czech Republic listed there as 'Czechia', code CZ; DR Congo=CD; Ivory Coast=CI). Cross-checked against the English Wikipedia World Football Elo Ratings top-20 table (snapshot dated 2026-06-01): rank order and team identities match, with rating values differing by roughly 5-30 points for several teams (e.g. Spain 2165 vs 2157, France 2081 vs 2063, Belgium 1866 vs 1894) — consistent with the eloratings.net file incorporating matches played between June 1 and June 10, 2026, so the values reported here are the fresher ones. world_rank is the team's global Elo rank among all ~240 rated teams, so ranks are non-consecutive within this 48-team subset. The 48-team list was verified against the English Wikipedia 2026 FIFA World Cup article. All 48 teams were found; no ratings are missing or estimated."
+  },
+  "fifa-rankings": {
+    "rankings": [
+      {
+        "team": "France",
+        "rank": 1,
+        "points": 1877.32
+      },
+      {
+        "team": "Spain",
+        "rank": 2,
+        "points": 1876.4
+      },
+      {
+        "team": "Argentina",
+        "rank": 3,
+        "points": 1874.81
+      },
+      {
+        "team": "England",
+        "rank": 4,
+        "points": 1825.97
+      },
+      {
+        "team": "Portugal",
+        "rank": 5,
+        "points": 1763.83
+      },
+      {
+        "team": "Brazil",
+        "rank": 6,
+        "points": 1761.16
+      },
+      {
+        "team": "Netherlands",
+        "rank": 7,
+        "points": 1757.87
+      },
+      {
+        "team": "Morocco",
+        "rank": 8,
+        "points": 1755.87
+      },
+      {
+        "team": "Belgium",
+        "rank": 9,
+        "points": 1734.71
+      },
+      {
+        "team": "Germany",
+        "rank": 10,
+        "points": 1730.37
+      },
+      {
+        "team": "Croatia",
+        "rank": 11,
+        "points": 1717.07
+      },
+      {
+        "team": "Colombia",
+        "rank": 13,
+        "points": 1693.09
+      },
+      {
+        "team": "Senegal",
+        "rank": 14,
+        "points": 1688.99
+      },
+      {
+        "team": "Mexico",
+        "rank": 15,
+        "points": 1681.03
+      },
+      {
+        "team": "United States",
+        "rank": 16,
+        "points": 1673.13
+      },
+      {
+        "team": "Uruguay",
+        "rank": 17,
+        "points": 1673.07
+      },
+      {
+        "team": "Japan",
+        "rank": 18,
+        "points": 1660.43
+      },
+      {
+        "team": "Switzerland",
+        "rank": 19,
+        "points": 1649.4
+      },
+      {
+        "team": "Iran",
+        "rank": 21,
+        "points": 1615
+      },
+      {
+        "team": "Turkey",
+        "rank": 22,
+        "points": 1599
+      },
+      {
+        "team": "Ecuador",
+        "rank": 23,
+        "points": 1595
+      },
+      {
+        "team": "Austria",
+        "rank": 24,
+        "points": 1593
+      },
+      {
+        "team": "South Korea",
+        "rank": 25,
+        "points": 1589
+      },
+      {
+        "team": "Australia",
+        "rank": 27,
+        "points": 1581
+      },
+      {
+        "team": "Algeria",
+        "rank": 28,
+        "points": 1564
+      },
+      {
+        "team": "Egypt",
+        "rank": 29,
+        "points": 1563
+      },
+      {
+        "team": "Canada",
+        "rank": 30,
+        "points": 1556
+      },
+      {
+        "team": "Norway",
+        "rank": 31,
+        "points": 1551
+      },
+      {
+        "team": "Panama",
+        "rank": 33,
+        "points": 1541
+      },
+      {
+        "team": "Ivory Coast",
+        "rank": 34,
+        "points": 1533
+      },
+      {
+        "team": "Sweden",
+        "rank": 38,
+        "points": 1515
+      },
+      {
+        "team": "Paraguay",
+        "rank": 40,
+        "points": 1504
+      },
+      {
+        "team": "Czech Republic",
+        "rank": 41,
+        "points": 1501
+      },
+      {
+        "team": "Scotland",
+        "rank": 43,
+        "points": 1498
+      },
+      {
+        "team": "Tunisia",
+        "rank": 44,
+        "points": 1483
+      },
+      {
+        "team": "DR Congo",
+        "rank": 46,
+        "points": 1478
+      },
+      {
+        "team": "Uzbekistan",
+        "rank": 50,
+        "points": 1465
+      },
+      {
+        "team": "Qatar",
+        "rank": 55,
+        "points": 1455
+      },
+      {
+        "team": "Iraq",
+        "rank": 57,
+        "points": 1447
+      },
+      {
+        "team": "South Africa",
+        "rank": 60,
+        "points": 1430
+      },
+      {
+        "team": "Saudi Arabia",
+        "rank": 61,
+        "points": 1421
+      },
+      {
+        "team": "Jordan",
+        "rank": 63,
+        "points": 1391
+      },
+      {
+        "team": "Bosnia and Herzegovina",
+        "rank": 65,
+        "points": 1386
+      },
+      {
+        "team": "Cape Verde",
+        "rank": 69,
+        "points": 1366
+      },
+      {
+        "team": "Ghana",
+        "rank": 74,
+        "points": 1346
+      },
+      {
+        "team": "Curaçao",
+        "rank": 82,
+        "points": 1295
+      },
+      {
+        "team": "Haiti",
+        "rank": 83,
+        "points": 1292
+      },
+      {
+        "team": "New Zealand",
+        "rank": 85,
+        "points": 1282
+      }
+    ],
+    "release_date": "2026-04-01",
+    "sources": [
+      "https://en.wikipedia.org/wiki/FIFA_Men%27s_World_Rankings",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+      "https://www.espn.com/soccer/story/_/id/46664763/fifa-mens-top-50-world-rankings",
+      "https://www.transfermarkt.us/statistik/weltrangliste?page=1",
+      "https://www.transfermarkt.us/statistik/weltrangliste?page=2",
+      "https://www.transfermarkt.us/statistik/weltrangliste?page=3",
+      "https://www.transfermarkt.us/statistik/weltrangliste?page=4",
+      "https://inside.fifa.com/fifa-world-ranking/men",
+      "https://football-ranking.com/fifa-world-rankings"
+    ],
+    "caveats": "1) The 2026-04-01 release is the last official FIFA Men's World Ranking published before the World Cup. FIFA's next release was scheduled for 2026-06-11 (the tournament's opening day) but had NOT been published at data-collection time; if it appears later today it would supersede this table. 2) Points precision is mixed: ranks 1-20 carry official 2-decimal values (from the Wikipedia FIFA Men's World Rankings article, which lists only the top 20 with decimals); all other teams carry integer points from Transfermarkt's mirror of the official 2026-04-01 table (URL parameter datum=2026-04-01). Transfermarkt's integers matched the official 2-decimal top-20 values exactly when rounded, so sub-20 integers should be accurate to within ±0.5 points; exact decimals for ranks 21+ were not retrievable because api.fifa.com and inside.fifa.com's ranking API were unreachable/returned empty from this environment. 3) Ranks 12, 20, 26, 32, 35-37, 39, 42, 45, 47-49, etc. are held by non-qualified teams (Italy 12, Denmark 20, Nigeria 26, Ukraine 32, Poland 35, Russia 36, Wales 37, Serbia 39, Hungary 42, Cameroon 45, etc.), hence gaps in the rank sequence. 4) The Wikipedia 2026 FIFA World Cup article displays slightly different ranks in parentheses (e.g., Qatar 56, Bosnia and Herzegovina 64, Cape Verde 67, Ghana 73); those come from an earlier (late-2025) release used around the draw, not the 2026-04-01 release used here. 5) Naming follows English Wikipedia common names; FIFA/Transfermarkt variants were normalized (Türkiye→Turkey, Czechia→Czech Republic, USA→United States, Democratic Republic of the Congo/Congo DR→DR Congo, Bosnia-Herzegovina→Bosnia and Herzegovina, Korea Republic→South Korea, IR Iran→Iran, Côte d'Ivoire→Ivory Coast)."
+  },
+  "odds": {
+    "odds": [
+      {
+        "team": "Spain",
+        "decimal_odds": 5.55,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 5.5
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 5.5
+          },
+          {
+            "book": "FanDuel",
+            "decimal_odds": 5.7
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 5.5
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 5.81
+          }
+        ]
+      },
+      {
+        "team": "France",
+        "decimal_odds": 5.75,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 5.75
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 6
+          },
+          {
+            "book": "FanDuel",
+            "decimal_odds": 5.8
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 5.5
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 6.17
+          }
+        ]
+      },
+      {
+        "team": "England",
+        "decimal_odds": 8,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 8
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 8
+          },
+          {
+            "book": "FanDuel",
+            "decimal_odds": 8
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 8.25
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 9.26
+          }
+        ]
+      },
+      {
+        "team": "Brazil",
+        "decimal_odds": 9.75,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 10.5
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 9
+          },
+          {
+            "book": "FanDuel",
+            "decimal_odds": 9.5
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 10
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 11.9
+          }
+        ]
+      },
+      {
+        "team": "Portugal",
+        "decimal_odds": 10,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 9.5
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 10
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 11
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 9.34
+          }
+        ]
+      },
+      {
+        "team": "Argentina",
+        "decimal_odds": 10,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 10
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 10
+          },
+          {
+            "book": "FanDuel",
+            "decimal_odds": 11
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 9.5
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 11.49
+          }
+        ]
+      },
+      {
+        "team": "Germany",
+        "decimal_odds": 14.5,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 15
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 15
+          },
+          {
+            "book": "FanDuel",
+            "decimal_odds": 13
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 17.86
+          }
+        ]
+      },
+      {
+        "team": "Netherlands",
+        "decimal_odds": 21,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 21
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 21
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 21.28
+          }
+        ]
+      },
+      {
+        "team": "Norway",
+        "decimal_odds": 35,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 36
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 34
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 40
+          }
+        ]
+      },
+      {
+        "team": "Belgium",
+        "decimal_odds": 37.5,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 41
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 34
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 43.48
+          }
+        ]
+      },
+      {
+        "team": "Colombia",
+        "decimal_odds": 41,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 41
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 41
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 50
+          }
+        ]
+      },
+      {
+        "team": "Morocco",
+        "decimal_odds": 46,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 51
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 41
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 58.82
+          }
+        ]
+      },
+      {
+        "team": "United States",
+        "decimal_odds": 54,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 61
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 51
+          },
+          {
+            "book": "Caesars",
+            "decimal_odds": 51
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 58.82
+          }
+        ]
+      },
+      {
+        "team": "Japan",
+        "decimal_odds": 58.5,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 66
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 51
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 58.82
+          }
+        ]
+      },
+      {
+        "team": "Switzerland",
+        "decimal_odds": 66.5,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 66
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 67
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 100
+          }
+        ]
+      },
+      {
+        "team": "Uruguay",
+        "decimal_odds": 66.5,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 66
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 67
+          }
+        ]
+      },
+      {
+        "team": "Mexico",
+        "decimal_odds": 74,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 81
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 67
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 55.56
+          }
+        ]
+      },
+      {
+        "team": "Turkey",
+        "decimal_odds": 79,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 91
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 67
+          },
+          {
+            "book": "Kalshi (prediction market)",
+            "decimal_odds": 83.23
+          }
+        ]
+      },
+      {
+        "team": "Senegal",
+        "decimal_odds": 79,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 91
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 67
+          }
+        ]
+      },
+      {
+        "team": "Ecuador",
+        "decimal_odds": 81,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 81
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 81
+          }
+        ]
+      },
+      {
+        "team": "Croatia",
+        "decimal_odds": 86,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 91
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 81
+          }
+        ]
+      },
+      {
+        "team": "Sweden",
+        "decimal_odds": 111,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 121
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 101
+          }
+        ]
+      },
+      {
+        "team": "Austria",
+        "decimal_odds": 151,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 151
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 151
+          }
+        ]
+      },
+      {
+        "team": "Canada",
+        "decimal_odds": 176,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 201
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 151
+          }
+        ]
+      },
+      {
+        "team": "Scotland",
+        "decimal_odds": 226,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 201
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "Ivory Coast",
+        "decimal_odds": 226,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 251
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 201
+          }
+        ]
+      },
+      {
+        "team": "Czech Republic",
+        "decimal_odds": 251,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 251
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "Paraguay",
+        "decimal_odds": 276,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 301
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "Egypt",
+        "decimal_odds": 276,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 301
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "Algeria",
+        "decimal_odds": 301,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 351
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "South Korea",
+        "decimal_odds": 326,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 401
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "Bosnia and Herzegovina",
+        "decimal_odds": 376,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 251
+          }
+        ]
+      },
+      {
+        "team": "Ghana",
+        "decimal_odds": 401,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 301
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 501
+          }
+        ]
+      },
+      {
+        "team": "Tunisia",
+        "decimal_odds": 501,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 501
+          }
+        ]
+      },
+      {
+        "team": "Australia",
+        "decimal_odds": 551,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 601
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 501
+          }
+        ]
+      },
+      {
+        "team": "Iran",
+        "decimal_odds": 601,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 701
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 501
+          }
+        ]
+      },
+      {
+        "team": "DR Congo",
+        "decimal_odds": 876,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1001
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 751
+          }
+        ]
+      },
+      {
+        "team": "Saudi Arabia",
+        "decimal_odds": 1001,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1001
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "South Africa",
+        "decimal_odds": 1001,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1001
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Panama",
+        "decimal_odds": 1001,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1001
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Cape Verde",
+        "decimal_odds": 1001,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1001
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Qatar",
+        "decimal_odds": 1251,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Uzbekistan",
+        "decimal_odds": 1251,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "New Zealand",
+        "decimal_odds": 1251,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Iraq",
+        "decimal_odds": 1251,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 1501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Jordan",
+        "decimal_odds": 1751,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 2501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 1001
+          }
+        ]
+      },
+      {
+        "team": "Curaçao",
+        "decimal_odds": 2501,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 2501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 2501
+          }
+        ]
+      },
+      {
+        "team": "Haiti",
+        "decimal_odds": 2501,
+        "books": [
+          {
+            "book": "DraftKings",
+            "decimal_odds": 2501
+          },
+          {
+            "book": "BetMGM",
+            "decimal_odds": 2501
+          }
+        ]
+      }
+    ],
+    "as_of_date": "2026-06-10",
+    "sources": [
+      "https://www.espn.com/espn/betting/story/_/id/48386952/espn-soccer-futbol-world-cup-betting-odds-championship-groups",
+      "https://sports.yahoo.com/soccer/betting/article/2026-world-cup-odds-for-all-48-teams-to-win-the-title-145427384.html",
+      "https://www.covers.com/world-cup/odds",
+      "https://www.cbssports.com/betting/news/world-cup-odds/",
+      "https://www.rotowire.com/soccer/article/2026-world-cup-winner-odds-favorites-to-win-fifa-world-cup-109815",
+      "https://www.sportsbettingdime.com/soccer/world-cup-odds/",
+      "https://sportshandle.com/caesars-sportsbook-2026-world-cup-betting-markets-odds-features/",
+      "https://www.covers.com/industry/caesars-sportsbook-rolls-out-full-expanded-2026-fifa-world-cup-offerings",
+      "https://www.foxsports.com/stories/soccer/ultimate-2026-world-cup-gambling-guide-odds-predictions-picks-underdogs"
+    ],
+    "caveats": "All 48 qualified teams covered. Per-book snapshots span 2026-06-04 to 2026-06-10: DraftKings full 48-team board via ESPN dated 2026-06-05 (cross-checked vs RotoWire 2026-06-08 and SportsBettingDime 2026-06-04; CBS on 2026-06-09 showed minor DK moves, e.g. England +750, Portugal +800, Norway +3000, so DK lines may have drifted slightly by tournament kickoff on 2026-06-11); BetMGM full 48-team board via Yahoo Sports dated 2026-06-10; FanDuel only partial (top ~6 favorites, via CBS 2026-06-09 and FanDuel Research content of mixed early-June dates); Caesars only partial (6-7 teams, via SportsHandle/Covers articles dated 2026-06-05/06-08). bet365, Pinnacle, oddschecker, vegasinsider, and oddspedia pages returned HTTP 403 or required JavaScript, so no per-book odds from those sources — this is an explicit gap. Kalshi entries are prediction-market implied prices (covers.com, 2026-06-10 12:11 ET), listed for reference only and EXCLUDED from the consensus decimal_odds, which is an approximate mean of available sportsbook lines (DraftKings + BetMGM for all teams, plus FanDuel/Caesars where available). American odds converted to decimal via dec = american/100 + 1 (fractional X-1 treated as +X00). Consensus odds include bookmaker margin (sum of implied probabilities across 48 teams exceeds 100%); deduct vig before using as model probabilities. Team naming follows English Wikipedia conventions (e.g. United States, South Korea, Ivory Coast, DR Congo, Cape Verde, Czech Republic for Czechia, Turkey for Türkiye)."
+  },
+  "results": {
+    "completed": [],
+    "matches_played_so_far": 0,
+    "sources": [
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_A",
+      "https://www.espn.com/soccer/scoreboard/_/league/fifa.world/date/20260611",
+      "https://www.espn.com/espn/story/_/id/48998339/mexico-vs-south-africa-kick-team-news-how-watch-fifa-world-cup-opener"
+    ],
+    "caveats": "No 2026 World Cup matches have been completed as of 2026-06-10 16:16 UTC. The opening match, Mexico vs South Africa at Estadio Azteca (Mexico City), kicks off 2026-06-11 at 19:00 UTC (1 p.m. local), and the day's second match, South Korea vs Czech Republic at Estadio Akron (Guadalajara), follows later on 2026-06-11. Cross-checked Wikipedia (main tournament page and Group A page, both showing 0 matches played) and the ESPN scoreboard for 2026-06-11 (both matches listed as Scheduled with no scores). BBC Sport scores page could not be fetched (fetch blocked), but the two remaining sources agree. Re-run this collection after ~21:00 UTC on 2026-06-11 to capture the opener's final score."
+  },
+  "news": {
+    "teams": [
+      {
+        "team": "France",
+        "key_absences": [
+          {
+            "player": "Hugo Ekitike",
+            "reason": "Ruptured Achilles tendon; ruled out of the tournament",
+            "importance": "medium"
+          },
+          {
+            "player": "Eduardo Camavinga",
+            "reason": "Omitted by Deschamps after an injury-hit, low-minutes season at Real Madrid",
+            "importance": "low"
+          },
+          {
+            "player": "Randal Kolo Muani",
+            "reason": "Omitted; Jean-Philippe Mateta preferred in the 26-man squad",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Topped their UEFA qualifying group and remain among the favourites in Deschamps' final tournament, but suffered a shock 1-2 home defeat to Ivory Coast on 2026-06-04 before beating Northern Ireland 3-1 (Olise hat-trick) in their last warm-up. Mbappé is recovering from a minor muscle injury but is expected to be fit; Saliba (back) is also expected to play."
+      },
+      {
+        "team": "Spain",
+        "key_absences": [
+          {
+            "player": "Fermín López",
+            "reason": "Metatarsal fracture (broken foot) suffered 2026-05-17; ruled out",
+            "importance": "medium"
+          },
+          {
+            "player": "Dani Carvajal",
+            "reason": "Omitted — part of a squad with no Real Madrid players for the first time",
+            "importance": "medium"
+          },
+          {
+            "player": "Álvaro Morata",
+            "reason": "Omitted from the final 26",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Reigning European champions who went unbeaten through World Cup qualifying and lost the June 2025 Nations League final to Portugal only on penalties (2-2, 5-3 pens), extending a years-long unbeaten competitive run. Lamine Yamal (partially torn hamstring) is in the squad and expected fit for the 2026-06-15 opener, though Spain were held to a draw by Iraq in a June warm-up."
+      },
+      {
+        "team": "Argentina",
+        "key_absences": [
+          {
+            "player": "Leonardo Balerdi",
+            "reason": "Soleus muscle injury in right leg; ruled out",
+            "importance": "low"
+          },
+          {
+            "player": "Franco Mastantuono",
+            "reason": "Surprise omission from the final 26",
+            "importance": "low"
+          },
+          {
+            "player": "Marcos Acuña",
+            "reason": "Omitted from the final 26",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Defending world champions who topped CONMEBOL qualifying, and beat Honduras 2-0 (Lautaro, Simeone) before a final warm-up vs Iceland on 2026-06-09; the planned March Finalissima vs Spain was cancelled. They carry multiple fitness concerns into the tournament: Messi (hamstring overload, admitted not fully fit), Cristian Romero (knee ligament sprain), Emiliano Martínez (fractured finger, expected fit), plus Molina, Montiel and Nico González returning from knocks."
+      },
+      {
+        "team": "England",
+        "key_absences": [
+          {
+            "player": "Levi Colwill",
+            "reason": "Torn ACL (August 2025); would likely have made the squad if fit",
+            "importance": "medium"
+          },
+          {
+            "player": "Cole Palmer",
+            "reason": "Omitted by Tuchel after a below-par Chelsea season",
+            "importance": "medium"
+          },
+          {
+            "player": "Phil Foden",
+            "reason": "Omitted after a below-par Manchester City season",
+            "importance": "medium"
+          },
+          {
+            "player": "Trent Alexander-Arnold",
+            "reason": "Omitted from the final 26",
+            "importance": "low"
+          },
+          {
+            "player": "Harry Maguire",
+            "reason": "Omitted; Jarell Quansah preferred",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Historically strong qualifying under Tuchel: won all 8 matches, 22-0 on aggregate — the first European team to qualify without conceding a goal. Warm-ups: 1-0 over New Zealand on 2026-06-07 and a final friendly vs Costa Rica on 2026-06-10; Livramento (thigh) and Spence (broken jaw) were selected despite fitness issues, and Saka joined camp late after the Champions League final but is fit."
+      },
+      {
+        "team": "Brazil",
+        "key_absences": [
+          {
+            "player": "Rodrygo",
+            "reason": "Torn ACL and meniscus (March 2026); ruled out",
+            "importance": "high"
+          },
+          {
+            "player": "Éder Militão",
+            "reason": "Torn hamstring requiring surgery; ruled out",
+            "importance": "high"
+          },
+          {
+            "player": "Estêvão",
+            "reason": "Torn hamstring; ruled out (his spot effectively went to Neymar)",
+            "importance": "high"
+          },
+          {
+            "player": "Wesley França",
+            "reason": "Torn left adductor in the 2026-06-06 Egypt friendly; replaced by Ederson (Atalanta), leaving no specialist right-back",
+            "importance": "medium"
+          }
+        ],
+        "form_note": "Rebuilt under Carlo Ancelotti after finishing only fifth in CONMEBOL qualifying, and won their June warm-ups 6-2 vs Panama (2026-05-31) and 2-1 vs Egypt. The attack is badly depleted by injuries, and the recalled 34-year-old Neymar is himself racing to be fit after a calf strain sustained 2026-05-17."
+      },
+      {
+        "team": "Germany",
+        "key_absences": [
+          {
+            "player": "Serge Gnabry",
+            "reason": "Torn adductor (mid-April); ruled out — no German played more games across qualifying and the March friendlies",
+            "importance": "medium"
+          },
+          {
+            "player": "Marc-André ter Stegen",
+            "reason": "Torn thigh muscle after injury-plagued season; Oliver Baumann is No. 1 instead",
+            "importance": "medium"
+          },
+          {
+            "player": "Lennart Karl",
+            "reason": "Torn thigh muscle in training; replaced in squad by Assan Ouédraogo",
+            "importance": "medium"
+          }
+        ],
+        "form_note": "Eased through qualifying with five wins from six (avenging an opening defeat in Slovakia with a 6-0 rout to top the group) and Nagelsmann's squad is regarded as one of the strongest at the tournament despite poor recent World Cup history. Won their final warm-up 2-1 against the USA in Chicago on 2026-06-06; Neuer returns to the squad."
+      },
+      {
+        "team": "Portugal",
+        "key_absences": [
+          {
+            "player": "Diogo Jota",
+            "reason": "Deceased (July 2025); the squad announcement carried a symbolic tribute to him",
+            "importance": "medium"
+          }
+        ],
+        "form_note": "Reigning Nations League champions (beat Spain on penalties in the June 2025 final after beating Germany in the semi) and topped their qualifying group. Warm-up wins over the USA (2-0, March) and Chile (2-1, June); Cristiano Ronaldo, 41, recovered from a March thigh muscle injury and captains the squad at a record sixth World Cup, with no World Cup-threatening injuries reported in the final 26."
+      },
+      {
+        "team": "Netherlands",
+        "key_absences": [
+          {
+            "player": "Xavi Simons",
+            "reason": "Ruptured ACL (April 2026); ruled out — leaves Koeman without a natural No. 10",
+            "importance": "high"
+          },
+          {
+            "player": "Jurriën Timber",
+            "reason": "Groin strain suffered after the Champions League final; replaced by Lutsharel Geertruida",
+            "importance": "high"
+          },
+          {
+            "player": "Matthijs de Ligt",
+            "reason": "Back surgery; ruled out",
+            "importance": "medium"
+          },
+          {
+            "player": "Stefan de Vrij",
+            "reason": "Injury; ruled out",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Topped their UEFA qualifying group (no playoff needed) and won their June warm-up 2-1 against Uzbekistan. Injuries have stripped out several defensive regulars and their first-choice creator, but the Van Dijk-led back line (van de Ven, Aké, Dumfries) remains one of the meanest in the field."
+      },
+      {
+        "team": "Belgium",
+        "key_absences": [],
+        "form_note": "Topped their UEFA qualifying group and arrive in strong form, hammering the USA 5-2 in March and Tunisia 5-0 in their June warm-up. No stars are ruled out, but fitness is a theme: De Bruyne only returned in March from October surgery, Lukaku played just seven club games all season (one goal) due to recurring muscle injuries, and Courtois is back as No. 1 after his own injury-disrupted run."
+      },
+      {
+        "team": "United States",
+        "key_absences": [
+          {
+            "player": "Johnny Cardoso",
+            "reason": "High-grade ankle sprain requiring surgery; ruled out",
+            "importance": "high"
+          },
+          {
+            "player": "Tanner Tessmann",
+            "reason": "Muscle strain / omitted — leaves Tyler Adams as the only true defensive midfielder",
+            "importance": "medium"
+          },
+          {
+            "player": "Patrick Agyemang",
+            "reason": "Torn Achilles (April); ruled out",
+            "importance": "low"
+          },
+          {
+            "player": "Diego Luna",
+            "reason": "Omitted from the final 26 despite being expected to make it",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Mixed pre-tournament form under Pochettino as co-hosts: heavy March friendly defeats to Belgium (2-5) and Portugal (0-2), then a 3-2 win over Senegal on 2026-05-31 and a 1-2 loss to Germany in the final warm-up on 2026-06-06. Chris Richards (torn ankle ligaments) is in the squad but still working back to match fitness before the 2026-06-12 opener vs Paraguay; Gio Reyna was included despite limited club minutes."
+      },
+      {
+        "team": "Mexico",
+        "key_absences": [
+          {
+            "player": "Hirving Lozano",
+            "reason": "Omitted amid disciplinary questions and limited playing time at San Diego FC",
+            "importance": "medium"
+          },
+          {
+            "player": "Luis Ángel Malagón",
+            "reason": "Goalkeeper missed out while recovering from injury",
+            "importance": "medium"
+          },
+          {
+            "player": "Henry Martín",
+            "reason": "Missed out while recovering from injury",
+            "importance": "low"
+          },
+          {
+            "player": "Rodrigo Huescas",
+            "reason": "Full-back missed out while recovering from injury",
+            "importance": "low"
+          },
+          {
+            "player": "Germán Berterame",
+            "reason": "Late cut from the final squad",
+            "importance": "low"
+          }
+        ],
+        "form_note": "Auto-qualified as hosts; 2025 Gold Cup champions who hit form just in time, thrashing Serbia 5-1 in their 2026-06-04 warm-up before opening the tournament vs South Africa on 2026-06-11 in Mexico City. 40-year-old Guillermo Ochoa is set for a record-equalling sixth World Cup, with 17-year-old Gilberto Mora the emerging star."
+      }
+    ],
+    "sources": [
+      "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/european-qualifiers-play-off-final-review",
+      "https://www.foxsports.com/stories/soccer/world-cup-qualifying-uefa-intercontinental-italy-turkiye-sweden-poland",
+      "https://www.espn.com/soccer/story/_/id/48572979/2026-fifa-world-cup-injuries-tracker-which-stars-miss-latest-info",
+      "https://www.espn.com/soccer/story/_/id/48771039/france-2026-world-cup-squad-mbappe-camavinga-kolo-muani-dembele",
+      "https://www.espn.com/soccer/story/_/id/48870392/spain-world-cup-2026-squad-confirmed-lamine-yamal-stars-no-real-madrid-players",
+      "https://www.goal.com/en-us/lists/lionel-messi-won-t-join-argentina-world-cup-squad-fully-fit-admits-lionel-scaloni/bltdd2d68668cc7337d",
+      "https://worldsoccertalk.com/amp/world-cup/lionel-scaloni-doesnt-rule-out-more-changes-to-argentinas-world-cup-squad-after-leonardo-balerdis-injury/",
+      "https://www.batimes.com.ar/news/sports/messi-in-mastanuono-out-argentina-confirms-26-man-squad-for-world-cup-2026.phtml",
+      "https://www.espn.com/soccer/story/_/id/48907909/messi-leads-experienced-argentina-world-cup-squad-scaloni-opts-continuity",
+      "https://www.skysports.com/football/news/12016/13543455/england-world-cup-squad-announcement-ruthless-thomas-tuchel-leaves-big-names-out-of-26-man-squad",
+      "https://www.espn.com/soccer/story/_/id/48842639/eleven-unlucky-players-miss-england-2026-world-cup-squad",
+      "https://www.foxsports.com/stories/soccer/england-completes-perfect-world-cup-qualifying-campaign-with-8-wins-0-goals-conceded",
+      "https://www.sportsmole.co.uk/football/england/world-cup-2026/news/england-injury-boost-four-players-join-wc-camp-as-tuchels-lineup-questioned_598790.html",
+      "https://www.aljazeera.com/sports/2026/5/19/fifa-world-cup-2026-all-to-know-about-neymar-surprise-brazil-selection-ancelotti",
+      "https://www.goal.com/en/lists/biggest-stars-miss-2026-world-cup-injury-suspension-selection/bltd6ff2d56ebf99a62",
+      "https://athlonsports.com/soccer/carlo-ancelotti-calls-up-ederson-replace-injured-wesley-for-brazil-world-cup-squad",
+      "https://www.espn.com/soccer/report/_/gameId/401864003",
+      "https://www.fourfourtwo.com/team/germany-world-cup-2026-squad",
+      "https://www.sportsmole.co.uk/football/germany/world-cup/feature/germany-2026-world-cup-preview-squad-fixtures-and-prediction_598811.html",
+      "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cristiano-ronaldo-roberto-martinez-portugal-squad-announcement",
+      "https://www.plataformamedia.com/en/2026/03/25/ronaldo-portugal-muscle-injury-world-cup-2026/",
+      "https://www.football-oranje.com/netherlands-squad-announced-for-2026-world-cup/",
+      "https://www.beinsports.com/en-us/soccer/fifa-world-cup-2026/articles/ronald-koeman-s-official-netherlands-squad-for-the-2026-fifa-world-cup-2026-05-27",
+      "https://www.beinsports.com/en-us/soccer/fifa-world-cup-2026/articles/de-bruyne-and-lukaku-named-in-belgium-world-cup-squad-despite-injuries-2026-05-15",
+      "https://worldsoccertalk.com/amp/world-cup/2026-world-cup-courtois-de-bruyne-headline-belgium-squad-as-lukaku-included-despite-napoli-struggles/",
+      "https://www.cbssports.com/soccer/news/full-usmnt-world-cup-roster-2026/",
+      "https://www.espn.com/soccer/story/_/id/48854192/usa-2026-world-cup-roster-gio-reyna-diego-luna-zendejas",
+      "https://www.nbcsports.com/soccer/news/usmnt-2026-schedule-results",
+      "https://www.foxsports.com/stories/soccer/javier-aguirre-excludes-chucky-lozano-from-mexicos-world-cup-roster",
+      "https://rg.org/en-ca/sportsbooks/world-cup-2026/mexico",
+      "https://www.espn.com/soccer/match/_/gameId/401861776/serbia-mexico",
+      "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads",
+      "https://en.wikipedia.org/wiki/2026_Finalissima",
+      "https://www.france24.com/en/sport/20260604-france-stunned-by-ivory-coast-in-world-cup-warm-up-defeat",
+      "https://khelnow.com/football/world-football-important-things-learned-france-win-northern-ireland-pre-world-cup-202606",
+      "https://www.foxsports.com/stories/soccer/france-stunned-by-ivory-coast-in-world-cup-warmup-spain-held-by-iraq",
+      "https://www.uefa.com/uefanationsleague/news/029a-1df446a2d81d-0bc47d9324a5-1000--portugal-vs-spain-highlights-and-report-selecao-create-natio/",
+      "https://en.wikipedia.org/wiki/2025_UEFA_Nations_League_Finals",
+      "https://www.football365.com/news/world-cup-2026-warm-up-friendly-fixtures-results-kick-off-times-what-tv-channel",
+      "https://www.101greatgoals.com/football/argentina-identity-intact-says-scaloni-after-friendly-win/"
+    ],
+    "caveats": "ITALY IS EXCLUDED: verified via FIFA and FOX Sports that Italy did NOT qualify — eliminated by Bosnia and Herzegovina on penalties (1-1, 4-1 pens) in the UEFA playoff final in March 2026, their third consecutive World Cup miss. Other caveats: (1) Results of the very last warm-ups (England vs Costa Rica 2026-06-10, Argentina vs Iceland 2026-06-09) were not yet available at research time; (2) the exact score of Spain's draw with Iraq was not confirmed, only the result; (3) fitness doubts for players who ARE in squads (Messi, Romero, E. Martínez, Yamal, Neymar, Mbappé, Saliba, De Bruyne, Lukaku, Richards, Livramento, Spence) are noted in form_notes rather than listed as absences; (4) one ESPN tracker entry listed Livramento as ruled out, but multiple squad lists (Sky Sports, NewsHub) confirm he was named in England's final 26 — treated as selected; (5) Brazil's fifth-place CONMEBOL qualifying finish is from qualifying that concluded September 2025; (6) USA and Mexico qualified automatically as hosts, so no qualifying form exists for them; (7) the Argentina-Spain Finalissima scheduled for 2026-03-27 in Qatar was cancelled for security reasons, removing a key comparative form data point; (8) Diogo Jota (Portugal) is listed under absences as deceased (July 2025) since it materially changes Portugal's attacking depth versus 2022 — reclassify if the model treats absences strictly as injury/suspension/omission."
+  },
+  "benchmarks": {
+    "predictions": [
+      {
+        "source_name": "Opta supercomputer (Opta Analyst / Stats Perform)",
+        "method": "25,000 pre-tournament Monte Carlo simulations using Opta team ratings and match-level win probability model; published 2026-06-01",
+        "url": "https://theanalyst.com/articles/who-will-win-2026-fifa-world-cup-predictions-opta-supercomputer",
+        "top_pick": "Spain",
+        "probabilities": [
+          {
+            "team": "Spain",
+            "champion_prob_pct": 16.1
+          },
+          {
+            "team": "France",
+            "champion_prob_pct": 13
+          },
+          {
+            "team": "England",
+            "champion_prob_pct": 11.2
+          },
+          {
+            "team": "Argentina",
+            "champion_prob_pct": 10.4
+          },
+          {
+            "team": "Portugal",
+            "champion_prob_pct": 7
+          },
+          {
+            "team": "Brazil",
+            "champion_prob_pct": 6.6
+          },
+          {
+            "team": "Germany",
+            "champion_prob_pct": 5.1
+          },
+          {
+            "team": "Netherlands",
+            "champion_prob_pct": 3.6
+          },
+          {
+            "team": "Norway",
+            "champion_prob_pct": 3.5
+          },
+          {
+            "team": "Belgium",
+            "champion_prob_pct": 2.4
+          },
+          {
+            "team": "Colombia",
+            "champion_prob_pct": 2.1
+          },
+          {
+            "team": "Morocco",
+            "champion_prob_pct": 1.9
+          },
+          {
+            "team": "Croatia",
+            "champion_prob_pct": 1.6
+          },
+          {
+            "team": "Ecuador",
+            "champion_prob_pct": 1.4
+          },
+          {
+            "team": "United States",
+            "champion_prob_pct": 1.2
+          },
+          {
+            "team": "Mexico",
+            "champion_prob_pct": 1
+          },
+          {
+            "team": "Senegal",
+            "champion_prob_pct": 1
+          },
+          {
+            "team": "Egypt",
+            "champion_prob_pct": 0.4
+          },
+          {
+            "team": "Australia",
+            "champion_prob_pct": 0.3
+          },
+          {
+            "team": "Scotland",
+            "champion_prob_pct": 0.2
+          }
+        ]
+      },
+      {
+        "source_name": "Academic model: Groll, Hanekov, Hvattum, Michels, Schauberger, Sukhanova, Witte, Zeileis (TU Dortmund / Innsbruck / Molde / TU Munich)",
+        "method": "Hybrid random-forest machine learning combining 8 years of historical match abilities, bookmaker consensus from 24 bookmakers (margin-adjusted), plus-minus player ratings, and Transfermarkt market values; goals modeled via independent Poisson; 100,000 tournament simulations; published 2026-06-02 (R-bloggers) and 2026-06-09 (The Conversation)",
+        "url": "https://www.r-bloggers.com/2026/06/football-meets-machine-learning-forecasting-the-2026-fifa-world-cup/",
+        "top_pick": "Spain",
+        "probabilities": [
+          {
+            "team": "Spain",
+            "champion_prob_pct": 14.5
+          },
+          {
+            "team": "England",
+            "champion_prob_pct": 12.4
+          },
+          {
+            "team": "France",
+            "champion_prob_pct": 12.4
+          },
+          {
+            "team": "Germany",
+            "champion_prob_pct": 11.2
+          },
+          {
+            "team": "Portugal",
+            "champion_prob_pct": 8.9
+          },
+          {
+            "team": "Argentina",
+            "champion_prob_pct": 8.2
+          }
+        ]
+      },
+      {
+        "source_name": "EA Sports (EA Sports FC 26 in-game simulation)",
+        "method": "Single full-tournament simulation of all 104 fixtures in the licensed in-game World Cup mode; EA correctly predicted the previous four World Cup winners (Spain 2010, Germany 2014, France 2018, Argentina 2022); published ~2026-06-07. No per-team probabilities published. Side predictions: Lamine Yamal top scorer, Pedri most assists",
+        "url": "https://www.videogameschronicle.com/news/ea-has-predicted-who-will-win-the-2026-fifa-world-cup-after-getting-the-last-four-right/",
+        "top_pick": "Spain",
+        "probabilities": []
+      },
+      {
+        "source_name": "Bookmaker-implied probabilities (FanDuel and US sportsbook consensus, early June 2026)",
+        "method": "Raw implied probabilities converted from outright winner odds (not normalized for overround): Spain +475, France +500, England +650, Argentina +900; Brazil ~+850 biggest non-European favorite",
+        "url": "https://www.foxsports.com/stories/soccer/world-cup-2026-champion-odds",
+        "top_pick": "Spain",
+        "probabilities": [
+          {
+            "team": "Spain",
+            "champion_prob_pct": 17.4
+          },
+          {
+            "team": "France",
+            "champion_prob_pct": 16.7
+          },
+          {
+            "team": "England",
+            "champion_prob_pct": 13.3
+          },
+          {
+            "team": "Argentina",
+            "champion_prob_pct": 10
+          }
+        ]
+      },
+      {
+        "source_name": "Silver Bulletin / Nate Silver PELE model (FiveThirtyEight-style)",
+        "method": "PELE soccer power-rating model (successor incorporating SPI features) with player market values, home-field advantage and attack/defense Tilt rating; 100,000 tournament simulations; published 2026-06-10. Spain is the top-rated team in PELE; exact per-team championship percentages are subscriber-only (not retrievable). Notes prediction markets have France and Spain as co-favorites at ~16%",
+        "url": "https://www.natesilver.net/p/world-cup-2026-odds-predictions",
+        "top_pick": "Spain",
+        "probabilities": []
+      }
+    ],
+    "sources": [
+      "https://theanalyst.com/articles/who-will-win-2026-fifa-world-cup-predictions-opta-supercomputer",
+      "https://x.com/DataOfStats/status/2063212898504290540",
+      "https://www.r-bloggers.com/2026/06/football-meets-machine-learning-forecasting-the-2026-fifa-world-cup/",
+      "https://theconversation.com/we-ran-100-000-computer-simulations-of-the-world-cup-and-the-winner-will-be-284629",
+      "https://www.videogameschronicle.com/news/ea-has-predicted-who-will-win-the-2026-fifa-world-cup-after-getting-the-last-four-right/",
+      "https://www.sportbible.com/football/football-news/fifa-world-cup/ea-sports-world-cup-2026-winner-prediction-666182-20260607",
+      "https://www.foxsports.com/stories/soccer/world-cup-2026-champion-odds",
+      "https://www.espn.com/espn/betting/story/_/id/48386952/espn-soccer-futbol-world-cup-betting-odds-championship-groups",
+      "https://www.natesilver.net/p/world-cup-2026-odds-predictions"
+    ]
+  }
+}

@@ -25,3 +25,17 @@
 2. `python3 -m src.score` —— 逐场计分写入 `data/score_log.csv`。
 3. `python3 -m src.simulate --n 100000 --sigma 75` —— 锁定条件重模拟。
 4. `python3 -m src.build_site` 刷新展示页后提交推送。
+
+## 淘汰赛逐场存证账本（2026-07-02 起）
+
+- `ko_forecasts.csv`：**append-only** 逐场晋级概率账本。每场淘汰赛在双方确定后、
+  且数据源仍标记为未开赛（SCHEDULED）时追加一行，之后永不改写；git 提交时间即公开时间戳。
+  错过赛前窗口的场次（生成时已开球）**永不补录**——完整性优先于覆盖率。
+- `p1_advance` = team1 晋级概率（90 分钟 Dixon-Coles + 加时 1/3 强度 + 点球五五开的解析解，
+  对 σ=75 实力扰动做 Gauss-Hermite 积分平均；`p1_advance_sigma0` 为无扰动点估计）。
+  评级为赛前冻结 Elo，故已完赛场次的回算值与赛前值相同。
+- 对阵生成：真实小组终榜 + 官方公布对阵（`data/schedule_ko.csv`，`src/build_schedule_ko.py`）。
+  第三名槽位以官方公布为准——Annex-C 回溯近似在真实组合上与官方表存在两对互换（74/77、82/85），
+  已按公布对阵校正并在模拟中锁定真实分配。
+- 计分：`src/score.py` 对账本内已完赛场次算二分类 Brier（2·(p−o)²，两类和约定，
+  与小组赛三结果 Brier 不同尺度），写 `data/score_log_ko.csv`。

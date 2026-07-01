@@ -98,6 +98,41 @@ def _json(path: str):
         return json.load(f)
 
 
+def _ko_block() -> list[dict]:
+    """Knockout bracket state: all 32 slots (matches 73-104) with teams once
+    determined (schedule_ko.csv), model advancement probability for the first
+    listed team (ko_forecast.csv, sigma=75-averaged), and real results."""
+    from .tournament import parse_source
+
+    bracket = _json(os.path.join(DATA, "bracket.json")) or {}
+    sched = {int(r["match"]): r for r in _csv(os.path.join(DATA, "schedule_ko.csv"))}
+    fc = {int(r["match"]): r for r in _csv(os.path.join(DATA, "ko_forecast.csv"))}
+    res = {int(r["match"]): r for r in _csv(os.path.join(DATA, "results.csv"))
+           if int(r["match"]) >= 73}
+
+    def short(src: str) -> str:
+        kind, val = parse_source(src)
+        return {"W": f"1{val}", "R": f"2{val}", "T": "3rd",
+                "M": f"W{val}", "L": f"L{val}"}[kind]
+
+    out = []
+    for rnd in bracket.get("rounds", []):
+        for s in rnd["slots"]:
+            m = int(s["match"])
+            row = {"match": m, "round": rnd["round"], "date": s.get("date"),
+                   "city": s.get("city"),
+                   "src1": short(s["home_source"]), "src2": short(s["away_source"])}
+            if m in sched:
+                row.update(team1=sched[m]["team1"], team2=sched[m]["team2"])
+            if m in fc:
+                row["p1"] = fc[m]["p1_advance"]
+            if m in res:
+                row.update(score1=res[m]["score1"], score2=res[m]["score2"],
+                           winner=res[m]["winner"])
+            out.append(row)
+    return out
+
+
 def api_all() -> dict:
     summary = _csv(os.path.join(DATA, "report_summary.csv"))
     teams = pd.read_csv(os.path.join(DATA, "teams.csv"))
@@ -179,6 +214,7 @@ def api_all() -> dict:
         "benchmarks": bench_rows,
         "status": dict(STATUS),
         "results_count": int(len(res)),
+        "ko": _ko_block(),
     }
 
 
