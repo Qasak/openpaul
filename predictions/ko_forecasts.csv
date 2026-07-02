@@ -10,5 +10,4 @@ forecast_at,sigma,match,round,date,city,country,team1,team2,elo1,elo2,p1_advance
 2026-07-01T22:07:19Z,75.0,90,R16,2026-07-04,Houston,United States,Canada,Morocco,1788,1827,0.4575,0.4558,0.3231,0.2788,0.3982
 2026-07-01T22:07:19Z,75.0,91,R16,2026-07-05,East Rutherford (New York/New Jersey),United States,Brazil,Norway,1991,1914,0.5834,0.5867,0.4365,0.2747,0.2888
 2026-07-01T22:07:19Z,75.0,92,R16,2026-07-05,Mexico City,Mexico,Mexico,England,1875,2021,0.45,0.4479,0.3166,0.2782,0.4052
-2026-07-02T14:37:49Z,75.0,94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273
-2026-07-02T14:37:50Z,75.0,94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273
+2026-07-02T09:08:14Z,75.0,94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273

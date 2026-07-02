@@ -1,0 +1,14 @@
+{
+  "a": 0.20885739684330235,
+  "b_fav": 0.0015851445454171192,
+  "b_dog": 0.002036621245946649,
+  "rho": -0.04259433121115519,
+  "home_elo": 100.0,
+  "base_lambda": 1.232269260513704,
+  "max_goals": 10,
+  "lambda_clip": [
+    0.15,
+    6.0
+  ],
+  "fit": "Round-4 two-slope MLE on international matches 2018-01-01..2026-06-09 (n=8103); ship criteria S1/S2 recorded in fit_validation_r4.json"
+}

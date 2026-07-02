@@ -1,0 +1,15 @@
+{
+  "n_matches_applied": 82,
+  "rule": "eloratings.net, K=60, G margin multiplier, shootout=draw, host home adv +100 (validated in elo_history: corr 0.986)",
+  "base": "official eloratings.net 2026-06-10 (data/elo.csv)",
+  "top_movers": {
+    "Uzbekistan": -83.6,
+    "Panama": -71.6,
+    "United States": 71.0,
+    "France": 70.3,
+    "Mexico": 67.8,
+    "Ecuador": -67.8,
+    "Tunisia": -66.0,
+    "Ghana": 65.0
+  }
+}
