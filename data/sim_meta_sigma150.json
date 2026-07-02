@@ -17,9 +17,9 @@
   },
   "params_path": "data/params_fit.json",
   "locked_matches": 72,
-  "locked_knockout": 8,
+  "locked_knockout": 10,
   "ko_lock_mismatches": 0,
-  "runtime_s": 23.3,
+  "runtime_s": 21.6,
   "third_alloc_fallbacks": 0,
   "third_alloc_source": "schedule_ko.csv (real pairings)"
 }
