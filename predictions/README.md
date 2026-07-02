@@ -39,12 +39,3 @@
   已按公布对阵校正并在模拟中锁定真实分配。
 - 计分：`src/score.py` 对账本内已完赛场次算二分类 Brier（2·(p−o)²，两类和约定，
   与小组赛三结果 Brier 不同尺度），写 `data/score_log_ko.csv`。
-
-### r4 滚动评级账本（Round 4 起，2026-07-02）
-
-- `ko_forecasts_r4.csv`：与 v2 账本同规则的**第二条 append-only 账本**，唯一区别是评级来源——
-  v2 用冻结的 2026-06-10 赛前 Elo（原封方法论），r4 用 `data/elo_current.csv` 滚动评级
-  （eloratings 规则重放已完赛场次，2018/2022 两届回测验证 KO logloss −8%，REPORT §10）。
-- 双轨并行的目的：**防"改口径洗记录"**——升级模型不抹掉旧口径，两轨对每场剩余比赛
-  都在开球前入账，`src/score.py` 分别计分并在共同场次上输出头对头 Brier
-  （data/score_log_ko.csv = v2，data/score_log_ko_r4.csv = r4）。

@@ -1,22 +1,22 @@
 match,round,date,city,country,team1,team2,elo1,elo2,p1_advance,p1_advance_sigma0,p1_win90,p_draw90,p2_win90
-73,R32,2026-06-28,Inglewood (Los Angeles),United States,South Africa,Canada,1558.7,1764.6,0.286,0.2779,0.1868,0.2434,0.5698
-74,R32,2026-06-29,Foxborough (Boston),United States,Germany,Paraguay,1907.5,1823.2,0.5912,0.5948,0.4439,0.2737,0.2824
-75,R32,2026-06-29,Guadalupe (Monterrey),Mexico,Netherlands,Morocco,1972.1,1886.2,0.5929,0.5966,0.4456,0.2734,0.281
-76,R32,2026-06-29,Houston,United States,Brazil,Japan,2030.5,1887.6,0.6523,0.6582,0.5044,0.2619,0.2337
-77,R32,2026-06-30,East Rutherford (New York/New Jersey),United States,France,Sweden,2133.3,1731.5,0.8678,0.8785,0.7578,0.1619,0.0802
-78,R32,2026-06-30,Arlington (Dallas),United States,Ivory Coast,Norway,1727.7,1935.1,0.2845,0.2765,0.1858,0.2429,0.5713
-79,R32,2026-06-30,Mexico City,Mexico,Mexico,Ecuador,1942.8,1870.2,0.682,0.689,0.5353,0.2538,0.2109
-80,R32,2026-07-01,Atlanta,United States,England,DR Congo,2043.9,1704.6,0.826,0.8365,0.702,0.1902,0.1079
-81,R32,2026-07-01,Santa Clara (San Francisco Bay Area),United States,United States,Bosnia and Herzegovina,1797.0,1604.7,0.7899,0.7998,0.657,0.2105,0.1325
-82,R32,2026-07-01,Seattle,United States,Belgium,Senegal,1910.2,1815.1,0.6026,0.6067,0.455,0.2719,0.2731
-83,R32,2026-07-02,Toronto,Canada,Portugal,Croatia,1986.8,1903.8,0.5898,0.5934,0.4426,0.2739,0.2835
-84,R32,2026-07-02,Inglewood (Los Angeles),United States,Spain,Austria,2143.9,1835.0,0.803,0.8132,0.6731,0.2035,0.1234
-85,R32,2026-07-02,Vancouver,Canada,Switzerland,Algeria,1914.3,1776.0,0.6476,0.6533,0.4997,0.263,0.2373
-86,R32,2026-07-03,Miami Gardens (Miami),United States,Argentina,Cape Verde,2147.2,1622.4,0.9298,0.9392,0.8509,0.1078,0.0413
-87,R32,2026-07-03,Kansas City,United States,Colombia,Ghana,2004.1,1575.0,0.8839,0.8945,0.7806,0.1495,0.0699
-88,R32,2026-07-03,Arlington (Dallas),United States,Australia,Egypt,1800.3,1742.2,0.5631,0.5657,0.4173,0.2771,0.3056
-89,R16,2026-07-04,Philadelphia,United States,Paraguay,France,1823.2,2133.3,0.196,0.1858,0.1228,0.2029,0.6743
-90,R16,2026-07-04,Houston,United States,Canada,Morocco,1764.6,1886.2,0.3696,0.3645,0.2509,0.2668,0.4823
-91,R16,2026-07-05,East Rutherford (New York/New Jersey),United States,Brazil,Norway,2030.5,1935.1,0.603,0.6071,0.4553,0.2719,0.2728
-92,R16,2026-07-05,Mexico City,Mexico,Mexico,England,1942.8,2043.9,0.4988,0.4988,0.3589,0.2801,0.361
-94,R16,2026-07-06,Seattle,United States,United States,Belgium,1797.0,1910.2,0.4856,0.485,0.3473,0.28,0.3727
+73,R32,2026-06-28,Inglewood (Los Angeles),United States,South Africa,Canada,1517,1788,0.2277,0.2182,0.1448,0.2192,0.6359
+74,R32,2026-06-29,Foxborough (Boston),United States,Germany,Paraguay,1932,1834,0.6057,0.6099,0.458,0.2714,0.2706
+75,R32,2026-06-29,Guadalupe (Monterrey),Mexico,Netherlands,Morocco,1948,1827,0.6298,0.6349,0.4817,0.2669,0.2513
+76,R32,2026-06-29,Houston,United States,Brazil,Japan,1991,1906,0.5919,0.5956,0.4446,0.2736,0.2818
+77,R32,2026-06-30,East Rutherford (New York/New Jersey),United States,France,Sweden,2063,1712,0.8343,0.8449,0.7128,0.185,0.1023
+78,R32,2026-06-30,Arlington (Dallas),United States,Ivory Coast,Norway,1695,1914,0.2737,0.2654,0.1779,0.2389,0.5833
+79,R32,2026-06-30,Mexico City,Mexico,Mexico,Ecuador,1875,1938,0.5403,0.5419,0.3962,0.2789,0.3249
+80,R32,2026-07-01,Atlanta,United States,England,DR Congo,2021,1652,0.8467,0.8574,0.7291,0.1769,0.094
+81,R32,2026-07-01,Santa Clara (San Francisco Bay Area),United States,United States,Bosnia and Herzegovina,1726,1595,0.7372,0.7459,0.5955,0.2346,0.1699
+82,R32,2026-07-01,Seattle,United States,Belgium,Senegal,1894,1860,0.537,0.5385,0.3932,0.2791,0.3277
+83,R32,2026-07-02,Toronto,Canada,Portugal,Croatia,1986,1912,0.5802,0.5834,0.4334,0.2751,0.2914
+84,R32,2026-07-02,Inglewood (Los Angeles),United States,Spain,Austria,2157,1830,0.8169,0.8273,0.6904,0.1956,0.114
+85,R32,2026-07-02,Vancouver,Canada,Switzerland,Algeria,1891,1760,0.6401,0.6456,0.4921,0.2647,0.2432
+86,R32,2026-07-03,Miami Gardens (Miami),United States,Argentina,Cape Verde,2115,1578,0.9345,0.9437,0.8588,0.1028,0.0384
+87,R32,2026-07-03,Kansas City,United States,Colombia,Ghana,1982,1510,0.9064,0.9166,0.814,0.1303,0.0557
+88,R32,2026-07-03,Arlington (Dallas),United States,Australia,Egypt,1777,1696,0.5877,0.5912,0.4406,0.2742,0.2853
+89,R16,2026-07-04,Philadelphia,United States,Paraguay,France,1834,2063,0.2646,0.2559,0.1712,0.2353,0.5935
+90,R16,2026-07-04,Houston,United States,Canada,Morocco,1788,1827,0.4575,0.4558,0.3231,0.2788,0.3982
+91,R16,2026-07-05,East Rutherford (New York/New Jersey),United States,Brazil,Norway,1991,1914,0.5834,0.5867,0.4365,0.2747,0.2888
+92,R16,2026-07-05,Mexico City,Mexico,Mexico,England,1875,2021,0.45,0.4479,0.3166,0.2782,0.4052
+94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273

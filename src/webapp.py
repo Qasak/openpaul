@@ -45,11 +45,8 @@ def _recalc(mode: str) -> None:
     from .report import build_summary
     from . import score as score_mod
 
-    from . import elo_update
-
     n = 100_000 if mode == "full" else 20_000
     steps = [
-        ("Elo 滚动更新", elo_update.main),
         ("模拟 σ=75（主模型）", lambda: sim_run(n, 42, 75.0, "")),
         ("模拟 σ=0（敏感性）", lambda: sim_run(n, 42, 0.0, "_sigma0")),
         ("模拟 σ=150（敏感性）", lambda: sim_run(n, 42, 150.0, "_sigma150")),

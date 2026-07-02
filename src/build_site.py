@@ -652,8 +652,8 @@ const I18N={zh:{
  thTeam:'队伍',thChampion:'夺冠',thFinal:'决赛',thSF:'四强',thQF:'八强',thR16:'16强',thR32:'32强',
  thOdds:'锐利赔率',thImp:'市场隐含',thEdge:'边际pp',thEV:'EV',
  winProb:'夺冠概率',edgeWord:'边际',vsModel:'模型',vsMkt:'市场',
- foot1:'<b>方法链</b> · eloratings.net 评级 → 49,400 场历史重放重算逐场 Elo（vs 官方 corr 0.986）→ Dixon-Coles 在 8,103 场上 MLE 拟合（其中 1,309 场样本外验证，logloss 0.8325）→ σ=75 实力扰动（2018/2022 两届回测选定）→ <b>赛中评级滚动更新</b>（Round 4：eloratings 规则重放已完赛场次，两届回测淘汰赛 logloss −8%）→ 100,000 次全赛事蒙特卡洛（2026 新版规则完整实现）→ 锐利盘市场对照',
- foot2:'<b>公开核验</b> · 全部 72 场小组赛逐场预测于揭幕战开球前 git 提交，提交哈希经 RFC3161 可信时间戳锚定（freetsa.org）；已完赛场次锁定真实结果条件重模拟，逐场 Brier 公开计分；淘汰赛逐场晋级概率逐场于开球前追加至公开账本（predictions/ko_forecasts.csv + ko_forecasts_r4.csv 双轨，只增不改，冻结/滚动评级头对头计分）',
+ foot1:'<b>方法链</b> · eloratings.net 评级 → 49,400 场历史重放重算逐场 Elo（vs 官方 corr 0.986）→ Dixon-Coles 在 8,103 场上 MLE 拟合（其中 1,309 场样本外验证，logloss 0.8325）→ σ=75 实力扰动（2018/2022 两届回测选定）→ 100,000 次全赛事蒙特卡洛（2026 新版规则完整实现）→ 锐利盘市场对照',
+ foot2:'<b>公开核验</b> · 全部 72 场小组赛逐场预测于揭幕战开球前 git 提交，提交哈希经 RFC3161 可信时间戳锚定（freetsa.org）；已完赛场次锁定真实结果条件重模拟，逐场 Brier 公开计分；淘汰赛逐场晋级概率逐场于开球前追加至公开账本（predictions/ko_forecasts.csv，只增不改）',
  foot3:'本页面为静态数据快照，方法论演示，<b>非投注建议</b>。',
  brand:'🐙 <b>OpenPaul</b> — 2010 年章鱼保罗用触手挑选赢家，16 年后我们用 100,000 次蒙特卡洛。预测可以开源，章鱼只负责可爱。',
 },en:{
@@ -692,8 +692,8 @@ const I18N={zh:{
  thTeam:'Team',thChampion:'Title',thFinal:'Final',thSF:'SF',thQF:'QF',thR16:'R16',thR32:'R32',
  thOdds:'Sharp odds',thImp:'Implied',thEdge:'Edge pp',thEV:'EV',
  winProb:'Title probability',edgeWord:'Edge',vsModel:'Model',vsMkt:'Market',
- foot1:'<b>Method chain</b> · eloratings.net ratings → 49,400-match historical replay of per-game Elo (corr 0.986 vs official) → Dixon-Coles MLE on 8,103 matches (1,309 held out, logloss 0.8325) → σ=75 strength noise (chosen by backtests on the 2018/2022 World Cups) → <b>in-tournament rating updates</b> (Round 4: eloratings rule replayed over finished matches, knockout logloss −8% across two backtested Cups) → 100,000 full-tournament Monte Carlo runs (complete 2026 ruleset) → sharp-market comparison',
- foot2:'<b>Public verification</b> · all 72 group-stage forecasts committed to git before the opening kickoff, commit hashes anchored with RFC3161 trusted timestamps (freetsa.org); finished matches are locked into conditional re-simulation and Brier-scored in public; knockout advancement forecasts are appended per match to dual public pre-kickoff ledgers (predictions/ko_forecasts.csv + ko_forecasts_r4.csv, append-only, frozen vs rolled ratings scored head-to-head)',
+ foot1:'<b>Method chain</b> · eloratings.net ratings → 49,400-match historical replay of per-game Elo (corr 0.986 vs official) → Dixon-Coles MLE on 8,103 matches (1,309 held out, logloss 0.8325) → σ=75 strength noise (chosen by backtests on the 2018/2022 World Cups) → 100,000 full-tournament Monte Carlo runs (complete 2026 ruleset) → sharp-market comparison',
+ foot2:'<b>Public verification</b> · all 72 group-stage forecasts committed to git before the opening kickoff, commit hashes anchored with RFC3161 trusted timestamps (freetsa.org); finished matches are locked into conditional re-simulation and Brier-scored in public; knockout advancement forecasts are appended per match to a public pre-kickoff ledger (predictions/ko_forecasts.csv, append-only)',
  foot3:'This page is a static data snapshot and a methodology demo — <b>not betting advice</b>.',
  brand:'🐙 <b>OpenPaul</b> — in 2010, Paul the Octopus picked winners with tentacles; 16 years on, we use 100,000 Monte Carlo runs. The forecasts are open source — the octopus is just the mascot.',
 }};
@@ -756,7 +756,7 @@ function setHero(i){
   const f=document.getElementById('champFlag');
   f.src=fl(r.team,320);f.alt=nm(r.team);
   document.getElementById('champName').innerHTML=
-    nm(r.team)+`<span class="en">Nº${i+1} · ${r.team} · ELO ${Math.round(r.elo)}</span>`;
+    nm(r.team)+`<span class="en">Nº${i+1} · ${r.team} · ELO ${r.elo}</span>`;
   document.getElementById('champSub').innerHTML=
     `${t('subProb')} [<b>${pct(r.p_s150)}</b>, <b>${pct(r.p_s0)}</b>] · ${t('subFinal')} <b>${pct(r.p_final)}</b> · ${t('subSF')} <b>${pct(r.p_sf)}</b>`;
   countUp(document.getElementById('champPct'),r.p_champion*100,1,900);
@@ -1237,7 +1237,7 @@ function table(){
     `<tr>${COLS().map(([k,l])=>`<th data-k="${k}">${l}${sortKey===k?(sortAsc?' ▲':' ▼'):''}</th>`).join('')}</tr>`+
     rows.map(r=>`<tr>
       <td><span class="tf">${fimg(r.team,80)}${nm(r.team)}</span></td>
-      <td class="num">${r.elo!=null?Math.round(r.elo):'—'}</td>
+      <td class="num">${r.elo!=null?r.elo:'—'}</td>
       <td class="num goldc"${tableSeen?'':' data-flick="'+pct(r.p_champion,2)+'"'}>${pct(r.p_champion,2)}</td>
       <td class="num">${pct(r.p_final)}</td><td class="num">${pct(r.p_sf)}</td><td class="num">${pct(r.p_qf)}</td>
       <td class="num">${pct(r.p_r16)}</td><td class="num">${pct(r.p_r32)}</td>

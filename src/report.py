@@ -19,7 +19,7 @@ import sys
 import pandas as pd
 
 from .load_data import CITY_COUNTRY, DATA, HOSTS, canon, load_all
-from .model import MatchModel
+from .model import MatchModel, goal_rates
 from .simulate import venue_bonus
 
 ROOT = os.path.dirname(DATA)
@@ -72,7 +72,7 @@ def build_match_forecasts(today: str) -> pd.DataFrame:
             CITY_COUNTRY.get(str(r.get("city") or "").split(" (")[0].strip())
         d = mm.diff(elo[t1], elo[t2], venue_bonus(t1, country), venue_bonus(t2, country))
         w, dr, l = mm.wdl(d)
-        lam1, lam2 = mm.rates(d)
+        lam1, lam2 = goal_rates(d, mm.a, mm.b)
         rows.append({
             "match": int(r["match"]), "date": r["date"], "group": r["group"],
             "team1": t1, "team2": t2,

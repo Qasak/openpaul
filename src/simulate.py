@@ -54,21 +54,6 @@ def run(n_sims: int = 100_000, seed: int = 42, sigma: float = 0.0,
     rng = np.random.default_rng(seed)
 
     elo = data["elo"]
-    # Round 4: ratings roll forward with played matches (data/elo_current.csv,
-    # produced by src/elo_update.py; validated on 2018/2022 — KO stage-reach
-    # logloss 0.2123 frozen -> 0.1954 rolled). Locked matches ignore ratings,
-    # so this only affects not-yet-played fixtures. WC26_FROZEN_ELO=1 opts out.
-    elo_source = "frozen (data/elo.csv)"
-    elo_cur_path = os.path.join(DATA, "elo_current.csv")
-    if os.path.exists(elo_cur_path) and not os.environ.get("WC26_FROZEN_ELO"):
-        import pandas as pd
-        cur = pd.read_csv(elo_cur_path)
-        cur["team"] = cur["team"].map(canon)
-        elo = dict(zip(cur["team"], cur["elo"]))
-        missing = set(data["elo"]) - set(elo)
-        if missing:
-            raise ValueError(f"elo_current.csv missing teams: {sorted(missing)}")
-        elo_source = "rolled (data/elo_current.csv, src/elo_update.py)"
     fifa_rank = dict(zip(data["fifa"]["team"], data["fifa"]["rank"]))
     sched = data["sched"].sort_values("match").reset_index(drop=True)
 
@@ -256,7 +241,6 @@ def run(n_sims: int = 100_000, seed: int = 42, sigma: float = 0.0,
         "third_alloc_fallbacks": third_alloc_fallbacks,
         "third_alloc_source": ("schedule_ko.csv (real pairings)"
                                if alloc_override else "annex_c_backtracking"),
-        "elo_source": elo_source,
     }
     with open(os.path.join(DATA, f"sim_meta{out_suffix}.json"), "w") as f:
         json.dump(meta, f, indent=2)

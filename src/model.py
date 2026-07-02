@@ -43,16 +43,6 @@ def goal_rates(d: float, a: float, b: float) -> tuple[float, float]:
     return lam1, lam2
 
 
-def goal_rates2(d: float, a: float, b_fav: float, b_dog: float) -> tuple[float, float]:
-    """Round-4 two-slope mapping: the favourite's rate grows with the gap at
-    slope b_fav, the underdog's decays at slope b_dog. Reduces exactly to
-    goal_rates when b_fav == b_dog (continuous at d=0 by construction)."""
-    s1, s2 = (b_fav, b_dog) if d >= 0 else (b_dog, b_fav)
-    lam1 = float(np.clip(math.exp(a + s1 * d), *LAMBDA_CLIP))
-    lam2 = float(np.clip(math.exp(a - s2 * d), *LAMBDA_CLIP))
-    return lam1, lam2
-
-
 def score_grid(lam1: float, lam2: float, rho: float = RHO) -> np.ndarray:
     """(MAX_GOALS+1)^2 matrix of P(score1=i, score2=j), Dixon-Coles adjusted."""
     p1 = poisson.pmf(_GOALS, lam1)
@@ -119,20 +109,11 @@ class MatchModel:
 
     def __init__(self, params: dict):
         self.a = params["a"]
-        self.b = params.get("b")                       # single-slope (v2)
-        self.b_fav = params.get("b_fav", self.b)       # two-slope (round 4)
-        self.b_dog = params.get("b_dog", self.b)
-        if self.b_fav is None or self.b_dog is None:
-            raise ValueError("params need either 'b' or both 'b_fav'/'b_dog'")
-        if self.b is None:
-            self.b = self.b_fav                        # legacy readers
+        self.b = params["b"]
         self.rho = params["rho"]
         self.home_elo = params["home_elo"]
         self._cache: dict[int, np.ndarray] = {}   # d_rounded -> flat cumsum
         self._et_cache: dict[int, np.ndarray] = {}
-
-    def rates(self, d: float) -> tuple[float, float]:
-        return goal_rates2(d, self.a, self.b_fav, self.b_dog)
 
     def _key(self, d: float) -> int:
         return int(round(d / 5.0) * 5)
@@ -140,14 +121,14 @@ class MatchModel:
     def _cumsum(self, d: float) -> np.ndarray:
         k = self._key(d)
         if k not in self._cache:
-            lam1, lam2 = self.rates(k)
+            lam1, lam2 = goal_rates(k, self.a, self.b)
             self._cache[k] = np.cumsum(score_grid(lam1, lam2, self.rho).ravel())
         return self._cache[k]
 
     def _et_cumsum(self, d: float) -> np.ndarray:
         k = self._key(d)
         if k not in self._et_cache:
-            lam1, lam2 = self.rates(k)
+            lam1, lam2 = goal_rates(k, self.a, self.b)
             g = np.outer(poisson.pmf(_GOALS, lam1 * ET_FACTOR),
                          poisson.pmf(_GOALS, lam2 * ET_FACTOR))
             self._et_cache[k] = np.cumsum((g / g.sum()).ravel())
@@ -184,5 +165,5 @@ class MatchModel:
         return bool(rng.random() < 0.5)
 
     def wdl(self, d: float) -> tuple[float, float, float]:
-        lam1, lam2 = self.rates(d)
+        lam1, lam2 = goal_rates(d, self.a, self.b)
         return wdl_from_grid(score_grid(lam1, lam2, self.rho))
