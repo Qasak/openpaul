@@ -42,13 +42,27 @@ def devig_1x2(o1: float, od: float, o2: float) -> np.ndarray:
 
 def score_knockout() -> None:
     """Binary advancement Brier for knockout matches, scored ONLY against the
-    pre-match ledger predictions/ko_forecasts.csv (rows appended before
-    kickoff, never rewritten). Two-class sum convention: 2*(p-o)^2 — not
-    directly comparable to the 3-outcome group-stage Brier."""
-    ledger = os.path.join(ROOT, "predictions", "ko_forecasts.csv")
-    if not os.path.exists(ledger):
-        return
-    fc = pd.read_csv(ledger)
+    pre-match ledgers (rows appended before kickoff, never rewritten):
+    v2 = predictions/ko_forecasts.csv (frozen ratings, sealed baseline),
+    r4 = predictions/ko_forecasts_r4.csv (rolled ratings, production).
+    Two-class sum convention: 2*(p-o)^2 — not directly comparable to the
+    3-outcome group-stage Brier. Prints a head-to-head on common matches."""
+    logs = {}
+    for tag, fname, out_name in (
+            ("v2", "ko_forecasts.csv", "score_log_ko.csv"),
+            ("r4", "ko_forecasts_r4.csv", "score_log_ko_r4.csv")):
+        ledger = os.path.join(ROOT, "predictions", fname)
+        if os.path.exists(ledger):
+            logs[tag] = _score_ko_ledger(pd.read_csv(ledger), tag, out_name)
+    if all(t in logs and logs[t] is not None for t in ("v2", "r4")):
+        common = logs["v2"].merge(logs["r4"], on="match", suffixes=("_v2", "_r4"))
+        if len(common):
+            print(f"head-to-head (n={len(common)} common): "
+                  f"v2 Brier {common['brier_v2'].mean():.4f} vs "
+                  f"r4 Brier {common['brier_r4'].mean():.4f}")
+
+
+def _score_ko_ledger(fc: pd.DataFrame, tag: str, out_name: str):
     res = pd.read_csv(os.path.join(DATA, "results.csv"))
     res = res[res["match"] >= 73].dropna(subset=["winner"])
     rows = []
@@ -60,7 +74,7 @@ def score_knockout() -> None:
         if {canon(m["team1"]), canon(m["team2"])} != \
                 {canon(r["team1"]), canon(r["team2"])}:
             print(f"WARNING: ko match {int(r['match'])} teams disagree between "
-                  f"ledger and result — skipping")
+                  f"{tag} ledger and result — skipping")
             continue
         p1 = float(m["p1_advance"])
         o1 = 1.0 if canon(r["winner"]) == canon(m["team1"]) else 0.0
@@ -73,14 +87,15 @@ def score_knockout() -> None:
                      "logloss": round(-float(np.log(max(p_win, 1e-12))), 4),
                      "forecast_at": m["forecast_at"]})
     if not rows:
-        return
+        return None
     out = pd.DataFrame(rows).sort_values("match")
-    out.to_csv(os.path.join(DATA, "score_log_ko.csv"), index=False)
-    print("\nknockout (pre-match ledger only):")
+    out.to_csv(os.path.join(DATA, out_name), index=False)
+    print(f"\nknockout [{tag}] (pre-match ledger only):")
     print(out.to_string(index=False))
-    print(f"ko: mean Brier {out['brier'].mean():.4f}  "
+    print(f"ko[{tag}]: mean Brier {out['brier'].mean():.4f}  "
           f"mean logloss {out['logloss'].mean():.4f}  (n={len(out)}, "
           f"binary two-class convention)")
+    return out
 
 
 def main(forecast_path: str = DEFAULT_FORECAST) -> None:

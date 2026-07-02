@@ -11,16 +11,19 @@ reported alongside. Ratings are the frozen pre-tournament Elo, so the
 numbers for already-played fixtures are identical to what the model said
 before kickoff.
 
-Outputs:
-  data/ko_forecast.csv          every determined knockout fixture (regenerated)
-  predictions/ko_forecasts.csv  append-only pre-match ledger: a fixture is
-                                added exactly once, and only while the source
-                                feed still lists it as SCHEDULED; rows are
-                                never rewritten — the git commit supplies the
-                                public timestamp. Feed unreachable -> no
-                                append this run (integrity over coverage).
+Round 4 runs TWO variants in parallel (public dual-track verification):
+  r4 (production): ratings from data/elo_current.csv (rolled forward with
+     played matches, src/elo_update.py) -> data/ko_forecast.csv +
+     append-only ledger predictions/ko_forecasts_r4.csv
+  v2 (sealed baseline): frozen 2026-06-10 ratings -> data/ko_forecast_v2.csv
+     + the original ledger predictions/ko_forecasts.csv
+Both ledgers follow the same sealing rule: a fixture is added exactly once,
+and only while the source feed still lists it as SCHEDULED; rows are never
+rewritten — the git commit supplies the public timestamp. Feed unreachable
+-> no append this run (integrity over coverage). score.py Brier-scores the
+two ledgers head-to-head on their common matches.
 
-Usage:  python3 -m src.ko_forecast
+Usage:  python3 -m src.ko_forecast [--variant r4|v2]     (default r4)
 """
 from __future__ import annotations
 
@@ -34,12 +37,18 @@ import numpy as np
 from scipy.stats import poisson
 
 from .load_data import DATA, HOSTS, canon, load_all
-from .model import ET_FACTOR, MAX_GOALS, MatchModel, goal_rates, wdl_from_grid
+from .model import ET_FACTOR, MAX_GOALS, MatchModel, wdl_from_grid
 
 ROOT = os.path.dirname(DATA)
 SCHED_KO = os.path.join(DATA, "schedule_ko.csv")
-OUT = os.path.join(DATA, "ko_forecast.csv")
-LEDGER = os.path.join(ROOT, "predictions", "ko_forecasts.csv")
+VARIANTS = {
+    "r4": {"out": os.path.join(DATA, "ko_forecast.csv"),
+           "ledger": os.path.join(ROOT, "predictions", "ko_forecasts_r4.csv"),
+           "elo": "current"},
+    "v2": {"out": os.path.join(DATA, "ko_forecast_v2.csv"),
+           "ledger": os.path.join(ROOT, "predictions", "ko_forecasts.csv"),
+           "elo": "frozen"},
+}
 SIGMA = 75.0          # primary simulation's strength-uncertainty (backtest-selected)
 GH_NODES = 41
 
@@ -51,7 +60,7 @@ LEDGER_COLS = ["forecast_at", "sigma"] + OUT_COLS
 
 def p_advance_point(mm: MatchModel, d: float) -> tuple[float, float, float, float]:
     """(p1_advance, w90, d90, l90) for a single Elo difference d."""
-    lam1, lam2 = goal_rates(d, mm.a, mm.b)
+    lam1, lam2 = mm.rates(d)
     from .model import score_grid
     w, dr, l = wdl_from_grid(score_grid(lam1, lam2, mm.rho))
     goals = np.arange(MAX_GOALS + 1)
@@ -97,7 +106,9 @@ def scheduled_on_feed(fixtures: list[dict], teams: set[str]) -> set[int] | None:
             if status.get(frozenset((f["team1"], f["team2"]))) == "STATUS_SCHEDULED"}
 
 
-def main() -> int:
+def main(variant: str = "r4") -> int:
+    cfg = VARIANTS[variant]
+    OUT, LEDGER = cfg["out"], cfg["ledger"]
     data = load_all()
     if not os.path.exists(SCHED_KO):
         print("no data/schedule_ko.csv yet — nothing to forecast")
@@ -107,6 +118,11 @@ def main() -> int:
         os.path.join(DATA, "params.json")
     mm = MatchModel(json.load(open(params_path)))
     elo = data["elo"]
+    elo_cur = os.path.join(DATA, "elo_current.csv")
+    if cfg["elo"] == "current" and os.path.exists(elo_cur):
+        import pandas as pd
+        cur = pd.read_csv(elo_cur)
+        elo = {canon(t): e for t, e in zip(cur["team"], cur["elo"])}
 
     with open(SCHED_KO, encoding="utf-8") as f:
         fixtures = [r for r in csv.DictReader(f)]
@@ -133,7 +149,7 @@ def main() -> int:
         for row in sorted(rows, key=lambda x: x["match"]):
             w.writerow(row)
     os.replace(OUT + ".tmp", OUT)
-    print(f"ko_forecast.csv: {len(rows)} fixture(s)")
+    print(f"{os.path.basename(OUT)} [{variant}]: {len(rows)} fixture(s)")
 
     # ---- append-only pre-match ledger
     ledgered: set[int] = set()
@@ -164,10 +180,13 @@ def main() -> int:
                 w.writeheader()
             for r in sorted(new, key=lambda x: x["match"]):
                 w.writerow({"forecast_at": now, "sigma": SIGMA, **r})
-        print(f"ledger: {len(new)} pre-match forecast(s) appended "
+        print(f"ledger[{variant}]: {len(new)} pre-match forecast(s) appended "
               f"({[r['match'] for r in new]})")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--variant", choices=sorted(VARIANTS), default="r4")
+    sys.exit(main(ap.parse_args().variant))
