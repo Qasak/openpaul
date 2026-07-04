@@ -1,2 +1,5 @@
 match,round,team1,team2,winner,p_advancer,brier,logloss,forecast_at
 81,R32,United States,Bosnia and Herzegovina,United States,0.7372,0.1381,0.3049,2026-07-01T22:07:19Z
+86,R32,Argentina,Cape Verde,Argentina,0.9345,0.0086,0.0677,2026-07-01T22:07:19Z
+87,R32,Colombia,Ghana,Colombia,0.9064,0.0175,0.0983,2026-07-01T22:07:19Z
+88,R32,Australia,Egypt,Egypt,0.4123,0.6908,0.886,2026-07-01T22:07:19Z

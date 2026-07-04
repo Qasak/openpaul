@@ -81,3 +81,6 @@ match,date,group,team1,team2,score1,score2,winner
 80,2026-07-01,R32,England,DR Congo,2,1,England
 81,2026-07-01,R32,United States,Bosnia and Herzegovina,2,0,United States
 82,2026-07-01,R32,Belgium,Senegal,3,2,Belgium
+86,2026-07-03,R32,Argentina,Cape Verde,3,2,Argentina
+87,2026-07-03,R32,Colombia,Ghana,1,0,Colombia
+88,2026-07-03,R32,Australia,Egypt,1,1,Egypt

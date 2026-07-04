@@ -20,3 +20,4 @@ match,round,date,city,country,team1,team2,elo1,elo2,p1_advance,p1_advance_sigma0
 91,R16,2026-07-05,East Rutherford (New York/New Jersey),United States,Brazil,Norway,1991,1914,0.5834,0.5867,0.4365,0.2747,0.2888
 92,R16,2026-07-05,Mexico City,Mexico,Mexico,England,1875,2021,0.45,0.4479,0.3166,0.2782,0.4052
 94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273
+95,R16,2026-07-07,Atlanta,United States,Argentina,Egypt,2115,1696,0.8781,0.8887,0.7723,0.1541,0.0736
