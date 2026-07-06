@@ -17,9 +17,9 @@
   },
   "params_path": "/Users/wangjingsen/worldcup/data/params_fit.json",
   "locked_matches": 72,
-  "locked_knockout": 13,
+  "locked_knockout": 15,
   "ko_lock_mismatches": 0,
-  "runtime_s": 1925.6,
+  "runtime_s": 22.2,
   "third_alloc_fallbacks": 0,
   "third_alloc_source": "schedule_ko.csv (real pairings)",
   "elo_source": "rolled (data/elo_current.csv, src/elo_update.py)"

@@ -2,3 +2,5 @@ match,round,team1,team2,winner,p_advancer,brier,logloss,forecast_at
 86,R32,Argentina,Cape Verde,Argentina,0.9298,0.0099,0.0728,2026-07-02T12:14:27Z
 87,R32,Colombia,Ghana,Colombia,0.8839,0.027,0.1234,2026-07-02T12:14:27Z
 88,R32,Australia,Egypt,Egypt,0.4369,0.6342,0.8281,2026-07-02T12:14:27Z
+91,R16,Brazil,Norway,Norway,0.397,0.7272,0.9238,2026-07-02T12:14:27Z
+92,R16,Mexico,England,England,0.5012,0.4976,0.6908,2026-07-02T12:14:27Z

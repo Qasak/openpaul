@@ -21,3 +21,4 @@ match,round,date,city,country,team1,team2,elo1,elo2,p1_advance,p1_advance_sigma0
 92,R16,2026-07-05,Mexico City,Mexico,Mexico,England,1875,2021,0.45,0.4479,0.3166,0.2782,0.4052
 94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273
 95,R16,2026-07-07,Atlanta,United States,Argentina,Egypt,2115,1696,0.8781,0.8887,0.7723,0.1541,0.0736
+99,QF,2026-07-11,Miami Gardens (Miami),United States,Norway,England,1914,2021,0.3848,0.3803,0.263,0.2698,0.4672
