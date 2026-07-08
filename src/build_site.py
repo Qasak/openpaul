@@ -142,6 +142,12 @@ def build_payload() -> dict:
         d["pre"] = [{"team": r["team"], "p_champion": float(r["p_champion"])}
                     for _, r in pre.iterrows()]
         d["value_snapshot_date"] = "2026-06-11"
+    # Once the group stage is fully played, the completed group-stage panels
+    # (standings §05 + the 72-match forecast list §07) fold shut by default so
+    # the live knockout bracket is what greets the reader.
+    grp = [m for m in d.get("matches", []) if int(m.get("match", 0)) <= 72]
+    d["group_stage_done"] = bool(grp) and all(
+        m.get("score1") is not None for m in grp)
     d["built_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     return d
 
@@ -409,6 +415,33 @@ td .tf img{width:28px;height:20px;border-radius:3px;object-fit:cover}
 .goldc{color:var(--gold2)} .pos{color:var(--pos)} .neg{color:var(--neg)}
 .tablebox{max-height:600px;overflow:auto;border-radius:12px}
 
+/* collapsible completed-stage panels */
+details.fold{margin-top:6px;border:1px solid var(--line);border-radius:14px;
+  background:linear-gradient(180deg,rgba(13,20,36,.5),rgba(10,17,31,.5));overflow:hidden}
+details.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;
+  padding:15px 18px;color:var(--dim);font-size:13.5px;transition:background .2s,color .2s}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary:hover{background:rgba(79,141,255,.06);color:var(--txt)}
+details.fold .foldtag{font-family:var(--num);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(240,199,94,.4);border-radius:99px;padding:3px 10px}
+details.fold .foldchev{margin-left:auto;color:var(--gold);font-size:11px;transition:transform .25s}
+details.fold[open]>summary{border-bottom:1px solid var(--line);color:var(--txt)}
+details.fold[open] .foldchev{transform:rotate(180deg)}
+details.fold[open] .foldtag{display:none}   /* "complete" tag only while folded shut */
+details.fold .f-open{display:none} details.fold[open] .f-closed{display:none}
+details.fold[open] .f-open{display:inline}
+.foldbody{padding:16px 16px 4px}
+.foldbody .sec-d{margin-top:0}
+
+/* current knockout stage marker */
+.stagechip{align-self:center;display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--num);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(240,199,94,.42);border-radius:99px;padding:4px 12px;background:rgba(56,42,12,.3)}
+.stagechip b{color:#ffe9a8;font-weight:700}
+.bk-col.cur>h5{color:var(--gold);text-shadow:0 0 12px rgba(240,199,94,.4)}
+.bk-col.cur .bk-match:not(.done){border-color:rgba(240,199,94,.55);
+  box-shadow:0 0 0 1px rgba(240,199,94,.14),0 4px 18px rgba(240,199,94,.08)}
+
 /* knockout bracket */
 #bracket{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px;padding:6px 2px}
 #bracket.stack{display:flex;flex-direction:column;gap:18px}
@@ -548,13 +581,18 @@ html.js .reveal.in{opacity:1;transform:none}
 <section class="sec reveal" id="groups-sec">
   <div class="ghost" aria-hidden="true">05</div>
   <div class="sec-head"><span class="sec-no">05</span><h2 class="sec-h" data-i18n="s5t">十二宫格 · 小组形势</h2></div>
-  <div class="sec-d" data-i18n="s5d">底条 = 小组头名概率 · 右侧百分比 = 晋级 32 强概率 · ★ = 东道主。</div>
-  <div class="groups" id="groups"></div>
+  <details class="fold" id="groupsFold" __GROUPS_OPEN__>
+    <summary><span class="foldtag" data-i18n="foldDone">已收官</span><span class="f-closed" data-i18n="foldGroupsC">展开 12 组最终形势</span><span class="f-open" data-i18n="foldGroupsO">收起小组形势</span><span class="foldchev" aria-hidden="true">▾</span></summary>
+    <div class="foldbody">
+      <div class="sec-d" data-i18n="s5d">底条 = 小组头名概率 · 右侧百分比 = 晋级 32 强概率 · ★ = 东道主。</div>
+      <div class="groups" id="groups"></div>
+    </div>
+  </details>
 </section>
 
 <section class="sec reveal" id="bracket-sec">
   <div class="ghost" aria-hidden="true">06</div>
-  <div class="sec-head"><span class="sec-no">06</span><h2 class="sec-h" data-i18n="sKOt">淘汰赛对阵 · 通往决赛之路</h2></div>
+  <div class="sec-head"><span class="sec-no">06</span><h2 class="sec-h" data-i18n="sKOt">淘汰赛对阵 · 通往决赛之路</h2><span class="stagechip" id="koStage" hidden></span></div>
   <div class="sec-d" data-i18n="sKOd"></div>
   <div class="panel" style="overflow-x:auto"><div id="bracket"></div></div>
 </section>
@@ -562,17 +600,22 @@ html.js .reveal.in{opacity:1;transform:none}
 <section class="sec reveal" id="matches-sec">
   <div class="ghost" aria-hidden="true">07</div>
   <div class="sec-head"><span class="sec-no">07</span><h2 class="sec-h" data-i18n="s6t">逐场预测与结果 · 小组赛 72 场</h2></div>
-  <div class="sec-d" data-i18n="s6d">概率条为开球前存证预测（git + RFC3161 锚定，赛后不改）：蓝 = 左队胜，灰 = 平，金 = 右队胜。绿色为真实比分，B 为该场模型 Brier 分数（越低越好）。淘汰赛对阵确定后另行存证。</div>
-  <div class="panel">
-    <div class="mtools">
-      <select id="fDate" aria-label="filter by date"><option value="" data-i18n="optAllDates">全部日期</option></select>
-      <select id="fGroup" aria-label="filter by group"><option value="" data-i18n="optAllGroups">全部小组</option></select>
-      <select id="fState" aria-label="filter by state"><option value="" data-i18n="optAllStates">全部状态</option>
-        <option value="done" data-i18n="optDone">已完赛</option><option value="todo" data-i18n="optTodo">未开赛</option></select>
-      <span class="badge" id="scoreSummary" style="margin-left:auto"></span>
+  <details class="fold" id="matchesFold" __MATCHES_OPEN__>
+    <summary><span class="foldtag" data-i18n="foldDone">已收官</span><span class="f-closed" data-i18n="foldMatchesC">展开 72 场逐场预测与结果</span><span class="f-open" data-i18n="foldMatchesO">收起逐场预测</span><span class="foldchev" aria-hidden="true">▾</span></summary>
+    <div class="foldbody">
+      <div class="sec-d" data-i18n="s6d">概率条为开球前存证预测（git + RFC3161 锚定，赛后不改）：蓝 = 左队胜，灰 = 平，金 = 右队胜。绿色为真实比分，B 为该场模型 Brier 分数（越低越好）。淘汰赛对阵确定后另行存证。</div>
+      <div class="panel">
+        <div class="mtools">
+          <select id="fDate" aria-label="filter by date"><option value="" data-i18n="optAllDates">全部日期</option></select>
+          <select id="fGroup" aria-label="filter by group"><option value="" data-i18n="optAllGroups">全部小组</option></select>
+          <select id="fState" aria-label="filter by state"><option value="" data-i18n="optAllStates">全部状态</option>
+            <option value="done" data-i18n="optDone">已完赛</option><option value="todo" data-i18n="optTodo">未开赛</option></select>
+          <span class="badge" id="scoreSummary" style="margin-left:auto"></span>
+        </div>
+        <div id="matchList"></div>
+      </div>
     </div>
-    <div id="matchList"></div>
-  </div>
+  </details>
 </section>
 
 <section class="sec reveal" id="table-sec">
@@ -646,6 +689,8 @@ const I18N={zh:{
  stChampion:'夺冠',stFinal:'决赛',stSF:'四强',stQF:'八强',stR16:'16强',stR32:'32强',prob:'概率',
  pmFinal:'决赛',pmSF:'四强',pmOdds:'赔率',pmRange:'区间',
  optAllDates:'全部日期',optAllGroups:'全部小组',optAllStates:'全部状态',optDone:'已完赛',optTodo:'未开赛',
+ foldDone:'已收官',foldGroupsC:'展开 12 组最终形势',foldGroupsO:'收起小组形势',
+ foldMatchesC:'展开 72 场逐场预测与结果',foldMatchesO:'收起逐场预测',koStagePrefix:'当前阶段',
  grp:'组',scoreNone:'首场完赛后开始逐场 Brier 计分',scored:'已计分',matchesUnit:'场',
  modelBrier:'模型 Brier',vsMarket:'vs 市场',matchEmpty:'没有符合筛选的比赛',
  pWinL:'左胜',pDraw:'平',pWinR:'右胜',brierTip:'模型 Brier（市场',
@@ -686,6 +731,8 @@ const I18N={zh:{
  stChampion:'Title',stFinal:'Final',stSF:'Semis',stQF:'Quarters',stR16:'R16',stR32:'R32',prob:'Probability',
  pmFinal:'Final',pmSF:'SF',pmOdds:'Odds',pmRange:'Band',
  optAllDates:'All dates',optAllGroups:'All groups',optAllStates:'All states',optDone:'Finished',optTodo:'Upcoming',
+ foldDone:'Complete',foldGroupsC:'Expand final group tables',foldGroupsO:'Collapse group tables',
+ foldMatchesC:'Expand all 72 group-stage forecasts & results',foldMatchesO:'Collapse match list',koStagePrefix:'Current stage',
  grp:'',scoreNone:'Brier scoring starts after the first final whistle',scored:'Scored',matchesUnit:'',
  modelBrier:'model Brier',vsMarket:'vs market',matchEmpty:'No matches for this filter',
  pWinL:'left win',pDraw:'draw',pWinR:'right win',brierTip:'Model Brier (market',
@@ -1205,21 +1252,32 @@ function bracket(){
       ${!done&&p1!=null?`<div class="bk-bar"><i data-w="${(p1*100).toFixed(0)}"></i></div>`:''}
     </div>`};
   const col=(ms,lbl,cls)=>`<div class="bk-col ${cls||''}"><h5>${lbl}</h5>${ms.map(card).join('')}</div>`;
+  // current stage = earliest round that still has an undecided fixture
+  const ORDER=['R32','R16','QF','SF','THIRD','FINAL'];
+  let cur=null;
+  for(const r of ORDER){if(D.ko.some(k=>k.round===r&&k.winner==null)){cur=r;break}}
+  const cc=r=>cur===r?'cur':'';
+  const chip=document.getElementById('koStage');
+  if(chip){
+    const lbl={R32:'bkR32',R16:'bkR16',QF:'bkQF',SF:'bkSF',THIRD:'bk3',FINAL:'bkF'}[cur];
+    if(cur&&lbl){chip.innerHTML=`${t('koStagePrefix')} · <b>${t(lbl)}</b>`;chip.hidden=false}
+    else{chip.hidden=true}
+  }
   const el=document.getElementById('bracket');
   const champ=fin&&fin.winner?`<div class="bk-cup">🏆 ${nm(fin.winner)}</div>`:'';
-  const finalCol=`<div class="bk-col bk-final"><h5>${t('bkF')}</h5>${champ}${card(fin.match)}
+  const finalCol=`<div class="bk-col bk-final${cc('FINAL')?' cur':''}"><h5>${t('bkF')}</h5>${champ}${card(fin.match)}
       <div class="bk-third"><h5>${t('bk3')}</h5>${card(third.match)}</div></div>`;
   if(innerWidth<1000){
     el.className='stack';
     el.innerHTML=[
-      col([...r32L,...r32R],t('bkR32')),col([...r16L,...r16R],t('bkR16')),
-      col([...qfL,...qfR],t('bkQF')),col([sfL,sfR],t('bkSF')),finalCol].join('');
+      col([...r32L,...r32R],t('bkR32'),cc('R32')),col([...r16L,...r16R],t('bkR16'),cc('R16')),
+      col([...qfL,...qfR],t('bkQF'),cc('QF')),col([sfL,sfR],t('bkSF'),cc('SF')),finalCol].join('');
   }else{
     el.className='';
     el.innerHTML=[
-      col(r32L,t('bkR32')),col(r16L,t('bkR16')),col(qfL,t('bkQF')),col([sfL],t('bkSF')),
+      col(r32L,t('bkR32'),cc('R32')),col(r16L,t('bkR16'),cc('R16')),col(qfL,t('bkQF'),cc('QF')),col([sfL],t('bkSF'),cc('SF')),
       finalCol,
-      col([sfR],t('bkSF')),col(qfR,t('bkQF')),col(r16R,t('bkR16')),col(r32R,t('bkR32'))].join('');
+      col([sfR],t('bkSF'),cc('SF')),col(qfR,t('bkQF'),cc('QF')),col(r16R,t('bkR16'),cc('R16')),col(r32R,t('bkR32'),cc('R32'))].join('');
   }
 }
 
@@ -1316,7 +1374,10 @@ def main() -> None:
     payload = build_payload()
     with open(os.path.join(OUT, "assets", "earth-night.jpg"), "rb") as f:
         earth_b64 = base64.b64encode(f.read()).decode()
+    fold = "" if payload.get("group_stage_done") else "open"   # collapsed once group stage is done
     html = (TEMPLATE
+            .replace("__GROUPS_OPEN__", fold)
+            .replace("__MATCHES_OPEN__", fold)
             .replace("__DATA__", json.dumps(payload, ensure_ascii=False))
             .replace("__FLAGS__", json.dumps(ISO, ensure_ascii=False))
             .replace("__FONTCSS__", font_css)

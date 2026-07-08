@@ -1,7 +1,14 @@
 match,round,team1,team2,winner,p_advancer,brier,logloss,forecast_at
 81,R32,United States,Bosnia and Herzegovina,United States,0.7372,0.1381,0.3049,2026-07-01T22:07:19Z
+83,R32,Portugal,Croatia,Portugal,0.5802,0.3525,0.5444,2026-07-01T22:07:19Z
+84,R32,Spain,Austria,Spain,0.8169,0.0671,0.2022,2026-07-01T22:07:19Z
+85,R32,Switzerland,Algeria,Switzerland,0.6401,0.2591,0.4461,2026-07-01T22:07:19Z
 86,R32,Argentina,Cape Verde,Argentina,0.9345,0.0086,0.0677,2026-07-01T22:07:19Z
 87,R32,Colombia,Ghana,Colombia,0.9064,0.0175,0.0983,2026-07-01T22:07:19Z
 88,R32,Australia,Egypt,Egypt,0.4123,0.6908,0.886,2026-07-01T22:07:19Z
+89,R16,Paraguay,France,France,0.7354,0.14,0.3073,2026-07-01T22:07:19Z
+90,R16,Canada,Morocco,Morocco,0.5425,0.4186,0.6116,2026-07-01T22:07:19Z
 91,R16,Brazil,Norway,Norway,0.4166,0.6807,0.8756,2026-07-01T22:07:19Z
 92,R16,Mexico,England,England,0.55,0.405,0.5978,2026-07-01T22:07:19Z
+94,R16,United States,Belgium,Belgium,0.5738,0.3633,0.5555,2026-07-02T09:08:14Z
+95,R16,Argentina,Egypt,Argentina,0.8781,0.0297,0.13,2026-07-04T08:25:38Z

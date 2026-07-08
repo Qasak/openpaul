@@ -12,3 +12,6 @@ forecast_at,sigma,match,round,date,city,country,team1,team2,elo1,elo2,p1_advance
 2026-07-02T12:14:27Z,75.0,94,R16,2026-07-06,Seattle,United States,United States,Belgium,1797.0,1910.2,0.4856,0.485,0.3473,0.28,0.3727
 2026-07-04T08:08:15Z,75.0,95,R16,2026-07-07,Atlanta,United States,Argentina,Egypt,2150.0,1747.2,0.8685,0.8791,0.7587,0.1615,0.0798
 2026-07-06T11:45:03Z,75.0,99,QF,2026-07-11,Miami Gardens (Miami),United States,Norway,England,1973.1,2073.8,0.3915,0.3871,0.2683,0.2709,0.4608
+2026-07-08T19:57:06Z,75.0,97,QF,2026-07-09,Foxborough (Boston),United States,France,Morocco,2141.9,1921.0,0.728,0.7364,0.5852,0.2382,0.1766
+2026-07-08T19:57:06Z,75.0,98,QF,2026-07-10,Inglewood (Los Angeles),United States,Spain,Belgium,2177.0,1960.7,0.7238,0.7321,0.5805,0.2398,0.1797
+2026-07-08T19:57:06Z,75.0,100,QF,2026-07-11,Kansas City,United States,Argentina,Switzerland,2155.4,1948.0,0.7155,0.7235,0.5713,0.2429,0.1858

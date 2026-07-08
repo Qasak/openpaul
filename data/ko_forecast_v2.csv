@@ -19,6 +19,11 @@ match,round,date,city,country,team1,team2,elo1,elo2,p1_advance,p1_advance_sigma0
 90,R16,2026-07-04,Houston,United States,Canada,Morocco,1788,1827,0.4575,0.4558,0.3231,0.2788,0.3982
 91,R16,2026-07-05,East Rutherford (New York/New Jersey),United States,Brazil,Norway,1991,1914,0.5834,0.5867,0.4365,0.2747,0.2888
 92,R16,2026-07-05,Mexico City,Mexico,Mexico,England,1875,2021,0.45,0.4479,0.3166,0.2782,0.4052
+93,R16,2026-07-06,Arlington (Dallas),United States,Portugal,Spain,1986,2157,0.3196,0.3127,0.2121,0.2543,0.5336
 94,R16,2026-07-06,Seattle,United States,United States,Belgium,1726,1894,0.4262,0.4233,0.2968,0.2759,0.4273
 95,R16,2026-07-07,Atlanta,United States,Argentina,Egypt,2115,1696,0.8781,0.8887,0.7723,0.1541,0.0736
+96,R16,2026-07-07,Vancouver,Canada,Switzerland,Colombia,1891,1982,0.4017,0.3978,0.2766,0.2726,0.4508
+97,QF,2026-07-09,Foxborough (Boston),United States,France,Morocco,2063,1827,0.7418,0.7506,0.6006,0.2328,0.1666
+98,QF,2026-07-10,Inglewood (Los Angeles),United States,Spain,Belgium,2157,1894,0.7655,0.7749,0.6279,0.2224,0.1496
 99,QF,2026-07-11,Miami Gardens (Miami),United States,Norway,England,1914,2021,0.3848,0.3803,0.263,0.2698,0.4672
+100,QF,2026-07-11,Kansas City,United States,Argentina,Switzerland,2115,1891,0.7309,0.7394,0.5884,0.2371,0.1745
