@@ -1400,24 +1400,20 @@ function renderAlt(){
     {k:'flight_km',lab:t('altFlight'),u:t('altFlightU'),better:'min',f:v=>Math.round(v).toLocaleString()},
   ];
   box.innerHTML=D.alt.matchups.map(mu=>{
-    const A=mu.team1,B=mu.team2;let aw=0,bw=0;
+    const A=mu.team1,B=mu.team2;
     const rows=M.map(mt=>{
       const va=A[mt.k],vb=B[mt.k];let wa=false,wb=false;
       if(va!=null&&vb!=null&&va!==vb){const amax=mt.better==='max';wa=amax?va>vb:va<vb;wb=!wa}
-      if(wa)aw++;else if(wb)bw++;
       return `<div class="altrow">
         <span class="l val ${wa?'win':''}">${va!=null?mt.f(va)+' '+mt.u:'—'}</span>
         <span class="m"${mt.hint?` title="${mt.hint}"`:''}>${mt.lab}</span>
         <span class="r val ${wb?'win':''}">${vb!=null?mt.f(vb)+' '+mt.u:'—'}</span></div>`;
     }).join('');
-    const tie=aw===bw, lead=aw>bw?A.team:B.team;
-    const foot=tie?`<span>${t('altTie')}</span>`
-      :`<b>${nm(lead)}</b> ${t('altPick')} · ${t('altTally')} <b>${Math.max(aw,bw)}:${Math.min(aw,bw)}</b>`;
     return `<div class="altcard">
       <div class="ah"><span class="side">${fimg(A.team,80)}${nm(A.team)}</span>
         <span class="side r">${fimg(B.team,80)}${nm(B.team)}</span></div>
       <div class="avenue">${t('altVenue')}: ${cityLabel(mu.city)} · ${mu.venue_temp}°C · ${(mu.date||'').slice(5)}</div>
-      ${rows}<div class="tally">${foot}</div></div>`;
+      ${rows}</div>`;
   }).join('');
 }
 function altMap(){
