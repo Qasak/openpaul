@@ -29,6 +29,7 @@ import re
 import urllib.request
 from datetime import datetime, timezone
 
+from .altdata import build as build_altdata
 from .load_data import DATA
 from .webapp import api_all
 
@@ -188,6 +189,10 @@ def build_payload() -> dict:
     d["group_stage_done"] = bool(grp) and all(
         m.get("score1") is not None for m in grp)
     apply_market_blend(d)
+    try:
+        d["alt"] = build_altdata()   # fun alt-data sidebar (never in the model)
+    except Exception as e:
+        print(f"NOTE: alt-data skipped ({e})")
     d["built_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     return d
 
@@ -475,6 +480,27 @@ details.fold[open] .f-open{display:inline}
 .foldbody .sec-d{margin-top:0}
 /* knockout-focus: hide pre-tournament / group-stage sections once the KO stage is on */
 body.ko .koHidden{display:none !important}
+.koOnly{display:none} body.ko .koOnly{display:block}   /* knockout-only sections (e.g. QF alt-data) */
+
+/* alt-data arena (fun sidebar) + match-city map */
+.altbadge{align-self:center;font-family:var(--num);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:#8fa6c4;border:1px solid var(--line);border-radius:99px;padding:4px 11px;background:rgba(13,20,36,.6)}
+#altMap{width:100%;height:clamp(300px,44vw,500px)}
+.altmap-cap{color:var(--dim);font-size:12px;text-align:center;margin-top:8px}
+.altcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:16px;margin-top:22px}
+.altcard{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:15px 18px}
+.altcard .ah{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:14.5px;margin-bottom:6px}
+.altcard .ah .side{display:flex;align-items:center;gap:8px}
+.altcard .ah .side.r{flex-direction:row-reverse}
+.altcard .ah img{width:26px;height:18px;border-radius:3px;object-fit:cover}
+.altcard .avenue{text-align:center;font-size:11px;color:var(--dim);margin-bottom:8px}
+.altrow{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:center;gap:6px;padding:8px 0;border-top:1px solid rgba(27,39,64,.55)}
+.altrow .l{text-align:right}.altrow .r{text-align:left}
+.altrow .val{font-family:var(--num);font-size:14px;color:#cdd8ea}
+.altrow .m{text-align:center;font-size:11px;color:var(--dim);letter-spacing:.03em}
+.altrow .win{color:var(--gold2);font-weight:800}
+.altcard .tally{margin-top:11px;padding-top:10px;border-top:1px solid var(--line);font-size:12.5px;text-align:center;color:var(--txt)}
+.altcard .tally b{color:var(--gold2)}
 
 /* current knockout stage marker */
 .stagechip{align-self:center;display:inline-flex;align-items:center;gap:7px;
@@ -543,7 +569,7 @@ html.js .reveal.in{opacity:1;transform:none}
   <span class="badge live" id="bRes"></span>
   <span class="links">
     <a href="#terrain-sec" class="koHidden" data-i18n="navTerrain">3D 地形</a><a href="#globe-sec" id="navGlobe" class="koHidden" data-i18n="navGlobe">地球</a><a href="#edge-sec" class="koHidden" data-i18n="navEdge">价值</a>
-    <a href="#podium-sec" data-i18n="navPodium">领奖台</a><a href="#bracket-sec" data-i18n="navBracket">对阵</a><a href="#table-sec" data-i18n="navTable">数据</a><a href="#matches-sec" class="koHidden" data-i18n="navMatches">赛程</a>
+    <a href="#podium-sec" data-i18n="navPodium">领奖台</a><a href="#bracket-sec" data-i18n="navBracket">对阵</a><a href="#alt-sec" data-i18n="navAlt">另类</a><a href="#table-sec" data-i18n="navTable">数据</a><a href="#matches-sec" class="koHidden" data-i18n="navMatches">赛程</a>
     <a href="#" id="langBtn" style="font-family:var(--num);font-weight:700">EN</a>
     <a id="ghLink" href="__REPO__" target="_blank" rel="noopener noreferrer" style="display:none">GitHub →</a>
   </span>
@@ -640,6 +666,14 @@ html.js .reveal.in{opacity:1;transform:none}
   <div class="panel" style="overflow-x:auto"><div id="bracket"></div></div>
 </section>
 
+<section class="sec reveal koOnly" id="alt-sec">
+  <div class="ghost" aria-hidden="true">07</div>
+  <div class="sec-head"><span class="sec-no">07</span><h2 class="sec-h" data-i18n="altT">另类擂台 · 章鱼保罗的野路子</h2><span class="altbadge" data-i18n="altBadge">娱乐向 · 不进模型</span></div>
+  <div class="sec-d" data-i18n="altD"></div>
+  <div class="panel"><div id="altMap"></div><div class="altmap-cap" data-i18n="altMapCap"></div></div>
+  <div id="altCards" class="altcards"></div>
+</section>
+
 <section class="sec reveal koHidden" id="matches-sec">
   <div class="ghost" aria-hidden="true">07</div>
   <div class="sec-head"><span class="sec-no">07</span><h2 class="sec-h" data-i18n="s6t">逐场预测与结果 · 小组赛 72 场</h2></div>
@@ -682,6 +716,7 @@ const D = __DATA__;
 const FLAG = __FLAGS__;
 const REPO = "__REPO__";
 const EARTH='data:image/jpeg;base64,__EARTH__';
+const USGEO=__USGEO__;
 const GEO={Mexico:[-99.1,19.4],'South Africa':[28.2,-25.7],'South Korea':[127.0,37.6],Czechia:[14.4,50.1],
 Canada:[-75.7,45.4],'Bosnia and Herzegovina':[18.4,43.9],Qatar:[51.5,25.3],Switzerland:[7.4,46.9],
 Brazil:[-47.9,-15.8],Morocco:[-6.8,34.0],Haiti:[-72.3,18.5],Scotland:[-3.2,55.9],
@@ -727,6 +762,15 @@ const I18N={zh:{
  sKOt:'淘汰赛对阵 · 通往决赛之路',
  sKOd:'对阵由真实小组终榜与官方公布对阵生成，随赛果滚动推进。已完赛：真实比分，金色 = 晋级方，P = 点球决胜；未开赛：模型晋级概率（σ=75 主模型，含加时与点球路径，开球前存证）；灰色代号 = 尚未产生的对手（如 W89 = 第 89 场胜者）。',
  bkR32:'32强',bkR16:'16强',bkQF:'八强',bkSF:'半决赛',bkF:'决赛',bk3:'季军战',bkPens:'P',
+ navAlt:'另类',
+ altT:'另类擂台 · 章鱼保罗的野路子',altBadge:'娱乐向 · 不进模型',
+ altD:'纯为好玩:把四场八强按几项<b>跟胜负无关</b>的另类数据两两比一比,金色 = 该项"赢家"。这些数字<b>绝不进预测模型</b>——保罗当年也就靠触手抓箱子。',
+ altMapCap:'八强赛城(金色) · 灰点为本届已用过的美国赛场',
+ altHeight:'平均身高',altAge:'平均年龄',altClimate:'场地热适应',altFlight:'本届飞行',
+ altHeightU:'cm',altAgeU:'岁',altFlightU:'km',
+ altClimateHint:'场地气温 − 母国 7 月气温,越小越适应',
+ altTally:'另类比分',altTie:'另类角度打平 · 保罗挠头',altPick:'另类角度更被看好',
+ altVenue:'场地',
  hintDrag:'拖拽旋转 · 滚轮缩放',hintTouch:'触摸拖拽旋转',hintGlobe:'拖拽旋转 · 自动巡航',hintTouch2:'触摸拖拽旋转',
  benchTitle:'模型阵营对照 · 西班牙 vs 德国夺冠概率（开赛前）',
  benchNote:'开赛前所有来源一致指向西班牙。德国行是模型阵营的分水岭：赛果系与市场都在 ~3–5%（本模型 2.9%、Opta 5.1%、市场 5.3%），而含球员身价协变量的模型给到 ~11%（红色条）——这是本届各模型最大的单队分歧。后记（7-02）：德国 32 强赛 1-1 点球不敌巴拉圭出局，赛果系阵营的低估计方向得到验证。',
@@ -771,6 +815,15 @@ const I18N={zh:{
  sKOt:'Knockout Bracket · The Road to the Final',
  sKOd:'Pairings derive from the real group tables and the officially announced bracket, rolling forward with results. Finished: real score, gold = advancing side, P = penalty shootout; upcoming: model advancement probability (σ=75 main model, extra time and penalties included, sealed before kickoff); grey codes = opponents not yet decided (e.g. W89 = winner of match 89).',
  bkR32:'R32',bkR16:'R16',bkQF:'QF',bkSF:'SF',bkF:'FINAL',bk3:'3rd place',bkPens:'P',
+ navAlt:'Fun',
+ altT:'The Alt-Data Arena · Paul\'s Wild Guesses',altBadge:'for fun · not in the model',
+ altD:'Purely for fun: the four quarter-finals compared on a few <b>result-irrelevant</b> quirky metrics, gold = that metric\'s "winner". These numbers <b>never touch the prediction model</b> — Paul the octopus just grabbed boxes with his tentacles, after all.',
+ altMapCap:'Quarter-final host cities (gold) · grey dots = US venues used earlier this tournament',
+ altHeight:'Avg height',altAge:'Avg age',altClimate:'Heat adaptation',altFlight:'Km flown',
+ altHeightU:'cm',altAgeU:'yr',altFlightU:'km',
+ altClimateHint:'venue temp − home July temp; smaller = better adapted',
+ altTally:'Alt-score',altTie:'a quirky-data tie · Paul scratches his head',altPick:'the quirky-data favourite',
+ altVenue:'venue',
  hintDrag:'drag to rotate · scroll to zoom',hintTouch:'touch-drag to rotate',hintGlobe:'drag to rotate · auto-cruise',hintTouch2:'touch-drag to rotate',
  benchTitle:'Model Camps · Spain vs Germany title odds (pre-kickoff)',
  benchNote:'Before kickoff every source pointed to Spain. Germany was the fault line between camps: results-based models and the market sat at ~3–5% (this model 2.9%, Opta 5.1%, market 5.3%), while covariate models with squad value reached ~11% (red bar) — the single largest disagreement of this cup. Postscript (Jul 2): Germany went out of the round of 32, 1-1 (pens) to Paraguay — the low end of that range was the right one.',
@@ -1335,6 +1388,62 @@ function bracket(){
   }
 }
 
+/* ---------- alt-data arena (fun; never in the model) ---------- */
+const cityLabel=c=>{const m=/\(([^)]+)\)/.exec(c||'');return m?m[1]:(c||'')};
+function renderAlt(){
+  const box=document.getElementById('altCards');
+  if(!box||!D.alt||!D.alt.matchups)return;
+  const M=[
+    {k:'height',lab:t('altHeight'),u:t('altHeightU'),better:'max',f:v=>v.toFixed(1)},
+    {k:'age',lab:t('altAge'),u:t('altAgeU'),better:'min',f:v=>v.toFixed(1)},
+    {k:'climate_gap',lab:t('altClimate'),u:'°C',better:'min',hint:t('altClimateHint'),f:v=>(v>0?'+':'')+v},
+    {k:'flight_km',lab:t('altFlight'),u:t('altFlightU'),better:'min',f:v=>Math.round(v).toLocaleString()},
+  ];
+  box.innerHTML=D.alt.matchups.map(mu=>{
+    const A=mu.team1,B=mu.team2;let aw=0,bw=0;
+    const rows=M.map(mt=>{
+      const va=A[mt.k],vb=B[mt.k];let wa=false,wb=false;
+      if(va!=null&&vb!=null&&va!==vb){const amax=mt.better==='max';wa=amax?va>vb:va<vb;wb=!wa}
+      if(wa)aw++;else if(wb)bw++;
+      return `<div class="altrow">
+        <span class="l val ${wa?'win':''}">${va!=null?mt.f(va)+' '+mt.u:'—'}</span>
+        <span class="m"${mt.hint?` title="${mt.hint}"`:''}>${mt.lab}</span>
+        <span class="r val ${wb?'win':''}">${vb!=null?mt.f(vb)+' '+mt.u:'—'}</span></div>`;
+    }).join('');
+    const tie=aw===bw, lead=aw>bw?A.team:B.team;
+    const foot=tie?`<span>${t('altTie')}</span>`
+      :`<b>${nm(lead)}</b> ${t('altPick')} · ${t('altTally')} <b>${Math.max(aw,bw)}:${Math.min(aw,bw)}</b>`;
+    return `<div class="altcard">
+      <div class="ah"><span class="side">${fimg(A.team,80)}${nm(A.team)}</span>
+        <span class="side r">${fimg(B.team,80)}${nm(B.team)}</span></div>
+      <div class="avenue">${t('altVenue')}: ${cityLabel(mu.city)} · ${mu.venue_temp}°C · ${(mu.date||'').slice(5)}</div>
+      ${rows}<div class="tally">${foot}</div></div>`;
+  }).join('');
+}
+function altMap(){
+  const el=document.getElementById('altMap');
+  if(!el||!hasEC||typeof USGEO==='undefined'||!USGEO||!D.alt||!D.alt.venues)return;
+  try{echarts.registerMap('USA48',USGEO)}catch(e){return}
+  if(charts.altmap){echarts.dispose(el);charts.altmap=null}
+  charts.altmap=echarts.init(el);
+  const V=D.alt.venues, qf=V.filter(v=>v.qf), past=V.filter(v=>!v.qf);
+  charts.altmap.setOption({backgroundColor:'transparent',
+    geo:{map:'USA48',roam:false,left:'2%',right:'2%',top:'4%',bottom:'4%',
+      itemStyle:{areaColor:'#0f1a2e',borderColor:'#28395c',borderWidth:.9},
+      emphasis:{itemStyle:{areaColor:'#14233d'},label:{show:false}}},
+    tooltip:{trigger:'item',backgroundColor:'#101a30',borderColor:'#2a3b5d',textStyle:{color:'#e8eef9'},
+      formatter:p=>{const v=p.data&&p.data.v;if(!v)return p.name;
+        return v.qf?`<b>${cityLabel(v.city)}</b><br>${nm(v.team1)} vs ${nm(v.team2)}<br>${(v.date||'').slice(5)} · ${v.venue_temp}°C`:cityLabel(v.city)}},
+    series:[
+      {type:'scatter',coordinateSystem:'geo',data:past.map(v=>({name:v.city,value:[v.lng,v.lat],v})),
+        symbolSize:6,itemStyle:{color:'#43567c',opacity:.85}},
+      {type:'effectScatter',coordinateSystem:'geo',showEffectOn:'render',zlevel:2,
+        rippleEffect:{scale:3.4,brushType:'stroke'},data:qf.map(v=>({name:v.city,value:[v.lng,v.lat],v})),
+        symbolSize:12,itemStyle:{color:'#f0c75e',shadowBlur:10,shadowColor:'rgba(240,199,94,.6)'},
+        label:{show:true,position:'right',color:'#eef3fb',fontSize:11,formatter:p=>`${nm(p.data.v.team1)}–${nm(p.data.v.team2)}`,
+          backgroundColor:'rgba(5,8,16,.62)',padding:[2,5],borderRadius:4}}]});
+}
+
 /* ---------- full table ---------- */
 let sortKey='p_champion',sortAsc=false,tableSeen=false;
 const CELL={
@@ -1385,7 +1494,7 @@ function reveals(){
 /* ---------- lang toggle ---------- */
 function langRefresh(){
   applyStatic();renderBadges();buildHeroSide();setHero(heroIdx);renderHeroStats();
-  podium();bench();groupsSec();try{bracket()}catch(e){}matches();table();
+  podium();bench();groupsSec();try{bracket()}catch(e){}matches();table();renderAlt();
   try{paulLang()}catch(e){}
   // strip one-shot effects instantly after re-render
   document.querySelectorAll('[data-flick]').forEach(el=>{el.textContent=el.dataset.flick;el.removeAttribute('data-flick')});
@@ -1393,6 +1502,7 @@ function langRefresh(){
   if(charts.edge){echarts.dispose(document.getElementById('chEdge'));charts.edge=null;try{edge()}catch(e){}}
   if(charts.terrain){echarts.dispose(document.getElementById('terrain'));charts.terrain=null;try{terrain(true)}catch(e){}}
   if(charts.globe){echarts.dispose(document.getElementById('globe'));charts.globe=null;try{globe()}catch(e){}}
+  if(charts.altmap){try{altMap()}catch(e){}}
 }
 document.getElementById('langBtn').addEventListener('click',e=>{
   e.preventDefault();
@@ -1413,12 +1523,13 @@ if(document.body.classList.contains('ko')){
     const gh=s.querySelector('.ghost');if(gh)gh.textContent=nn;
   });
 }
-applyStatic();heroInit();stars();podium();bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();reveals();
+applyStatic();heroInit();stars();podium();bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();renderAlt();reveals();
 try{paulInit()}catch(e){}
 onSee('edge-sec',el=>{try{edge()}catch(e){} flickAll(el);growAll(el)},'0px 0px 200px 0px');
 onSee('podium-sec',el=>flickAll(el));
 onSee('groups-sec',el=>{flickAll(el);growAll(el)});
 onSee('bracket-sec',el=>{flickAll(el);growAll(el)});
+onSee('alt-sec',el=>{try{altMap()}catch(e){} flickAll(el);growAll(el)},'0px 0px 150px 0px');
 onSee('matches-sec',()=>document.body.classList.add('m-seen'));
 onSee('table-sec',el=>{flickAll(el);tableSeen=true});
 addEventListener('resize',()=>Object.values(charts).forEach(c=>c&&c.resize()));
@@ -1450,10 +1561,13 @@ def main() -> None:
         earth_b64 = base64.b64encode(f.read()).decode()
     ko = bool(payload.get("group_stage_done"))
     fold = "" if ko else "open"   # collapsed once group stage is done
+    usgeo_path = os.path.join(DATA, "us-states.geo.json")
+    usgeo = open(usgeo_path, encoding="utf-8").read() if os.path.exists(usgeo_path) else "null"
     html = (TEMPLATE
             .replace("__BODYCLS__", "ko" if ko else "")   # hides pre-tournament/group sections
             .replace("__GROUPS_OPEN__", fold)
             .replace("__MATCHES_OPEN__", fold)
+            .replace("__USGEO__", usgeo)
             .replace("__DATA__", json.dumps(payload, ensure_ascii=False))
             .replace("__FLAGS__", json.dumps(ISO, ensure_ascii=False))
             .replace("__FONTCSS__", font_css)
