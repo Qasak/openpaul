@@ -473,6 +473,8 @@ details.fold .f-open{display:none} details.fold[open] .f-closed{display:none}
 details.fold[open] .f-open{display:inline}
 .foldbody{padding:16px 16px 4px}
 .foldbody .sec-d{margin-top:0}
+/* knockout-focus: hide pre-tournament / group-stage sections once the KO stage is on */
+body.ko .koHidden{display:none !important}
 
 /* current knockout stage marker */
 .stagechip{align-self:center;display:inline-flex;align-items:center;gap:7px;
@@ -530,7 +532,7 @@ html.js .reveal.in{opacity:1;transform:none}
   html.js .reveal{opacity:1;transform:none}.wdl{transform:none!important}}
 </style>
 </head>
-<body>
+<body class="__BODYCLS__">
 <script>document.documentElement.classList.add('js')</script>
 <div id="grain" aria-hidden="true"></div>
 <div class="aurora a1" aria-hidden="true"></div><div class="aurora a2" aria-hidden="true"></div><div class="aurora a3" aria-hidden="true"></div>
@@ -540,8 +542,8 @@ html.js .reveal.in{opacity:1;transform:none}
   <span class="badge" id="bSnap"></span>
   <span class="badge live" id="bRes"></span>
   <span class="links">
-    <a href="#terrain-sec" data-i18n="navTerrain">3D 地形</a><a href="#globe-sec" id="navGlobe" data-i18n="navGlobe">地球</a><a href="#edge-sec" data-i18n="navEdge">价值</a>
-    <a href="#bracket-sec" data-i18n="navBracket">对阵</a><a href="#matches-sec" data-i18n="navMatches">赛程</a>
+    <a href="#terrain-sec" class="koHidden" data-i18n="navTerrain">3D 地形</a><a href="#globe-sec" id="navGlobe" class="koHidden" data-i18n="navGlobe">地球</a><a href="#edge-sec" class="koHidden" data-i18n="navEdge">价值</a>
+    <a href="#podium-sec" data-i18n="navPodium">领奖台</a><a href="#bracket-sec" data-i18n="navBracket">对阵</a><a href="#table-sec" data-i18n="navTable">数据</a><a href="#matches-sec" class="koHidden" data-i18n="navMatches">赛程</a>
     <a href="#" id="langBtn" style="font-family:var(--num);font-weight:700">EN</a>
     <a id="ghLink" href="__REPO__" target="_blank" rel="noopener noreferrer" style="display:none">GitHub →</a>
   </span>
@@ -584,7 +586,7 @@ html.js .reveal.in{opacity:1;transform:none}
   <div class="scroll-cue" aria-hidden="true">SCROLL</div>
 </section>
 
-<section class="sec reveal" id="terrain-sec">
+<section class="sec reveal koHidden" id="terrain-sec">
   <div class="ghost" aria-hidden="true">01</div>
   <div class="sec-head"><span class="sec-no">01</span><h2 class="sec-h" data-i18n="s1t">晋级概率地形</h2></div>
   <div class="sec-d" data-i18n="s1d">24 支最强球队 × 6 个晋级阶段的三维概率山脉——最前排的金色山脊就是夺冠之路，身后的蓝色高墙是 32 强的入场概率。</div>
@@ -598,14 +600,14 @@ html.js .reveal.in{opacity:1;transform:none}
   <div class="podium" id="podium"></div>
 </section>
 
-<section class="sec reveal" id="globe-sec">
+<section class="sec reveal koHidden" id="globe-sec">
   <div class="ghost" aria-hidden="true">03</div>
   <div class="sec-head"><span class="sec-no">03</span><h2 class="sec-h" data-i18n="s3t">夺冠概率 · 全球版图</h2></div>
   <div class="sec-d" data-i18n="s3d">48 支参赛队的夺冠概率立柱，矗立在各自国土之上（柱高 ∝ √概率，颜色 ∝ 概率）。伊比利亚半岛上那道金光，就是本届最高的山。</div>
   <div class="panel" id="globePanel"><span class="hint"><span class="fine" data-i18n="hintGlobe">拖拽旋转 · 自动巡航</span><span class="coarse" data-i18n="hintTouch2">触摸拖拽旋转</span></span><div id="globe"></div></div>
 </section>
 
-<section class="sec reveal" id="edge-sec">
+<section class="sec reveal koHidden" id="edge-sec">
   <div class="ghost" aria-hidden="true">04</div>
   <div class="sec-head"><span class="sec-no">04</span><h2 class="sec-h" data-i18n="s4t">市场低估了谁</h2></div>
   <div class="sec-d" data-i18n="s4d">模型概率 − 锐利盘隐含概率（Pinnacle/Betfair/Polymarket/Kalshi 共识，overround 6.1%，幂法去水）。金色 = 被低估，灰蓝 = 被高估；图示正/负边际前 7/6 名，全量 48 队见 §07 表格。</div>
@@ -619,7 +621,7 @@ html.js .reveal.in{opacity:1;transform:none}
   </div>
 </section>
 
-<section class="sec reveal" id="groups-sec">
+<section class="sec reveal koHidden" id="groups-sec">
   <div class="ghost" aria-hidden="true">05</div>
   <div class="sec-head"><span class="sec-no">05</span><h2 class="sec-h" data-i18n="s5t">十二宫格 · 小组形势</h2></div>
   <details class="fold" id="groupsFold" __GROUPS_OPEN__>
@@ -638,7 +640,7 @@ html.js .reveal.in{opacity:1;transform:none}
   <div class="panel" style="overflow-x:auto"><div id="bracket"></div></div>
 </section>
 
-<section class="sec reveal" id="matches-sec">
+<section class="sec reveal koHidden" id="matches-sec">
   <div class="ghost" aria-hidden="true">07</div>
   <div class="sec-head"><span class="sec-no">07</span><h2 class="sec-h" data-i18n="s6t">逐场预测与结果 · 小组赛 72 场</h2></div>
   <details class="fold" id="matchesFold" __MATCHES_OPEN__>
@@ -701,7 +703,7 @@ Czechia:'捷克',Austria:'奥地利',Denmark:'丹麦',Sweden:'瑞典',Paraguay:'
 Ghana:'加纳',Panama:'巴拿马',Tunisia:'突尼斯',Scotland:'苏格兰',Haiti:'海地',Qatar:'卡塔尔',
 'South Africa':'南非',Iraq:'伊拉克','Bosnia and Herzegovina':'波黑','Curaçao':'库拉索'};
 const I18N={zh:{
- navTerrain:'3D 地形',navGlobe:'地球',navEdge:'价值',navBracket:'对阵',navMatches:'赛程',
+ navTerrain:'3D 地形',navGlobe:'地球',navEdge:'价值',navBracket:'对阵',navMatches:'赛程',navPodium:'领奖台',navTable:'数据',
  overline:'OpenPaul · Monte Carlo ×100,000 <span class="ol2">· 49,400 场历史重放</span> · 开球前存证',
  heroQ:'这个夏天，谁举起<em>大力神杯</em>？',
  contenders:'Contenders · 候选人（点击切换）',
@@ -721,7 +723,7 @@ const I18N={zh:{
  s5t:'十二宫格 · 小组形势',s5d:'底条 = 小组头名概率 · 右侧百分比 = 晋级 32 强概率 · ★ = 东道主。',
  s6t:'逐场预测与结果 · 小组赛 72 场',
  s6d:'概率条为开球前存证预测（git + RFC3161 锚定，赛后不改）：蓝 = 左队胜，灰 = 平，金 = 右队胜。绿色为真实比分，B 为该场模型 Brier 分数（越低越好）。淘汰赛逐场预测另行存证：§06 对阵树 + predictions/ko_forecasts.csv（逐场于开球前追加入账）。',
- s7t:'48 队全量数据',s7d:'点击表头排序。概率列为当前条件模拟；赔率/隐含/边际/EV 列为 2026-06-11 开赛前存证快照。',
+ s7t:'存活球队 · 夺冠概率明细',s7d:'仅列尚未出局的球队。夺冠为『模型×市场』融合值，另附纯模型、当前市场两列；进决赛/四强为纯模型条件模拟。点击表头排序。',
  sKOt:'淘汰赛对阵 · 通往决赛之路',
  sKOd:'对阵由真实小组终榜与官方公布对阵生成，随赛果滚动推进。已完赛：真实比分，金色 = 晋级方，P = 点球决胜；未开赛：模型晋级概率（σ=75 主模型，含加时与点球路径，开球前存证）；灰色代号 = 尚未产生的对手（如 W89 = 第 89 场胜者）。',
  bkR32:'32强',bkR16:'16强',bkQF:'八强',bkSF:'半决赛',bkF:'决赛',bk3:'季军战',bkPens:'P',
@@ -745,7 +747,7 @@ const I18N={zh:{
  foot3:'本页面为静态数据快照，方法论演示，<b>非投注建议</b>。',
  brand:'🐙 <b>OpenPaul</b> — 2010 年章鱼保罗用触手挑选赢家，16 年后我们用 100,000 次蒙特卡洛。预测可以开源，章鱼只负责可爱。',
 },en:{
- navTerrain:'3D Terrain',navGlobe:'Globe',navEdge:'Value',navBracket:'Bracket',navMatches:'Matches',
+ navTerrain:'3D Terrain',navGlobe:'Globe',navEdge:'Value',navBracket:'Bracket',navMatches:'Matches',navPodium:'Podium',navTable:'Data',
  overline:'OpenPaul · Monte Carlo ×100,000 <span class="ol2">· 49,400-match Elo replay</span> · sealed before kickoff',
  heroQ:'This summer, who lifts <em>the World Cup</em>?',
  contenders:'Contenders · click to switch',
@@ -765,7 +767,7 @@ const I18N={zh:{
  s5t:'The Twelve Groups',s5d:'Bottom bar = group-winner probability · right % = reach round-of-32 · ★ = host.',
  s6t:'Match-by-Match · 72 Group Games',
  s6d:'Probability bars are pre-kickoff sealed forecasts (git + RFC3161 anchored, never edited): blue = left win, grey = draw, gold = right win. Green chip = real score; B = per-match Brier (lower is better). Knockout forecasts are sealed separately: §06 bracket + predictions/ko_forecasts.csv (each row appended before kickoff).',
- s7t:'All 48 Teams',s7d:'Click headers to sort. Probability columns are the current conditional simulation; odds/implied/edge/EV columns are the 2026-06-11 pre-kickoff sealed snapshot.',
+ s7t:'Teams Still In · Title Odds',s7d:'Only teams not yet eliminated. Title = model×market blend, with model-only and current-market columns alongside; reach-final / reach-SF are the model conditional simulation. Click headers to sort.',
  sKOt:'Knockout Bracket · The Road to the Final',
  sKOd:'Pairings derive from the real group tables and the officially announced bracket, rolling forward with results. Finished: real score, gold = advancing side, P = penalty shootout; upcoming: model advancement probability (σ=75 main model, extra time and penalties included, sealed before kickoff); grey codes = opponents not yet decided (e.g. W89 = winner of match 89).',
  bkR32:'R32',bkR16:'R16',bkQF:'QF',bkSF:'SF',bkF:'FINAL',bk3:'3rd place',bkPens:'P',
@@ -1335,28 +1337,34 @@ function bracket(){
 
 /* ---------- full table ---------- */
 let sortKey='p_champion',sortAsc=false,tableSeen=false;
-const COLS=()=>[['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],
-  ['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')],
-  ['p_qf',t('thQF')],['p_r16',t('thR16')],['p_r32',t('thR32')],['decimal_odds_sharp',t('thOdds')],
-  ['p_market_sharp',t('thImp')],['edge_sharp_pp',t('thEdge')],['ev_sharp',t('thEV')]];
+const CELL={
+  team:r=>`<td><span class="tf">${fimg(r.team,80)}${nm(r.team)}</span></td>`,
+  elo:r=>`<td class="num">${r.elo!=null?Math.round(r.elo):'—'}</td>`,
+  p_champion:r=>`<td class="num goldc"${tableSeen?'':' data-flick="'+pct(r.p_champion,2)+'"'}>${pct(r.p_champion,2)}</td>`,
+  p_champion_model:r=>`<td class="num dim">${r.p_champion_model!=null?pct(r.p_champion_model,2):'—'}</td>`,
+  p_market_champ:r=>`<td class="num dim">${r.p_market_champ!=null?pct(r.p_market_champ,2):'—'}</td>`,
+  p_final:r=>`<td class="num">${pct(r.p_final)}</td>`,p_sf:r=>`<td class="num">${pct(r.p_sf)}</td>`,
+  p_qf:r=>`<td class="num">${pct(r.p_qf)}</td>`,p_r16:r=>`<td class="num">${pct(r.p_r16)}</td>`,
+  p_r32:r=>`<td class="num">${pct(r.p_r32)}</td>`,
+  decimal_odds_sharp:r=>`<td class="num">${num(r.decimal_odds_sharp)}</td>`,
+  p_market_sharp:r=>`<td class="num">${pct(r.p_market_sharp,2)}</td>`,
+  edge_sharp_pp:r=>`<td class="num ${r.edge_sharp_pp>0?'pos':'neg'}">${sgn(r.edge_sharp_pp)}</td>`,
+  ev_sharp:r=>`<td class="num ${r.ev_sharp>0?'pos':'neg'}">${sgn(r.ev_sharp*100)}%</td>`};
+// knockout stage: only teams still in, and drop the pre-tournament odds/edge/EV + trivial (=100%) reached-round columns
+const COLS=()=>D.group_stage_done
+  ? [['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')]]
+  : [['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')],
+     ['p_qf',t('thQF')],['p_r16',t('thR16')],['p_r32',t('thR32')],['decimal_odds_sharp',t('thOdds')],['p_market_sharp',t('thImp')],['edge_sharp_pp',t('thEdge')],['ev_sharp',t('thEV')]];
 function table(){
-  const rows=[...D.summary].sort((a,b)=>{
+  const cols=COLS();
+  const src=D.group_stage_done?D.summary.filter(r=>r.p_champion>0):D.summary;
+  const rows=[...src].sort((a,b)=>{
     const x=a[sortKey],y=b[sortKey];
     if(x==null)return 1;if(y==null)return -1;
     return (x<y?-1:x>y?1:0)*(sortAsc?1:-1)});
   document.getElementById('fullTable').innerHTML=
-    `<tr>${COLS().map(([k,l])=>`<th data-k="${k}">${l}${sortKey===k?(sortAsc?' ▲':' ▼'):''}</th>`).join('')}</tr>`+
-    rows.map(r=>`<tr>
-      <td><span class="tf">${fimg(r.team,80)}${nm(r.team)}</span></td>
-      <td class="num">${r.elo!=null?Math.round(r.elo):'—'}</td>
-      <td class="num goldc"${tableSeen?'':' data-flick="'+pct(r.p_champion,2)+'"'}>${pct(r.p_champion,2)}</td>
-      <td class="num dim">${r.p_champion_model!=null?pct(r.p_champion_model,2):'—'}</td>
-      <td class="num dim">${r.p_market_champ!=null?pct(r.p_market_champ,2):'—'}</td>
-      <td class="num">${pct(r.p_final)}</td><td class="num">${pct(r.p_sf)}</td><td class="num">${pct(r.p_qf)}</td>
-      <td class="num">${pct(r.p_r16)}</td><td class="num">${pct(r.p_r32)}</td>
-      <td class="num">${num(r.decimal_odds_sharp)}</td><td class="num">${pct(r.p_market_sharp,2)}</td>
-      <td class="num ${r.edge_sharp_pp>0?'pos':'neg'}">${sgn(r.edge_sharp_pp)}</td>
-      <td class="num ${r.ev_sharp>0?'pos':'neg'}">${sgn(r.ev_sharp*100)}%</td></tr>`).join('');
+    `<tr>${cols.map(([k,l])=>`<th data-k="${k}">${l}${sortKey===k?(sortAsc?' ▲':' ▼'):''}</th>`).join('')}</tr>`+
+    rows.map(r=>`<tr>${cols.map(([k])=>CELL[k](r)).join('')}</tr>`).join('');
   document.querySelectorAll('#fullTable th').forEach(th=>th.onclick=()=>{
     const k=th.dataset.k;
     if(sortKey===k)sortAsc=!sortAsc;else{sortKey=k;sortAsc=false}
@@ -1394,6 +1402,17 @@ document.getElementById('langBtn').addEventListener('click',e=>{
 });
 
 /* ---------- boot ---------- */
+// knockout focus: body.ko (set server-side) hides the pre-tournament/group sections;
+// renumber the sections that remain visible so they read 01,02,03... not 02,06,08
+if(document.body.classList.contains('ko')){
+  let n=0;
+  document.querySelectorAll('.sec').forEach(s=>{
+    if(s.offsetParent===null)return;                 // display:none -> skip
+    const nn=('0'+(++n)).slice(-2);
+    const no=s.querySelector('.sec-head .sec-no');if(no)no.textContent=nn;
+    const gh=s.querySelector('.ghost');if(gh)gh.textContent=nn;
+  });
+}
 applyStatic();heroInit();stars();podium();bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();reveals();
 try{paulInit()}catch(e){}
 onSee('edge-sec',el=>{try{edge()}catch(e){} flickAll(el);growAll(el)},'0px 0px 200px 0px');
@@ -1429,8 +1448,10 @@ def main() -> None:
     payload = build_payload()
     with open(os.path.join(OUT, "assets", "earth-night.jpg"), "rb") as f:
         earth_b64 = base64.b64encode(f.read()).decode()
-    fold = "" if payload.get("group_stage_done") else "open"   # collapsed once group stage is done
+    ko = bool(payload.get("group_stage_done"))
+    fold = "" if ko else "open"   # collapsed once group stage is done
     html = (TEMPLATE
+            .replace("__BODYCLS__", "ko" if ko else "")   # hides pre-tournament/group sections
             .replace("__GROUPS_OPEN__", fold)
             .replace("__MATCHES_OPEN__", fold)
             .replace("__DATA__", json.dumps(payload, ensure_ascii=False))
