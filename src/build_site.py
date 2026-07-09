@@ -116,6 +116,45 @@ PRE_SNAPSHOT = os.path.join(ROOT, "predictions",
                             "2026-06-11_round2_pretournament.csv")
 
 
+BLEND_MARKET_W = 0.5   # knockout-stage market weight (see market_champion_meta.json)
+
+
+def apply_market_blend(d: dict) -> None:
+    """Market-anchored headline champion probability (in-place).
+
+    Once data/market_champion.csv exists (current outright title odds for the
+    live teams), the site headline champion probability becomes a transparent
+    linear pool  (1-w)*model + w*market,  w from the meta (default 0.5 at the
+    knockout stage). The pure-model and de-vigged market numbers are kept on
+    every row (p_champion_model / p_market_champ) so the table can show all
+    three, and summary is re-sorted by the blended value. No file -> untouched
+    (pure model), so the group stage and any earlier snapshot are unaffected."""
+    mc_path = os.path.join(DATA, "market_champion.csv")
+    if not os.path.exists(mc_path):
+        return
+    import pandas as pd
+    from .market import devig_power
+    mc = pd.read_csv(mc_path)
+    meta_path = os.path.join(DATA, "market_champion_meta.json")
+    meta = json.load(open(meta_path)) if os.path.exists(meta_path) else {}
+    w = float(meta.get("blend_weight_market", BLEND_MARKET_W))
+    p_mkt = devig_power(mc["decimal_odds"].to_numpy(dtype=float))
+    mkt = {t: float(p) for t, p in zip(mc["team"], p_mkt)}
+    for row in d.get("summary", []):
+        pm = float(row["p_champion"])
+        row["p_champion_model"] = pm
+        pk = mkt.get(row["team"], 0.0)
+        row["p_market_champ"] = pk
+        row["p_champion_blended"] = (1.0 - w) * pm + w * pk
+    tot = sum(r["p_champion_blended"] for r in d["summary"]) or 1.0
+    for r in d["summary"]:
+        r["p_champion_blended"] /= tot
+        r["p_champion"] = r["p_champion_blended"]   # headline = blend everywhere
+    d["summary"].sort(key=lambda r: -r["p_champion"])
+    d["blend"] = {"weight_market": w, "as_of": meta.get("as_of"),
+                  "source": meta.get("source"), "devig": meta.get("devig", "power")}
+
+
 def build_payload() -> dict:
     d = api_all()
     d.pop("status", None)
@@ -148,6 +187,7 @@ def build_payload() -> dict:
     grp = [m for m in d.get("matches", []) if int(m.get("match", 0)) <= 72]
     d["group_stage_done"] = bool(grp) and all(
         m.get("score1") is not None for m in grp)
+    apply_market_blend(d)
     d["built_at"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     return d
 
@@ -413,6 +453,7 @@ td .tf{display:inline-flex;align-items:center;gap:9px;font-weight:600}
 td .tf img{width:28px;height:20px;border-radius:3px;object-fit:cover}
 .num{font-family:var(--num)}
 .goldc{color:var(--gold2)} .pos{color:var(--pos)} .neg{color:var(--neg)}
+td.dim{color:var(--dim)}
 .tablebox{max-height:600px;overflow:auto;border-radius:12px}
 
 /* collapsible completed-stage panels */
@@ -666,11 +707,13 @@ const I18N={zh:{
  contenders:'Contenders · 候选人（点击切换）',
  snapPrefix:'快照',playedPrefix:'已完赛',genAt:'快照生成',repoLink:'代码与数据仓库 →',
  subProb:'夺冠概率（σ=75 主模型）· 敏感区间',subFinal:'进决赛',subSF:'进四强',
+ subBlend:'夺冠概率 · 模型×市场融合',subModel:'纯模型',subMarket:'市场',
+ thModel:'纯模型',thMktNow:'市场·现',
  statSimsV:'10万',statSims:'蒙特卡洛模拟',statLL:'样本外 LOGLOSS',statBrier:'逐场 BRIER',
  statWait:'待开赛',statSigma:'回测选定扰动',
  s1t:'晋级概率地形',
  s1d:'24 支最强球队 × 6 个晋级阶段的三维概率山脉——最前排的金色山脊就是夺冠之路，身后的蓝色高墙是 32 强的入场概率。',
- s2t:'领奖台',s2d:'绝对概率层前三名（σ=75 主模型，区间为 [σ=150, σ=0] 敏感性边界）。',
+ s2t:'领奖台',s2d:'前三名夺冠概率为『我们的模型 × 锐利盘市场』的融合值（<b>市场 WMKT · 模型 WMDL</b>，市场快照 2026-07-08 FOX Sports，幂法去水）。淘汰赛阶段偏重市场的理由：顶级对决在本模型里仅 51–54%（近乎掷硬币），此时靠 Elo 的薄边际不如让市场共识主导。纯模型 / 市场两栏见 §08 全量表。',
  s3t:'夺冠概率 · 全球版图',
  s3d:'48 支参赛队的夺冠概率立柱，矗立在各自国土之上（柱高 ∝ √概率，颜色 ∝ 概率）。最高的那道金光，就是此刻的头号热门。',
  s4t:'市场低估了谁 · 开赛前存证',
@@ -694,10 +737,10 @@ const I18N={zh:{
  grp:'组',scoreNone:'首场完赛后开始逐场 Brier 计分',scored:'已计分',matchesUnit:'场',
  modelBrier:'模型 Brier',vsMarket:'vs 市场',matchEmpty:'没有符合筛选的比赛',
  pWinL:'左胜',pDraw:'平',pWinR:'右胜',brierTip:'模型 Brier（市场',
- thTeam:'队伍',thChampion:'夺冠',thFinal:'决赛',thSF:'四强',thQF:'八强',thR16:'16强',thR32:'32强',
+ thTeam:'队伍',thChampion:'夺冠·融合',thFinal:'决赛',thSF:'四强',thQF:'八强',thR16:'16强',thR32:'32强',
  thOdds:'锐利赔率',thImp:'市场隐含',thEdge:'边际pp',thEV:'EV',
  winProb:'夺冠概率',edgeWord:'边际',vsModel:'模型',vsMkt:'市场',
- foot1:'<b>方法链</b> · eloratings.net 评级 → 49,400 场历史重放重算逐场 Elo（vs 官方 corr 0.986）→ Dixon-Coles 在 8,103 场上 MLE 拟合（其中 1,309 场样本外验证，logloss 0.8325）→ σ=75 实力扰动（2018/2022 两届回测选定）→ <b>赛中评级滚动更新</b>（Round 4：eloratings 规则重放已完赛场次，两届回测淘汰赛 logloss −8%）→ 100,000 次全赛事蒙特卡洛（2026 新版规则完整实现）→ 锐利盘市场对照',
+ foot1:'<b>方法链</b> · eloratings.net 评级 → 49,400 场历史重放重算逐场 Elo（vs 官方 corr 0.986）→ Dixon-Coles 在 8,103 场上 MLE 拟合（其中 1,309 场样本外验证，logloss 0.8325）→ σ=75 实力扰动（2018/2022 两届回测选定）→ <b>赛中评级滚动更新</b>（Round 4：eloratings 规则重放已完赛场次，两届回测淘汰赛 logloss −8%）→ 100,000 次全赛事蒙特卡洛（2026 新版规则完整实现）→ 锐利盘市场对照 → <b>淘汰赛头条与锐利盘市场融合（市场 WMKT）</b>（幂法去水；纯模型全程留档）',
  foot2:'<b>公开核验</b> · 全部 72 场小组赛逐场预测于揭幕战开球前 git 提交，提交哈希经 RFC3161 可信时间戳锚定（freetsa.org）；已完赛场次锁定真实结果条件重模拟，逐场 Brier 公开计分；淘汰赛逐场晋级概率逐场于开球前追加至公开账本（predictions/ko_forecasts.csv + ko_forecasts_r4.csv 双轨，只增不改，冻结/滚动评级头对头计分）',
  foot3:'本页面为静态数据快照，方法论演示，<b>非投注建议</b>。',
  brand:'🐙 <b>OpenPaul</b> — 2010 年章鱼保罗用触手挑选赢家，16 年后我们用 100,000 次蒙特卡洛。预测可以开源，章鱼只负责可爱。',
@@ -708,11 +751,13 @@ const I18N={zh:{
  contenders:'Contenders · click to switch',
  snapPrefix:'Snapshot',playedPrefix:'Played',genAt:'Snapshot generated',repoLink:'Code & data repository →',
  subProb:'Title probability (σ=75 main model) · sensitivity band',subFinal:'Final',subSF:'Semis',
+ subBlend:'Title probability · model × market blend',subModel:'model',subMarket:'market',
+ thModel:'model',thMktNow:'market·now',
  statSimsV:'100k',statSims:'MONTE CARLO RUNS',statLL:'OUT-OF-SAMPLE LOGLOSS',statBrier:'PER-MATCH BRIER',
  statWait:'awaiting kickoff',statSigma:'BACKTEST-CHOSEN σ',
  s1t:'Probability Terrain',
  s1d:'A 3-D probability massif: top 24 teams × 6 knockout stages. The golden ridge up front is the road to the title; the blue wall behind is the round-of-32 entry probability.',
- s2t:'The Podium',s2d:'Top three by absolute probability (σ=75 main model; band = [σ=150, σ=0] sensitivity bounds).',
+ s2t:'The Podium',s2d:'Top-three title probabilities blend our model with the sharp market (<b>WMKT market · WMDL model</b>, odds snapshot 2026-07-08, FOX Sports, power de-vig). Why lean on the market in the knockouts: the decisive top-team games are just 51–54% in our own model (near coin-flips), so Elo\'s thin edge is worse than letting the market consensus lead. Model / market columns are in the §08 full table.',
  s3t:'Title Probability · World Map',
  s3d:'Championship-probability pillars rising from each of the 48 homelands (height ∝ √p, color ∝ p). The tallest golden beam marks the current favourite.',
  s4t:'Whom Did the Market Undervalue? · Sealed Pre-Kickoff',
@@ -736,10 +781,10 @@ const I18N={zh:{
  grp:'',scoreNone:'Brier scoring starts after the first final whistle',scored:'Scored',matchesUnit:'',
  modelBrier:'model Brier',vsMarket:'vs market',matchEmpty:'No matches for this filter',
  pWinL:'left win',pDraw:'draw',pWinR:'right win',brierTip:'Model Brier (market',
- thTeam:'Team',thChampion:'Title',thFinal:'Final',thSF:'SF',thQF:'QF',thR16:'R16',thR32:'R32',
+ thTeam:'Team',thChampion:'Title·blend',thFinal:'Final',thSF:'SF',thQF:'QF',thR16:'R16',thR32:'R32',
  thOdds:'Sharp odds',thImp:'Implied',thEdge:'Edge pp',thEV:'EV',
  winProb:'Title probability',edgeWord:'Edge',vsModel:'Model',vsMkt:'Market',
- foot1:'<b>Method chain</b> · eloratings.net ratings → 49,400-match historical replay of per-game Elo (corr 0.986 vs official) → Dixon-Coles MLE on 8,103 matches (1,309 held out, logloss 0.8325) → σ=75 strength noise (chosen by backtests on the 2018/2022 World Cups) → <b>in-tournament rating updates</b> (Round 4: eloratings rule replayed over finished matches, knockout logloss −8% across two backtested Cups) → 100,000 full-tournament Monte Carlo runs (complete 2026 ruleset) → sharp-market comparison',
+ foot1:'<b>Method chain</b> · eloratings.net ratings → 49,400-match historical replay of per-game Elo (corr 0.986 vs official) → Dixon-Coles MLE on 8,103 matches (1,309 held out, logloss 0.8325) → σ=75 strength noise (chosen by backtests on the 2018/2022 World Cups) → <b>in-tournament rating updates</b> (Round 4: eloratings rule replayed over finished matches, knockout logloss −8% across two backtested Cups) → 100,000 full-tournament Monte Carlo runs (complete 2026 ruleset) → sharp-market comparison → <b>knockout headline blended with the sharp market (WMKT market)</b> (power de-vig; model-only kept throughout)',
  foot2:'<b>Public verification</b> · all 72 group-stage forecasts committed to git before the opening kickoff, commit hashes anchored with RFC3161 trusted timestamps (freetsa.org); finished matches are locked into conditional re-simulation and Brier-scored in public; knockout advancement forecasts are appended per match to dual public pre-kickoff ledgers (predictions/ko_forecasts.csv + ko_forecasts_r4.csv, append-only, frozen vs rolled ratings scored head-to-head)',
  foot3:'This page is a static data snapshot and a methodology demo — <b>not betting advice</b>.',
  brand:'🐙 <b>OpenPaul</b> — in 2010, Paul the Octopus picked winners with tentacles; 16 years on, we use 100,000 Monte Carlo runs. The forecasts are open source — the octopus is just the mascot.',
@@ -752,6 +797,12 @@ function applyStatic(){
   document.documentElement.lang=LANG==='zh'?'zh-CN':'en';
   const b=document.getElementById('langBtn');if(b)b.textContent=LANG==='zh'?'EN':'中文';
   document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=t(el.dataset.i18n)});
+  // fill blend weights into disclosure copy — single source of truth is D.blend
+  const wm=D.blend?Math.round(D.blend.weight_market*100):50;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    if(el.innerHTML.indexOf('WMKT')>=0||el.innerHTML.indexOf('WMDL')>=0)
+      el.innerHTML=el.innerHTML.replace(/WMKT/g,wm+'%').replace(/WMDL/g,(100-wm)+'%');
+  });
 }
 const fl=(t,w=80)=>FLAG[t]?`flags/${FLAG[t]}-w${w<=80?80:320}.png`:'';
 const fimg=(t,w)=>FLAG[t]?`<img src="${fl(t,w||80)}" loading="lazy" alt="${nm(t)}">`:'';
@@ -804,8 +855,9 @@ function setHero(i){
   f.src=fl(r.team,320);f.alt=nm(r.team);
   document.getElementById('champName').innerHTML=
     nm(r.team)+`<span class="en">Nº${i+1} · ${r.team} · ELO ${Math.round(r.elo)}</span>`;
-  document.getElementById('champSub').innerHTML=
-    `${t('subProb')} [<b>${pct(r.p_s150)}</b>, <b>${pct(r.p_s0)}</b>] · ${t('subFinal')} <b>${pct(r.p_final)}</b> · ${t('subSF')} <b>${pct(r.p_sf)}</b>`;
+  document.getElementById('champSub').innerHTML = r.p_champion_model!=null
+    ? `${t('subBlend')} · ${t('subModel')} <b>${pct(r.p_champion_model)}</b> · ${t('subMarket')} <b>${pct(r.p_market_champ)}</b> · ${t('subFinal')} <b>${pct(r.p_final)}</b>`
+    : `${t('subProb')} [<b>${pct(r.p_s150)}</b>, <b>${pct(r.p_s0)}</b>] · ${t('subFinal')} <b>${pct(r.p_final)}</b> · ${t('subSF')} <b>${pct(r.p_sf)}</b>`;
   countUp(document.getElementById('champPct'),r.p_champion*100,1,900);
   document.querySelectorAll('#heroSide .rk').forEach((el,j)=>el.classList.toggle('active',j===i));
   try{paulGo(i)}catch(e){}   // mascot hops over on every switch, manual or auto
@@ -1144,7 +1196,7 @@ function edge(){
       axisLine:{show:false},axisTick:{show:false}},
     tooltip:{backgroundColor:'#101a30',borderColor:'#2a3b5d',textStyle:{color:'#e8eef9'},
       formatter:p=>{const r=sel[p.dataIndex];
-        return `<b>${nm(r.team)}</b><br>${t('vsModel')} ${pct(r.p_champion)} − ${t('vsMkt')} ${pct(r.p_market_sharp)}<br>${t('edgeWord')} <b>${sgn(r.edge_sharp_pp)}pp</b> · EV ${sgn(r.ev_sharp*100)}%`}},
+        return `<b>${nm(r.team)}</b><br>${t('vsModel')} ${pct(r.p_champion_model!=null?r.p_champion_model:r.p_champion)} − ${t('vsMkt')} ${pct(r.p_market_sharp)}<br>${t('edgeWord')} <b>${sgn(r.edge_sharp_pp)}pp</b> · EV ${sgn(r.ev_sharp*100)}%`}},
     series:[{type:'bar',barWidth:17,
       data:sel.map(r=>({value:+r.edge_sharp_pp.toFixed(2),
         itemStyle:{color:r.edge_sharp_pp>=0?
@@ -1283,7 +1335,8 @@ function bracket(){
 
 /* ---------- full table ---------- */
 let sortKey='p_champion',sortAsc=false,tableSeen=false;
-const COLS=()=>[['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_final',t('thFinal')],['p_sf',t('thSF')],
+const COLS=()=>[['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],
+  ['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')],
   ['p_qf',t('thQF')],['p_r16',t('thR16')],['p_r32',t('thR32')],['decimal_odds_sharp',t('thOdds')],
   ['p_market_sharp',t('thImp')],['edge_sharp_pp',t('thEdge')],['ev_sharp',t('thEV')]];
 function table(){
@@ -1297,6 +1350,8 @@ function table(){
       <td><span class="tf">${fimg(r.team,80)}${nm(r.team)}</span></td>
       <td class="num">${r.elo!=null?Math.round(r.elo):'—'}</td>
       <td class="num goldc"${tableSeen?'':' data-flick="'+pct(r.p_champion,2)+'"'}>${pct(r.p_champion,2)}</td>
+      <td class="num dim">${r.p_champion_model!=null?pct(r.p_champion_model,2):'—'}</td>
+      <td class="num dim">${r.p_market_champ!=null?pct(r.p_market_champ,2):'—'}</td>
       <td class="num">${pct(r.p_final)}</td><td class="num">${pct(r.p_sf)}</td><td class="num">${pct(r.p_qf)}</td>
       <td class="num">${pct(r.p_r16)}</td><td class="num">${pct(r.p_r32)}</td>
       <td class="num">${num(r.decimal_odds_sharp)}</td><td class="num">${pct(r.p_market_sharp,2)}</td>
