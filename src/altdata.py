@@ -58,15 +58,43 @@ TITLES = {"Argentina": 3, "France": 2, "England": 1, "Spain": 1,
           "Norway": 0, "Belgium": 0, "Switzerland": 0, "Morocco": 0}
 BEST_RANK = {"France": 1, "Spain": 1, "Argentina": 1, "England": 1,           # pre-2026 best
              "Belgium": 3, "Morocco": 4, "Switzerland": 8, "Norway": 16}
-POP = {"France": 68.4, "Spain": 48.4, "Argentina": 46.0, "England": 57.1,     # millions
-       "Norway": 5.5, "Belgium": 11.8, "Switzerland": 8.9, "Morocco": 37.8}
-GDP_PC = {"Switzerland": 100, "Norway": 87, "Belgium": 55, "England": 49,     # k USD
-          "France": 46, "Spain": 34, "Argentina": 14, "Morocco": 4}
 FIFA = {"Argentina": 1, "Spain": 2, "France": 3, "England": 4,
         "Morocco": 7, "Belgium": 9, "Switzerland": 19, "Norway": 31}
 HOME_TEMP = {"France": 25, "Spain": 33, "Argentina": 14, "England": 23,       # July high °C
              "Norway": 22, "Belgium": 23, "Switzerland": 25, "Morocco": 26}
 VENUE_TEMP = {"Foxborough": 28, "Inglewood": 29, "Miami Gardens": 32, "Kansas City": 32}
+
+# ---- qualitative tactical read (subjective/editorial; bilingual) ----
+COACH = {
+  "France":      {"name": {"zh": "德尚", "en": "Deschamps"},        "level": {"zh": "2018世界杯冠军·稳健", "en": "2018 WC winner · pragmatic"}},
+  "Spain":       {"name": {"zh": "德拉富恩特", "en": "de la Fuente"}, "level": {"zh": "2024欧洲杯冠军·传控", "en": "Euro 2024 winner · possession"}},
+  "Argentina":   {"name": {"zh": "斯卡洛尼", "en": "Scaloni"},        "level": {"zh": "2022世界杯冠军·善用梅西", "en": "2022 WC winner · builds around Messi"}},
+  "England":     {"name": {"zh": "图赫尔", "en": "Tuchel"},          "level": {"zh": "欧冠冠军·结构化", "en": "UCL winner · structured"}},
+  "Norway":      {"name": {"zh": "索尔巴肯", "en": "Solbakken"},      "level": {"zh": "务实经验型", "en": "pragmatic veteran"}},
+  "Belgium":     {"name": {"zh": "加西亚", "en": "Garcia"},          "level": {"zh": "经验型", "en": "experienced"}},
+  "Switzerland": {"name": {"zh": "亚金", "en": "Yakin"},            "level": {"zh": "组织防反", "en": "organised, counter"}},
+  "Morocco":     {"name": {"zh": "瓦希比", "en": "Ouahbi"},          "level": {"zh": "接棒新帅", "en": "new appointment"}},
+}
+STYLE = {
+  "France":      {"zh": "务实反击 + 球星单点(姆巴佩速度、登贝莱/奥利塞边路)", "en": "pragmatic counters + star quality (Mbappé pace, Dembélé/Olise wings)"},
+  "Spain":       {"zh": "极致传控 + 高位逼抢(本届零封)", "en": "relentless possession + high press (no goal conceded)"},
+  "Argentina":   {"zh": "梅西调度 + 大赛抗压 + 定位球", "en": "Messi-orchestrated + big-game nous + set pieces"},
+  "England":     {"zh": "均衡全面(创造多、失球少) + 边路个人质量", "en": "most balanced profile + wide individual quality"},
+  "Norway":      {"zh": "直接 + 哈兰德支点 + 定位球(后防偏漏)", "en": "direct + Haaland focal point + set pieces (leaky at the back)"},
+  "Belgium":     {"zh": "直接强攻(德凯特拉雷 + 卢卡库)", "en": "direct firepower (De Ketelaere + Lukaku)"},
+  "Switzerland": {"zh": "严密低位 + 快速反击(大赛超常发挥)", "en": "compact block + counters (tournament over-achievers)"},
+  "Morocco":     {"zh": "纪律密集防守 + 快速反击(2022四强底子)", "en": "disciplined low block + quick transitions (2022 semi-finalists)"},
+}
+MATCHUP_KEY = {
+  97: {"zh": "全场最强火力 vs 最铁的防守。摩洛哥的低位铁桶最擅长冻结法国的中场传导、逼其打阵地战;法国得靠姆巴佩冲身后、边路(登贝莱/奥利塞)与定位球撬开。摩洛哥反击一旦犀利就是爆冷剧本——但法国这届 14 球的火力全场最猛。",
+       "en": "The tournament's hottest attack vs its most disciplined defence. Morocco's low block is exactly what frustrates France's build-up and forces a grind; France must beat it with Mbappé's runs in behind, the Dembélé/Olise wings and set pieces. Sharp Moroccan counters are the upset script — but France's 14 goals are the most of the eight."},
+  98: {"zh": "控球 vs 直接。西班牙的传控会把比利时压在半场疯狂回追;比利时的活路是德凯特拉雷/卢卡库直接冲西班牙高位防线的身后空当。西班牙本届一球未失,比利时想破门得靠一次单点爆发。",
+       "en": "Control vs directness. Spain's possession pins Belgium back and drains them; Belgium's route is hitting the space behind Spain's high line with De Ketelaere/Lukaku. Spain haven't conceded all tournament, so Belgium need a moment of individual quality."},
+  99: {"zh": "挪威后防是这组最大破绽(本届丢 9 球全场最多),英格兰均衡的进攻足以打穿;反过来哈兰德的支点与定位球正好去咬英格兰自己的定位球软肋。迈阿密湿热是双方共同考验,但英格兰整体更完整,挪威押哈兰德搏冷。",
+       "en": "Norway's defence is the tie's soft spot (9 conceded, most of the eight); England's balanced attack should get through, while Haaland's aerial/set-piece threat targets England's own weak spot. Miami's heat tests both, but England are the more complete side; Norway ride Haaland."},
+  100: {"zh": "瑞士的严密低位 + 反击,正是阿根廷最难受的对手类型(本届多是 3-2 险胜、已丢 5 球);阿根廷要靠耐心和梅西的灵光、定位球撬开,拖得越久越危险。瑞士淘汰赛已靠点球过关,再拖进点球又是爆冷候选。堪萨斯城酷暑对刚从南半球冬训过来的阿根廷是额外考验。",
+        "en": "Switzerland's compact block-and-counter is the profile that troubles Argentina most (a run of 3-2 wins, five conceded); Argentina need patience and a Messi moment, and the longer it stays level the more dangerous it gets. The Swiss already won one shootout — another and it's upset territory. Kansas City's heat is an extra test for an Argentina side arriving from a southern-hemisphere winter."},
+}
 
 
 def _coord(city):
@@ -145,8 +173,9 @@ def build() -> dict:
         return {"team": t, "height": HEIGHT[t], "age": AGE[t], "value": VALUE[t],
                 "gf": stats[t]["gf"], "ga": stats[t]["ga"], "gd": stats[t]["gd"],
                 "shootouts": stats[t]["shootouts"], "titles": TITLES[t],
-                "best_rank": BEST_RANK[t], "pop": POP[t], "gdp_pc": GDP_PC[t],
-                "fifa": FIFA[t], "flight_km": flight[t], "home_temp": HOME_TEMP[t],
+                "best_rank": BEST_RANK[t], "fifa": FIFA[t], "flight_km": flight[t],
+                "home_temp": HOME_TEMP[t], "coach": COACH[t]["name"],
+                "coach_level": COACH[t]["level"], "style": STYLE[t],
                 "climate_gap": (venue_temp - HOME_TEMP[t]) if venue_temp is not None else None}
 
     teams = {t: facts(t) for t in QF_TEAMS}
@@ -156,7 +185,8 @@ def build() -> dict:
     for d, m, a, b, c, g in sorted(qf, key=lambda x: x[1]):
         vtemp = VENUE_TEMP.get(_base(c))
         matchups.append({"match": m, "date": d, "city": c, "venue_temp": vtemp,
-                         "team1": facts(a, vtemp), "team2": facts(b, vtemp)})
+                         "team1": facts(a, vtemp), "team2": facts(b, vtemp),
+                         "key": MATCHUP_KEY.get(m)})
 
     qf_cities = {_base(c): (m, a, b, d) for d, m, a, b, c, g in qf}
     seen, venues = set(), []

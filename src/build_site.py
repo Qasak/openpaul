@@ -496,6 +496,16 @@ body.ko .koHidden{display:none !important}
 .altcard .avenue{text-align:center;font-size:11px;color:var(--dim);margin-bottom:4px}
 .altcard .altgh{font-family:var(--num);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);opacity:.82;margin:13px 0 1px}
 .altcard .altgrp:first-of-type .altgh{margin-top:6px}
+.altfx{margin-top:15px;padding-top:13px;border-top:1px solid var(--line)}
+.altfxh{font-family:var(--num);font-size:11px;letter-spacing:.1em;color:var(--gold)}
+.altfxh .fxsub{font-size:9px;color:var(--dim);letter-spacing:.1em;margin-left:6px;text-transform:uppercase}
+.fxblock{margin-top:9px}
+.fxlab{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:3px}
+.fxline{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#cdd8ea;margin:3px 0;line-height:1.45}
+.fxline img{width:20px;height:14px;border-radius:2px;object-fit:cover;flex:none}
+.fxline b{color:#eef3fb;font-weight:700}
+.fxkey{margin-top:11px;font-size:12.5px;line-height:1.65;color:var(--txt)}
+.fxkey .fxkk{display:inline-block;font-family:var(--num);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(240,199,94,.35);border-radius:5px;padding:1px 6px;margin-right:7px;vertical-align:middle}
 .altrow{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:center;gap:6px;padding:8px 0;border-top:1px solid rgba(27,39,64,.55)}
 .altrow .l{text-align:right}.altrow .r{text-align:left}
 .altrow .val{font-family:var(--num);font-size:14px;color:#cdd8ea}
@@ -766,7 +776,7 @@ const I18N={zh:{
  bkR32:'32强',bkR16:'16强',bkQF:'八强',bkSF:'半决赛',bkF:'决赛',bk3:'季军战',bkPens:'P',
  navAlt:'另类',
  altT:'另类擂台 · 章鱼保罗的野路子',altBadge:'娱乐向 · 不进模型',
- altD:'纯为好玩:把四场八强按几项<b>跟胜负无关</b>的另类数据两两比一比,金色 = 该项"赢家"。这些数字<b>绝不进预测模型</b>——保罗当年也就靠触手抓箱子。',
+ altD:'纯为好玩:把四场八强按几项<b>跟胜负无关</b>的另类数据两两比一比,金色 = 该项"赢家"。每张卡末尾另附一段<b>主观战术看点</b>(主帅 / 打法 / 克制点)。这些<b>都不进预测模型</b>——保罗当年也就靠触手抓箱子。',
  altMapCap:'八强赛城(金色) · 灰点为本届已用过的美国赛场',
  altHeight:'平均身高',altAge:'平均年龄',altClimate:'场地热适应',altFlight:'本届飞行',
  altHeightU:'cm',altAgeU:'岁',altFlightU:'km',
@@ -777,6 +787,7 @@ const I18N={zh:{
  altGF:'本届进球',altGA:'本届失球',altGD:'净胜球',altPK:'点球大战',
  altValue:'阵容身价',altTitles:'历史夺冠',altBest:'历史最佳',altFifa:'FIFA 排名',altPop:'国家人口',altGdp:'人均 GDP',
  altFinC:'冠军',altFin3:'季军',altFinS:'四强',altFinQ:'八强',altFinR:'16强',
+ altTactics:'战术看点',altTacSub:'主观 · 非模型',altCoach:'主帅',altStyle:'打法',altKey:'克制点',
  hintDrag:'拖拽旋转 · 滚轮缩放',hintTouch:'触摸拖拽旋转',hintGlobe:'拖拽旋转 · 自动巡航',hintTouch2:'触摸拖拽旋转',
  benchTitle:'模型阵营对照 · 西班牙 vs 德国夺冠概率（开赛前）',
  benchNote:'开赛前所有来源一致指向西班牙。德国行是模型阵营的分水岭：赛果系与市场都在 ~3–5%（本模型 2.9%、Opta 5.1%、市场 5.3%），而含球员身价协变量的模型给到 ~11%（红色条）——这是本届各模型最大的单队分歧。后记（7-02）：德国 32 强赛 1-1 点球不敌巴拉圭出局，赛果系阵营的低估计方向得到验证。',
@@ -823,7 +834,7 @@ const I18N={zh:{
  bkR32:'R32',bkR16:'R16',bkQF:'QF',bkSF:'SF',bkF:'FINAL',bk3:'3rd place',bkPens:'P',
  navAlt:'Fun',
  altT:'The Alt-Data Arena · Paul\'s Wild Guesses',altBadge:'for fun · not in the model',
- altD:'Purely for fun: the four quarter-finals compared on a few <b>result-irrelevant</b> quirky metrics, gold = that metric\'s "winner". These numbers <b>never touch the prediction model</b> — Paul the octopus just grabbed boxes with his tentacles, after all.',
+ altD:'Purely for fun: the four quarter-finals compared on a few <b>result-irrelevant</b> quirky metrics, gold = that metric\'s "winner", plus a <b>subjective tactical read</b> (coach / style / the key) at the foot of each card. None of it <b>touches the prediction model</b> — Paul the octopus just grabbed boxes with his tentacles, after all.',
  altMapCap:'Quarter-final host cities (gold) · grey dots = US venues used earlier this tournament',
  altHeight:'Avg height',altAge:'Avg age',altClimate:'Heat adaptation',altFlight:'Km flown',
  altHeightU:'cm',altAgeU:'yr',altFlightU:'km',
@@ -834,6 +845,7 @@ const I18N={zh:{
  altGF:'Goals for',altGA:'Goals against',altGD:'Goal diff',altPK:'Shootouts',
  altValue:'Squad value',altTitles:'WC titles',altBest:'Best finish',altFifa:'FIFA rank',altPop:'Population',altGdp:'GDP/capita',
  altFinC:'Champions',altFin3:'3rd',altFinS:'Semis',altFinQ:'QF',altFinR:'R16',
+ altTactics:'Tactical read',altTacSub:'subjective · not the model',altCoach:'Coach',altStyle:'Style',altKey:'The key',
  hintDrag:'drag to rotate · scroll to zoom',hintTouch:'touch-drag to rotate',hintGlobe:'drag to rotate · auto-cruise',hintTouch2:'touch-drag to rotate',
  benchTitle:'Model Camps · Spain vs Germany title odds (pre-kickoff)',
  benchNote:'Before kickoff every source pointed to Spain. Germany was the fault line between camps: results-based models and the market sat at ~3–5% (this model 2.9%, Opta 5.1%, market 5.3%), while covariate models with squad value reached ~11% (red bar) — the single largest disagreement of this cup. Postscript (Jul 2): Germany went out of the round of 32, 1-1 (pens) to Paraguay — the low end of that range was the right one.',
@@ -1405,7 +1417,6 @@ function renderAlt(){
   if(!box||!D.alt||!D.alt.matchups)return;
   const bestTxt={1:t('altFinC'),3:t('altFin3'),4:t('altFinS'),8:t('altFinQ'),16:t('altFinR')};
   const valF=v=>v>=1000?'€'+(v/1000).toFixed(2)+'B':'€'+v+'M';
-  const popF=v=>LANG==='zh'?Math.round(v*100)+'万':v+'M';
   const GROUPS=[
     {h:t('altGCup'),rows:[
       {k:'gf',lab:t('altGF'),better:'max',f:v=>v},
@@ -1419,9 +1430,7 @@ function renderAlt(){
     {h:t('altGNation'),rows:[
       {k:'titles',lab:t('altTitles'),better:'max',f:v=>v},
       {k:'best_rank',lab:t('altBest'),better:'min',f:v=>bestTxt[v]||v},
-      {k:'fifa',lab:t('altFifa'),better:'min',f:v=>'#'+v},
-      {k:'pop',lab:t('altPop'),f:popF},
-      {k:'gdp_pc',lab:t('altGdp'),f:v=>'$'+v+'k'}]},
+      {k:'fifa',lab:t('altFifa'),better:'min',f:v=>'#'+v}]},
     {h:t('altGCond'),rows:[
       {k:'climate_gap',lab:t('altClimate'),better:'min',hint:t('altClimateHint'),f:v=>(v>0?'+':'')+v+' °C'},
       {k:'flight_km',lab:t('altFlight'),better:'min',f:v=>Math.round(v).toLocaleString()+' '+t('altFlightU')}]},
@@ -1439,11 +1448,21 @@ function renderAlt(){
       }).join('');
       return `<div class="altgrp"><div class="altgh">${g.h}</div>${rows}</div>`;
     }).join('');
+    const L=LANG;
+    const fx=mu.key?`<div class="altfx">
+      <div class="altfxh">🎯 ${t('altTactics')}<span class="fxsub">${t('altTacSub')}</span></div>
+      <div class="fxblock"><div class="fxlab">${t('altCoach')}</div>
+        <div class="fxline">${fimg(A.team,80)}<b>${A.coach[L]}</b> · ${A.coach_level[L]}</div>
+        <div class="fxline">${fimg(B.team,80)}<b>${B.coach[L]}</b> · ${B.coach_level[L]}</div></div>
+      <div class="fxblock"><div class="fxlab">${t('altStyle')}</div>
+        <div class="fxline">${fimg(A.team,80)}${A.style[L]}</div>
+        <div class="fxline">${fimg(B.team,80)}${B.style[L]}</div></div>
+      <div class="fxkey"><span class="fxkk">${t('altKey')}</span>${mu.key[L]}</div></div>`:'';
     return `<div class="altcard">
       <div class="ah"><span class="side">${fimg(A.team,80)}${nm(A.team)}</span>
         <span class="side r">${fimg(B.team,80)}${nm(B.team)}</span></div>
       <div class="avenue">${t('altVenue')}: ${cityLabel(mu.city)} · ${mu.venue_temp}°C · ${(mu.date||'').slice(5)}</div>
-      ${groups}</div>`;
+      ${groups}${fx}</div>`;
   }).join('');
 }
 function altMap(){
