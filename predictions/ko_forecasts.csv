@@ -16,3 +16,4 @@ forecast_at,sigma,match,round,date,city,country,team1,team2,elo1,elo2,p1_advance
 2026-07-08T19:57:09Z,75.0,97,QF,2026-07-09,Foxborough (Boston),United States,France,Morocco,2063,1827,0.7418,0.7506,0.6006,0.2328,0.1666
 2026-07-08T19:57:09Z,75.0,98,QF,2026-07-10,Inglewood (Los Angeles),United States,Spain,Belgium,2157,1894,0.7655,0.7749,0.6279,0.2224,0.1496
 2026-07-08T19:57:09Z,75.0,100,QF,2026-07-11,Kansas City,United States,Argentina,Switzerland,2115,1891,0.7309,0.7394,0.5884,0.2371,0.1745
+2026-07-11T06:04:46Z,75.0,101,SF,2026-07-14,Arlington (Dallas),United States,France,Spain,2063,2157,0.3985,0.3945,0.274,0.2721,0.4539
