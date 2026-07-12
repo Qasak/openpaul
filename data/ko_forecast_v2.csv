@@ -28,3 +28,4 @@ match,round,date,city,country,team1,team2,elo1,elo2,p1_advance,p1_advance_sigma0
 99,QF,2026-07-11,Miami Gardens (Miami),United States,Norway,England,1914,2021,0.3848,0.3803,0.263,0.2698,0.4672
 100,QF,2026-07-11,Kansas City,United States,Argentina,Switzerland,2115,1891,0.7309,0.7394,0.5884,0.2371,0.1745
 101,SF,2026-07-14,Arlington (Dallas),United States,France,Spain,2063,2157,0.3985,0.3945,0.274,0.2721,0.4539
+102,SF,2026-07-15,Atlanta,United States,England,Argentina,2021,2115,0.3985,0.3945,0.274,0.2721,0.4539

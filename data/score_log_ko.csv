@@ -14,3 +14,5 @@ match,round,team1,team2,winner,p_advancer,brier,logloss,forecast_at
 95,R16,Argentina,Egypt,Argentina,0.8781,0.0297,0.13,2026-07-04T08:25:38Z
 97,QF,France,Morocco,France,0.7418,0.1333,0.2987,2026-07-08T19:57:09Z
 98,QF,Spain,Belgium,Spain,0.7655,0.11,0.2672,2026-07-08T19:57:09Z
+99,QF,Norway,England,England,0.6152,0.2961,0.4858,2026-07-06T11:45:05Z
+100,QF,Argentina,Switzerland,Argentina,0.7309,0.1448,0.3135,2026-07-08T19:57:09Z
