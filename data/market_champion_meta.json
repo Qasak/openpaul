@@ -5,5 +5,5 @@
   "source_url": "https://www.foxsports.com/stories/soccer/world-cup-2026-champion-odds",
   "devig": "power",
   "blend_weight_market": 0.65,
-  "note": "Champion-futures odds for the 8 live quarter-finalists, snapshotted before the quarter-finals. De-vigged with the power method (same as the sharp-market baseline). The site headline champion probability is a linear pool (1-w)*model + w*market with w=0.5 for the knockout stage; the model-only and market-only numbers are kept alongside. Weight rationale: our own model gives ~51-54% on the decisive top-team matchups (near coin-flip), so once the field narrows to bunched elites we weight the sharp market equally rather than lean on Elo's thin edge."
+  "note": "Champion-futures odds for the 8 live quarter-finalists, snapshotted before the quarter-finals. De-vigged with the power method. At later rounds the site first re-normalises this historical board across surviving teams, then applies the configured linear pool (1-w)*model + w*market with w=0.65. The model-only and conditioned-market values remain visible; this snapshot is not presented as live semi-final odds."
 }
