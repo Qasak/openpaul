@@ -1526,7 +1526,7 @@ function penaltyAnalysis(){
     byId('penRecent').innerHTML=recentCard(teams[0],A)+recentCard(teams[1],B);
 
     const takerCard=(team,p)=>`<article class="panel pen-card"><h3>${fimg(team,80)}${nm(team)} · ${t('pkTakersT')}</h3>
-      <div class="pen-sub">${t('pkTakersSub')}</div><div class="pen-takers">${(p.taker_pool||[]).map(x=>`<span>${x}</span>`).join('')}</div>
+      <div class="pen-sub">${t('pkTakersSub')}</div><div class="pen-taker-rate"><b>${p.recent_kicks.scored}/${p.recent_kicks.attempts}</b><span>${t('pkRecentConversion')} · ${pct(p.recent_kicks.conversion_pct)}</span></div><div class="pen-takers">${(p.taker_pool||[]).map(x=>`<span>${x}</span>`).join('')}</div>
       <p class="pen-note">${LANG==='zh'?p.taker_note_zh:p.taker_note_en}</p></article>`;
     byId('penTakers').innerHTML=takerCard(teams[0],A)+takerCard(teams[1],B);
     const definition=LANG==='zh'?P.definition_zh:P.definition_en;
