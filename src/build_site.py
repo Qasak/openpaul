@@ -1,6 +1,6 @@
 """Build the public, read-only showcase site (docs/index.html).
 
-"半决赛之夜" edition — cinematic dark-stadium data showcase.
+"决赛之夜" edition — cinematic dark-stadium data showcase.
   - hero carousel over the live contenders (auto-cycle + click-to-switch)
   - OpenPaul mascot above the hero: a short-legged octopus that hops over to
     the active contender's flag on every switch (click or auto-cycle), picks
@@ -23,6 +23,7 @@ Set the repo link once it exists:  WC26_REPO_URL=https://github.com/you/repo
 from __future__ import annotations
 
 import base64
+import csv
 import json
 import os
 import re
@@ -164,6 +165,135 @@ def apply_market_blend(d: dict) -> None:
                   "devig": meta.get("devig", "power")}
 
 
+def build_final_analysis(d: dict) -> dict | None:
+    """Assemble the Spain–Argentina final dashboard from reproducible data.
+
+    Match probabilities come from the production rolling-Elo knockout forecast;
+    tournament records come from results.csv; scoreline probabilities reuse the
+    same Dixon-Coles model and sigma=75 quadrature as the forecast. Historical
+    head-to-head is background only and never enters the model.
+    """
+    forecast_path = os.path.join(DATA, "ko_forecast.csv")
+    results_path = os.path.join(DATA, "results.csv")
+    if not os.path.exists(forecast_path) or not os.path.exists(results_path):
+        return None
+    with open(forecast_path, encoding="utf-8") as f:
+        forecasts = list(csv.DictReader(f))
+    finals = [r for r in forecasts if r.get("round") == "FINAL"]
+    if not finals:
+        return None
+    fc = finals[-1]
+    team1, team2 = fc["team1"], fc["team2"]
+    teams = {
+        t: {"played": 0, "wins": 0, "draws": 0, "losses": 0,
+            "gf": 0, "ga": 0, "clean_sheets": 0, "route": []}
+        for t in (team1, team2)
+    }
+    round_order = {"R32": 1, "R16": 2, "QF": 3, "SF": 4}
+    with open(results_path, encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r.get("score1") in (None, "") or r.get("score2") in (None, ""):
+                continue
+            s1, s2 = int(r["score1"]), int(r["score2"])
+            for t in (team1, team2):
+                if t not in (r["team1"], r["team2"]):
+                    continue
+                own, opp = ((s1, s2) if r["team1"] == t else (s2, s1))
+                other = r["team2"] if r["team1"] == t else r["team1"]
+                st = teams[t]
+                st["played"] += 1
+                st["gf"] += own
+                st["ga"] += opp
+                st["clean_sheets"] += int(opp == 0)
+                if own > opp:
+                    st["wins"] += 1
+                elif own == opp:
+                    st["draws"] += 1
+                else:
+                    st["losses"] += 1
+                if int(r["match"]) >= 73:
+                    st["route"].append({"round": r.get("group", ""),
+                                        "match": int(r["match"]),
+                                        "opponent": other,
+                                        "gf": own, "ga": opp})
+    for st in teams.values():
+        st["gd"] = st["gf"] - st["ga"]
+        st["route"].sort(key=lambda r: round_order.get(r["round"], 99))
+
+    p1_advance = float(fc["p1_advance"])
+    p1_win90 = float(fc["p1_win90"])
+    p_draw90 = float(fc["p_draw90"])
+    p2_win90 = float(fc["p2_win90"])
+    analysis = {
+        "match": int(fc["match"]), "date": fc["date"], "city": fc["city"],
+        "team1": team1, "team2": team2,
+        "elo1": float(fc["elo1"]), "elo2": float(fc["elo2"]),
+        "p1_advance": p1_advance, "p2_advance": 1.0 - p1_advance,
+        "p1_win90": p1_win90, "p_draw90": p_draw90,
+        "p2_win90": p2_win90,
+        "p1_after_draw": ((p1_advance - p1_win90) / p_draw90
+                          if p_draw90 > 0 else None),
+        "teams": teams,
+    }
+
+    # Sigma-averaged 90-minute score matrix and expected goals.
+    try:
+        import numpy as np
+        from .ko_forecast import GH_NODES, SIGMA
+        from .model import MAX_GOALS, MatchModel, score_grid
+        params_path = os.path.join(DATA, "params_fit.json")
+        if not os.path.exists(params_path):
+            params_path = os.path.join(DATA, "params.json")
+        with open(params_path, encoding="utf-8") as f:
+            mm = MatchModel(json.load(f))
+        d0 = mm.diff(float(fc["elo1"]), float(fc["elo2"]))
+        nodes, weights = np.polynomial.hermite_e.hermegauss(GH_NODES)
+        weights = weights / weights.sum()
+        grid = np.zeros((MAX_GOALS + 1, MAX_GOALS + 1))
+        for x, wt in zip(nodes, weights):
+            lam1, lam2 = mm.rates(d0 + SIGMA * np.sqrt(2.0) * float(x))
+            grid += wt * score_grid(lam1, lam2, mm.rho)
+        analysis["xg1"] = float(sum(i * grid[i, :].sum()
+                                    for i in range(MAX_GOALS + 1)))
+        analysis["xg2"] = float(sum(j * grid[:, j].sum()
+                                    for j in range(MAX_GOALS + 1)))
+        scorelines = sorted(
+            ({"score1": i, "score2": j, "p": float(grid[i, j])}
+             for i in range(MAX_GOALS + 1)
+             for j in range(MAX_GOALS + 1)),
+            key=lambda r: -r["p"])
+        analysis["scorelines"] = scorelines[:6]
+    except Exception as e:
+        print(f"NOTE: final scoreline grid skipped ({e})")
+
+    # Historical meetings: context only, deliberately excluded from forecast.
+    history_path = os.path.join(DATA, "raw", "international_results.csv")
+    if os.path.exists(history_path):
+        meetings = []
+        with open(history_path, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if {r.get("home_team"), r.get("away_team")} == {team1, team2}:
+                    meetings.append(r)
+        if meetings:
+            w1 = draws = w2 = gf1 = gf2 = 0
+            for r in meetings:
+                hs, aps = int(float(r["home_score"])), int(float(r["away_score"]))
+                a, b = ((hs, aps) if r["home_team"] == team1 else (aps, hs))
+                gf1 += a
+                gf2 += b
+                if a > b:
+                    w1 += 1
+                elif a == b:
+                    draws += 1
+                else:
+                    w2 += 1
+            analysis["h2h"] = {"matches": len(meetings), "team1_wins": w1,
+                               "draws": draws, "team2_wins": w2,
+                               "gf1": gf1, "gf2": gf2,
+                               "last_date": meetings[-1]["date"]}
+    return analysis
+
+
 def build_payload() -> dict:
     d = api_all()
     d.pop("status", None)
@@ -197,6 +327,7 @@ def build_payload() -> dict:
     d["group_stage_done"] = bool(grp) and all(
         m.get("score1") is not None for m in grp)
     apply_market_blend(d)
+    d["final"] = build_final_analysis(d)
     try:
         d["alt"] = build_altdata()   # fun alt-data sidebar (never in the model)
     except Exception as e:
@@ -210,12 +341,12 @@ TEMPLATE = r"""<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OpenPaul 🐙 · 2026 世界杯半决赛预测</title>
-<meta name="description" content="2026 世界杯四强落位：法国 vs 西班牙、英格兰 vs 阿根廷。Elo 驱动 Dixon-Coles + 100,000 次蒙特卡洛，含半决赛晋级概率、夺冠概率与公开核验。">
+<title>OpenPaul 🐙 · 2026 世界杯决赛分析：西班牙 vs 阿根廷</title>
+<meta name="description" content="2026 世界杯决赛：西班牙 vs 阿根廷。滚动 Elo + Dixon-Coles + 100,000 次蒙特卡洛，含夺冠概率、90 分钟胜平负、比分分布、晋级路径与战术拆解。">
 <meta name="theme-color" content="#05070f">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:title" content="OpenPaul 🐙 · 2026 世界杯半决赛预测">
-<meta property="og:description" content="四强落位：法国–西班牙、英格兰–阿根廷 · 半决赛晋级概率与夺冠概率 · 开球前存证，赛后逐场公开核验">
+<meta property="og:title" content="OpenPaul 🐙 · 2026 世界杯决赛：西班牙 vs 阿根廷">
+<meta property="og:description" content="决赛双雄落位 · 单场夺冠概率、90 分钟胜平负、最可能比分与完整战术分析 · 开球前存证，赛后公开核验">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%99%3C/text%3E%3C/svg%3E">
 <style>
 __FONTCSS__
@@ -361,9 +492,8 @@ h2.sec-h{font-size:clamp(22px,2.6vw,34px);font-weight:800;letter-spacing:.01em}
 #globe{width:100%;height:78vh;min-height:540px}
 .gl-fall{display:none;width:100%;height:520px}
 
-/* final four */
-.podium{display:grid;grid-template-columns:repeat(4,minmax(190px,1fr));gap:18px;align-items:stretch}
-@media(max-width:1050px){.podium{grid-template-columns:repeat(2,minmax(220px,1fr))}}
+/* finalists */
+.podium{display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:18px;align-items:stretch;max-width:920px;margin:0 auto}
 @media(max-width:620px){.podium{grid-template-columns:1fr}}
 .pcard{position:relative;border-radius:20px;padding:30px 26px 24px;text-align:center;overflow:hidden;
   background:linear-gradient(180deg,#101a30,#0a111f);border:1px solid var(--line);
@@ -385,6 +515,61 @@ h2.sec-h{font-size:clamp(22px,2.6vw,34px);font-weight:800;letter-spacing:.01em}
 .p2 .pper{color:#dde7f5}.p3 .pper{color:#eab68b}.p4 .pper{color:#9fb2cd}
 .pmeta{font-size:11.5px;color:var(--dim);display:flex;justify-content:center;gap:14px;margin-top:10px}
 .pmeta b{color:var(--txt);font-family:var(--num)}
+
+/* final analysis */
+.final-board{padding:24px}
+.final-matchline{display:grid;grid-template-columns:minmax(150px,1fr) minmax(240px,1.25fr) minmax(150px,1fr);gap:24px;align-items:center}
+.final-team{text-align:center;min-width:0}
+.final-team img{width:92px;height:62px;object-fit:cover;border-radius:10px;box-shadow:0 12px 34px rgba(0,0,0,.35)}
+.final-team .fn{font-size:clamp(21px,2.5vw,31px);font-weight:800;margin-top:11px}
+.final-team .fr{font-family:var(--num);font-size:12px;color:var(--dim);margin-top:5px}
+.final-mid{text-align:center}
+.final-venue{font-family:var(--num);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.final-probs{display:flex;align-items:baseline;justify-content:center;gap:13px;font-family:var(--num);font-weight:700}
+.final-probs b{font-size:clamp(30px,4vw,50px);color:var(--gold2)}
+.final-probs span{font-size:12px;color:var(--dim)}
+.final-bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;display:flex;margin:12px 0 8px}
+.final-bar i{display:block;height:100%}
+.final-bar .sp{background:linear-gradient(90deg,#e8b94f,var(--gold2))}
+.final-bar .ar{background:linear-gradient(90deg,#6b9fe9,#9dc7ff)}
+.final-sub{font-size:11.5px;color:var(--dim)}
+.final-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:18px;margin-top:18px}
+.final-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:20px}
+.final-kpi{padding:4px 14px 13px;text-align:center;border-right:1px solid var(--line)}
+.final-kpi:last-child{border-right:0}
+.final-kpi .v{font-family:var(--num);font-size:22px;font-weight:700;color:var(--txt);margin-top:5px}
+.final-kpi .l{font-size:10.5px;color:var(--dim);letter-spacing:.08em;text-transform:uppercase}
+.wdl-final{height:28px;border-radius:9px;display:flex;overflow:hidden;background:var(--line);font-family:var(--num);font-size:10.5px;font-weight:700}
+.wdl-final span{display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+.wdl-final .w1{background:rgba(240,199,94,.78);color:#141008}.wdl-final .dr{background:#52627b;color:#f4f7fb}.wdl-final .w2{background:rgba(109,161,232,.82);color:#08111f}
+.wdl-labels{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;color:var(--dim);font-size:11px;margin-top:9px;text-align:center}
+.scorelist{display:grid;gap:10px;margin-top:12px}
+.scoreline{display:grid;grid-template-columns:52px 1fr 48px;gap:10px;align-items:center;font-family:var(--num);font-size:12px}
+.scoreline .sc{font-weight:700;color:var(--txt)}
+.scoreline .sb{height:7px;border-radius:99px;background:var(--line);overflow:hidden}.scoreline .sb i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--gold),#ffeaac)}
+.scoreline .sv{text-align:right;color:var(--dim)}
+.final-teams{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.team-detail{padding:20px}
+.team-detail .tdh{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800}
+.team-detail .tdh img{width:34px;height:23px;border-radius:4px;object-fit:cover}
+.team-record{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:17px 0}
+.team-record div{text-align:center}.team-record b{display:block;font-family:var(--num);font-size:20px}.team-record span{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.route{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.route span{font-family:var(--num);font-size:10.5px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;color:var(--dim)}
+.route b{color:var(--txt)}
+.final-tactics{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
+.tactic{padding:20px}.tactic h3{font-size:16px;margin:0 0 9px}.tactic p{font-size:12.5px;color:var(--dim);margin:0;line-height:1.75}
+.final-lineups{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.lineup{padding:20px}.lineup h3{font-size:16px;margin:0 0 11px}.lineup .xi{font-size:12.5px;line-height:1.8;color:var(--txt);margin:0}.lineup .stars{font-size:11.5px;line-height:1.7;color:var(--dim);margin:12px 0 0;padding-top:11px;border-top:1px solid var(--line)}
+.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.scenario{padding:15px 16px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(20,31,53,.45),transparent)}
+.scenario b{display:block;font-size:13px;color:var(--gold2);margin-bottom:6px}.scenario span{font-size:11.5px;color:var(--dim);line-height:1.65}
+.final-verdict{margin-top:18px;padding:22px 24px;border-left:3px solid var(--gold)}
+.final-verdict h3{font-size:17px;margin:0 0 7px}.final-verdict p{margin:0;color:var(--dim);font-size:13px;line-height:1.75}
+.final-sources{font-size:10.5px;color:var(--dim);line-height:1.65;margin-top:12px}.final-sources a{color:var(--dim);text-decoration-color:var(--line)}.final-sources a:hover{color:var(--gold2)}
+@media(max-width:900px){.final-matchline{grid-template-columns:1fr 1fr;gap:20px}.final-mid{grid-column:1/-1;grid-row:1}.final-team{grid-row:2}.final-grid,.final-tactics{grid-template-columns:1fr}.final-teams,.final-lineups{grid-template-columns:1fr}.scenario-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.final-board{padding:18px 14px}.final-matchline{grid-template-columns:1fr 1fr;gap:10px}.final-team img{width:70px;height:47px}.final-team .fn{font-size:19px}.final-probs b{font-size:31px}.final-kpis{grid-template-columns:1fr}.final-kpi{border-right:0;border-bottom:1px solid var(--line);padding:9px}.final-kpi:last-child{border-bottom:0}.team-record{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.scenario-grid{grid-template-columns:1fr}}
 
 .grid2{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
 @media(max-width:1020px){.grid2{grid-template-columns:1fr}}
@@ -591,7 +776,7 @@ html.js .reveal.in{opacity:1;transform:none}
   <span class="badge live" id="bRes"></span>
   <span class="links">
     <a href="#terrain-sec" class="koHidden" data-i18n="navTerrain">3D 地形</a><a href="#globe-sec" id="navGlobe" class="koHidden" data-i18n="navGlobe">地球</a><a href="#edge-sec" class="koHidden" data-i18n="navEdge">价值</a>
-    <a href="#podium-sec" data-i18n="navPodium">四强</a><a href="#bracket-sec" data-i18n="navBracket">对阵</a><a href="#alt-sec" data-i18n="navAlt">另类</a><a href="#table-sec" data-i18n="navTable">数据</a><a href="#matches-sec" class="koHidden" data-i18n="navMatches">赛程</a>
+    <a href="#podium-sec" data-i18n="navPodium">概率</a><a href="#final-analysis-sec" data-i18n="navFinal">决赛分析</a><a href="#bracket-sec" data-i18n="navBracket">对阵</a><a href="#alt-sec" data-i18n="navAlt">另类</a><a href="#table-sec" data-i18n="navTable">数据</a><a href="#matches-sec" class="koHidden" data-i18n="navMatches">赛程</a>
     <a href="#" id="langBtn" style="font-family:var(--num);font-weight:700">EN</a>
     <a id="ghLink" href="__REPO__" target="_blank" rel="noopener noreferrer" style="display:none">GitHub →</a>
   </span>
@@ -619,8 +804,8 @@ html.js .reveal.in{opacity:1;transform:none}
   </div>
   <div class="hero-grid">
     <div>
-      <div class="overline" data-i18n="overline">半决赛 · 4 队 · 2 场 <span class="ol2">· Monte Carlo ×100,000</span> · 开球前存证</div>
-      <h1 class="hero-q" data-i18n="heroQ">四强就位，谁会捧起<em>大力神杯</em>？</h1>
+      <div class="overline" data-i18n="overline">决赛 · 2 队 · 1 场 <span class="ol2">· Monte Carlo ×100,000</span> · 开球前存证</div>
+      <h1 class="hero-q" data-i18n="heroQ">西班牙与阿根廷，谁会成为<em>世界冠军</em>？</h1>
       <div class="champ-line" id="champLine">
         <img class="champ-flag" id="champFlag" alt="">
         <div class="champ-name" id="champName"></div>
@@ -629,7 +814,7 @@ html.js .reveal.in{opacity:1;transform:none}
       <div class="champ-sub" id="champSub"></div>
       <div class="hero-stats" id="heroStats"></div>
     </div>
-    <div class="hero-side" id="heroSide"><h3 data-i18n="contenders">Semifinalists · 四强（点击切换）</h3></div>
+    <div class="hero-side" id="heroSide"><h3 data-i18n="contenders">Finalists · 决赛双雄（点击切换）</h3></div>
   </div>
   <div class="scroll-cue" aria-hidden="true">SCROLL</div>
 </section>
@@ -643,9 +828,46 @@ html.js .reveal.in{opacity:1;transform:none}
 
 <section class="sec reveal" id="podium-sec">
   <div class="ghost" aria-hidden="true">02</div>
-  <div class="sec-head"><span class="sec-no">02</span><h2 class="sec-h" data-i18n="s2t">领奖台</h2></div>
-  <div class="sec-d" data-i18n="s2d">绝对概率层前三名（σ=75 主模型，区间为 [σ=150, σ=0] 敏感性边界）。</div>
+  <div class="sec-head"><span class="sec-no">02</span><h2 class="sec-h" data-i18n="s2t">决赛胜率 · 两种口径</h2></div>
+  <div class="sec-d" data-i18n="s2d">头条概率融合纯模型与 7 月 8 日八强盘在两支决赛队之间的条件化结果；它不是即时决赛赔率。下方完整分析同时展示不含市场的单场模型。</div>
   <div class="podium" id="podium"></div>
+</section>
+
+<section class="sec reveal" id="final-analysis-sec">
+  <div class="ghost" aria-hidden="true">03</div>
+  <div class="sec-head"><span class="sec-no">03</span><h2 class="sec-h" data-i18n="sFt">冠军战 · 西班牙 vs 阿根廷</h2></div>
+  <div class="sec-d" data-i18n="sFd">把同一场决赛拆成四层：单场夺冠概率、90 分钟结果、比分分布与比赛计划。数值来自滚动 Elo + Dixon-Coles；战术段落为编辑判断，不进入模型。</div>
+  <div class="panel final-board" id="finalBoard"></div>
+  <div class="final-grid">
+    <div class="panel" style="padding:22px">
+      <div class="sec-no" data-i18n="fa90T">90 分钟结果 · 纯模型</div>
+      <div class="final-kpis" id="finalKpis"></div>
+      <div class="wdl-final" aria-label="90 minute result probabilities"><span class="w1" id="faW1"></span><span class="dr" id="faDr"></span><span class="w2" id="faW2"></span></div>
+      <div class="wdl-labels" id="faWdlLabels"></div>
+    </div>
+    <div class="panel" style="padding:22px">
+      <div class="sec-no" data-i18n="faScoreT">最可能比分 · 90 分钟</div>
+      <div class="scorelist" id="scoreList"></div>
+    </div>
+  </div>
+  <div class="final-teams" id="finalTeams"></div>
+  <div class="final-tactics">
+    <article class="panel tactic"><h3 data-i18n="faSpainT">西班牙的比赛计划</h3><p data-i18n="faSpainD"></p></article>
+    <article class="panel tactic"><h3 data-i18n="faArgentinaT">阿根廷的比赛计划</h3><p data-i18n="faArgentinaD"></p></article>
+    <article class="panel tactic"><h3 data-i18n="faSwingT">三条胜负分界线</h3><p data-i18n="faSwingD"></p></article>
+  </div>
+  <div class="final-lineups">
+    <article class="panel lineup"><h3 data-i18n="faSpainXiT">西班牙预计首发 · 4-2-3-1</h3><p class="xi" data-i18n="faSpainXi"></p><p class="stars" data-i18n="faSpainStars"></p></article>
+    <article class="panel lineup"><h3 data-i18n="faArgentinaXiT">阿根廷预计首发 · 4-4-2</h3><p class="xi" data-i18n="faArgentinaXi"></p><p class="stars" data-i18n="faArgentinaStars"></p></article>
+  </div>
+  <div class="scenario-grid">
+    <article class="scenario"><b data-i18n="faSc1T">西班牙先得分</b><span data-i18n="faSc1D"></span></article>
+    <article class="scenario"><b data-i18n="faSc2T">阿根廷先得分</b><span data-i18n="faSc2D"></span></article>
+    <article class="scenario"><b data-i18n="faSc3T">60′ 仍是 0–0</b><span data-i18n="faSc3D"></span></article>
+    <article class="scenario"><b data-i18n="faSc4T">90′ 打平</b><span data-i18n="faSc4D"></span></article>
+  </div>
+  <div class="panel final-verdict"><h3 data-i18n="faVerdictT">结论</h3><p data-i18n="faVerdictD"></p></div>
+  <div class="final-sources" data-i18n="faSources"></div>
 </section>
 
 <section class="sec reveal koHidden" id="globe-sec">
@@ -760,19 +982,34 @@ Czechia:'捷克',Austria:'奥地利',Denmark:'丹麦',Sweden:'瑞典',Paraguay:'
 Ghana:'加纳',Panama:'巴拿马',Tunisia:'突尼斯',Scotland:'苏格兰',Haiti:'海地',Qatar:'卡塔尔',
 'South Africa':'南非',Iraq:'伊拉克','Bosnia and Herzegovina':'波黑','Curaçao':'库拉索'};
 const I18N={zh:{
-  navTerrain:'3D 地形',navGlobe:'地球',navEdge:'价值',navBracket:'对阵',navMatches:'赛程',navPodium:'四强',navTable:'数据',
-  overline:'半决赛 · 4 队 · 2 场 <span class="ol2">· Monte Carlo ×100,000</span> · 开球前存证',
-  heroQ:'四强就位，谁会捧起<em>大力神杯</em>？',
-  contenders:'Semifinalists · 四强（点击切换）',
+  navTerrain:'3D 地形',navGlobe:'地球',navEdge:'价值',navBracket:'对阵',navMatches:'赛程',navPodium:'概率',navFinal:'决赛分析',navTable:'数据',
+  overline:'决赛 · 2 队 · 1 场 <span class="ol2">· Monte Carlo ×100,000</span> · 开球前存证',
+  heroQ:'西班牙与阿根廷，谁会成为<em>世界冠军</em>？',
+  contenders:'Finalists · 决赛双雄（点击切换）',
  snapPrefix:'快照',playedPrefix:'已完赛',genAt:'快照生成',repoLink:'代码与数据仓库 →',
- subProb:'夺冠概率（σ=75 主模型）· 敏感区间',subFinal:'进决赛',subSF:'进四强',
-  subBlend:'夺冠概率 · 模型×市场融合',subModel:'纯模型',subMarket:'八强盘·四强条件化',
-  thModel:'纯模型',thMktNow:'八强盘·条件化',
+ subProb:'夺冠概率（σ=75 主模型）· 敏感区间',subFinal:'进决赛',subSF:'进四强',subDirect:'单场纯模型',
+  subBlend:'夺冠概率 · 模型×市场融合',subModel:'纯模型',subMarket:'八强盘·决赛条件化',
+  thModel:'纯模型',thMktNow:'八强盘·决赛条件化',
  statSimsV:'10万',statSims:'蒙特卡洛模拟',statLL:'样本外 LOGLOSS',statBrier:'逐场 BRIER',
  statWait:'待开赛',statSigma:'回测选定扰动',
  s1t:'晋级概率地形',
  s1d:'24 支最强球队 × 6 个晋级阶段的三维概率山脉——最前排的金色山脊就是夺冠之路，身后的蓝色高墙是 32 强的入场概率。',
-  s2t:'四强争冠',s2d:'四强夺冠概率为『我们的模型 × 市场』融合值（<b>市场 65% · 模型 35%</b>）。市场部分来自 2026-07-08 八强赛前 FOX Sports 夺冠盘，幂法去水后仅在四支晋级队之间重新归一；这是条件化历史快照，<b>不是半决赛即时赔率</b>。纯模型 / 条件化市场两栏见 §08。',
+  s2t:'决赛胜率 · 两种口径',s2d:'头条夺冠概率为『模型 × 市场』融合值（<b>市场 WMKT · 模型 WMDL</b>）。市场部分来自 2026-07-08 八强赛前 FOX Sports 夺冠盘，幂法去水后仅在西班牙与阿根廷之间重新归一；这是条件化历史快照，<b>不是即时决赛赔率</b>。下一节单独给出不含市场的单场模型。',
+  sFt:'冠军战 · 西班牙 vs 阿根廷',sFd:'把同一场决赛拆成四层：单场夺冠概率、90 分钟结果、比分分布与比赛计划。数值来自滚动 Elo + Dixon-Coles；战术与预计首发为编辑判断，不进入模型。',
+  faTime:'7月20日 03:00（北京时间）',faPure:'单场纯模型',faBlend:'融合头条',faElo:'滚动 Elo',fa90T:'90 分钟结果 · 纯模型',faScoreT:'最可能比分 · 90 分钟',
+  faXg:'模型进球均值',faTopScore:'最高单一比分',faH2H:'历史交锋',faH2HNote:'仅作背景 · 不进模型',faRecord:'赛会战绩',faRoute:'淘汰赛路径',faClean:'零封',faGoals:'进球 / 失球',
+  faW1:'西班牙胜',faDraw:'平局',faW2:'阿根廷胜',faWin:'胜',faDrawShort:'平',faLoss:'负',faPlayed:'场',
+  faSpainT:'西班牙的比赛计划',faSpainD:'有球时站成 2-3-5：罗德里守住中轴，法比安与奥尔莫占肋部，亚马尔固定右侧制造一对一，波罗在外线提供宽度。真正的保险是丢球后立刻反抢，不能让阿根廷第一脚就穿过中场。',
+  faArgentinaT:'阿根廷的比赛计划',faArgentinaD:'无球时保持 4-4-2 中位阵型，塔利亚菲科与左中场共同夹击亚马尔；夺回球后优先找右肋的梅西，再由阿尔瓦雷斯冲击西班牙高位防线身后。若慢下来与西班牙对控，比赛会进入对手最舒服的节奏。',
+  faSwingT:'三条胜负分界线',faSwingD:'① 西班牙丢球后的前 6 秒；② 梅西能否在右肋面向球门接球；③ 禁区二点与定位球。模型给 90 分钟平局接近三成，因此体能、换人与点球门将都可能成为最后一层。',
+  faSpainXiT:'西班牙预计首发 · 4-2-3-1',faSpainXi:'乌奈·西蒙；佩德罗·波罗、库巴西、拉波尔特、库库雷利亚；罗德里、法比安；亚马尔、奥尔莫、巴埃纳；奥亚萨瓦尔。',faSpainStars:'基于半决赛阵容，并非官方名单。奥亚萨瓦尔本届 5 球；亚马尔无严重伤，波罗仍有轻微肌肉疑问，需赛前确认；佩德里、尼科·威廉斯与费兰·托雷斯是主要变招。',
+  faArgentinaXiT:'阿根廷预计首发 · 4-4-2',faArgentinaXi:'埃米利亚诺·马丁内斯；蒙铁尔/莫利纳、克里斯蒂安·罗梅罗、利桑德罗·马丁内斯、塔利亚菲科；西蒙尼/德保罗、帕雷德斯、麦卡利斯特、恩佐；梅西、阿尔瓦雷斯。',faArgentinaStars:'基于半决赛阵容，并非官方名单。梅西截至决赛前 8 球 4 助攻；劳塔罗是最具威胁的首发替代或后手。罗梅罗、帕雷德斯目前均无确认缺阵或停赛。',
+  faSc1T:'西班牙先得分',faSc1D:'阿根廷必须提前投入德保罗或劳塔罗，身后空间增大；比赛更接近 2–0 / 2–1。',
+  faSc2T:'阿根廷先得分',faSc2D:'西班牙会抬高两名边后卫并增加佩德里或尼科的控球/纵深；梅西反击空间随之变大。',
+  faSc3T:'60′ 仍是 0–0',faSc3D:'西班牙多约一天恢复且本届未踢加时；阿根廷则有更强的淘汰赛韧性与门将心理优势。',
+  faSc4T:'90′ 打平',faSc4D:'在模型的打平路径里，西班牙晋级约 51%，几乎五五开；点球能力未被单独建模。',
+  faVerdictT:'结论',faVerdictD:'这不是一场有明显强弱差的决赛。西班牙拥有更稳定的控制、防线和休息优势；阿根廷拥有更高的进球产量、梅西与逆风翻盘能力。主预测是 90 分钟 1–1；若必须选冠军，纯模型只微倾西班牙。预计首发、临场伤停、红牌与点球能力都不在当前概率中，本页为方法演示，非投注建议。',
+  faSources:'数据截至 2026-07-16 · 赛程与场馆：<a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/final-live-watch-teams-tickets" target="_blank" rel="noopener noreferrer">FIFA</a> · 赛况与球员数据：<a href="https://www.espn.co.uk/football/story/_/id/49370934/fifa-world-cup-final-argentina-vs-spain-need-know-predictions-odds" target="_blank" rel="noopener noreferrer">ESPN</a> / <a href="https://www.fotmob.com/matches/argentina-vs-spain/1ho257" target="_blank" rel="noopener noreferrer">FotMob</a> · 概率、比分分布与赛会统计：本项目可复现数据链。',
  s3t:'夺冠概率 · 全球版图',
  s3d:'48 支参赛队的夺冠概率立柱，矗立在各自国土之上（柱高 ∝ √概率，颜色 ∝ 概率）。最高的那道金光，就是此刻的头号热门。',
  s4t:'市场低估了谁 · 开赛前存证',
@@ -780,14 +1017,14 @@ const I18N={zh:{
  s5t:'十二宫格 · 小组形势',s5d:'底条 = 小组头名概率 · 右侧百分比 = 晋级 32 强概率 · ★ = 东道主。',
  s6t:'逐场预测与结果 · 小组赛 72 场',
  s6d:'概率条为开球前存证预测（git + RFC3161 锚定，赛后不改）：蓝 = 左队胜，灰 = 平，金 = 右队胜。绿色为真实比分，B 为该场模型 Brier 分数（越低越好）。淘汰赛逐场预测另行存证：§06 对阵树 + predictions/ko_forecasts.csv（逐场于开球前追加入账）。',
-  s7t:'四强 · 夺冠概率明细',s7d:'仅列法国、西班牙、英格兰、阿根廷四支半决赛球队。夺冠为『模型×市场』融合值；市场列是八强赛前快照在四强之间的条件化结果，并非即时赔率。进决赛为纯模型条件模拟。点击表头排序。',
- sKOt:'淘汰赛对阵 · 通往决赛之路',
+  s7t:'决赛双雄 · 概率明细',s7d:'仅列西班牙与阿根廷。夺冠为『模型×市场』融合值；市场列是八强赛前快照在两支决赛队之间的条件化结果，并非即时赔率。纯模型列来自当前条件模拟。点击表头排序。',
+ sKOt:'淘汰赛对阵 · 决赛已落位',
  sKOd:'对阵由真实小组终榜与官方公布对阵生成，随赛果滚动推进。已完赛：真实比分，金色 = 晋级方，P = 点球决胜；未开赛：模型晋级概率（σ=75 主模型，含加时与点球路径，开球前存证）；灰色代号 = 尚未产生的对手（如 W89 = 第 89 场胜者）。',
  bkR32:'32强',bkR16:'16强',bkQF:'八强',bkSF:'半决赛',bkF:'决赛',bk3:'季军战',bkPens:'P',
  navAlt:'另类',
  altT:'另类擂台 · 章鱼保罗的野路子',altBadge:'娱乐向 · 不进模型',
-  altD:'纯为好玩：把两场半决赛按几项<b>跟胜负无关</b>的另类数据两两比一比，金色 = 该项“赢家”。每张卡末尾另附一段<b>主观战术看点</b>（主帅 / 打法 / 克制点）。这些<b>都不进预测模型</b>——保罗当年也就靠触手抓箱子。',
-  altMapCap:'半决赛赛城（金色） · 灰点为本届已用过的美国赛场',
+  altD:'纯为好玩：把这场决赛按几项<b>跟胜负无关</b>的另类数据比一比，金色 = 该项“赢家”。卡片末尾另附<b>主观战术看点</b>。这些<b>都不进预测模型</b>——保罗当年也就靠触手抓箱子。',
+  altMapCap:'决赛赛城（金色） · 灰点为本届已用过的美国赛场',
  altHeight:'平均身高',altAge:'平均年龄',altClimate:'场地热适应',altFlight:'本届飞行',
  altHeightU:'cm',altAgeU:'岁',altFlightU:'km',
  altClimateHint:'场地气温 − 母国 7 月气温,越小越适应',
@@ -818,19 +1055,34 @@ const I18N={zh:{
  foot3:'本页面为静态数据快照，方法论演示，<b>非投注建议</b>。',
  brand:'🐙 <b>OpenPaul</b> — 2010 年章鱼保罗用触手挑选赢家，16 年后我们用 100,000 次蒙特卡洛。预测可以开源，章鱼只负责可爱。',
 },en:{
-  navTerrain:'3D Terrain',navGlobe:'Globe',navEdge:'Value',navBracket:'Bracket',navMatches:'Matches',navPodium:'Final Four',navTable:'Data',
-  overline:'Semi-finals · 4 teams · 2 matches <span class="ol2">· Monte Carlo ×100,000</span> · sealed before kickoff',
-  heroQ:'The final four are set. Who lifts <em>the World Cup</em>?',
-  contenders:'Semifinalists · click to switch',
+  navTerrain:'3D Terrain',navGlobe:'Globe',navEdge:'Value',navBracket:'Bracket',navMatches:'Matches',navPodium:'Probabilities',navFinal:'Final analysis',navTable:'Data',
+  overline:'Final · 2 teams · 1 match <span class="ol2">· Monte Carlo ×100,000</span> · sealed before kickoff',
+  heroQ:'Spain or Argentina — who becomes <em>world champion</em>?',
+  contenders:'Finalists · click to switch',
  snapPrefix:'Snapshot',playedPrefix:'Played',genAt:'Snapshot generated',repoLink:'Code & data repository →',
- subProb:'Title probability (σ=75 main model) · sensitivity band',subFinal:'Final',subSF:'Semis',
-  subBlend:'Title probability · model × market blend',subModel:'model',subMarket:'QF board · conditioned',
-  thModel:'model',thMktNow:'QF board · conditioned',
+ subProb:'Title probability (σ=75 main model) · sensitivity band',subFinal:'Final',subSF:'Semis',subDirect:'single-match model',
+  subBlend:'Title probability · model × market blend',subModel:'model',subMarket:'QF board · final-conditioned',
+  thModel:'model',thMktNow:'QF board · final-conditioned',
  statSimsV:'100k',statSims:'MONTE CARLO RUNS',statLL:'OUT-OF-SAMPLE LOGLOSS',statBrier:'PER-MATCH BRIER',
  statWait:'awaiting kickoff',statSigma:'BACKTEST-CHOSEN σ',
  s1t:'Probability Terrain',
  s1d:'A 3-D probability massif: top 24 teams × 6 knockout stages. The golden ridge up front is the road to the title; the blue wall behind is the round-of-32 entry probability.',
-  s2t:'The Final Four',s2d:'Title probabilities blend our model with the market (<b>65% market · 35% model</b>). The market component is the 2026-07-08 pre-quarter-final FOX Sports title board, power de-vigged and re-normalised only across the four teams that advanced. It is a conditioned historical snapshot, <b>not live semi-final odds</b>. Model / conditioned-market columns are in §08.',
+  s2t:'The Final · Two Probability Lenses',s2d:'Headline title probabilities blend the model with the market (<b>WMKT market · WMDL model</b>). The market component is the 2026-07-08 pre-quarter-final FOX Sports title board, power de-vigged and re-normalised only across Spain and Argentina. It is a conditioned historical snapshot, <b>not live final odds</b>. The next section shows the market-free single-match model.',
+  sFt:'The Championship Match · Spain vs Argentina',sFd:'One final, four layers: lift-the-cup probability, the 90-minute result, scoreline distribution and match plans. Numbers use rolling Elo + Dixon-Coles; tactics and predicted XIs are editorial and never enter the model.',
+  faTime:'20 Jul · 03:00 China Standard Time',faPure:'single-match model',faBlend:'headline blend',faElo:'rolling Elo',fa90T:'90-minute result · model only',faScoreT:'Most likely scores · 90 minutes',
+  faXg:'model goal mean',faTopScore:'top exact score',faH2H:'historical H2H',faH2HNote:'context only · excluded from model',faRecord:'tournament record',faRoute:'knockout route',faClean:'clean sheets',faGoals:'goals for / against',
+  faW1:'Spain win',faDraw:'Draw',faW2:'Argentina win',faWin:'W',faDrawShort:'D',faLoss:'L',faPlayed:'played',
+  faSpainT:'Spain’s match plan',faSpainD:'In possession, form a 2-3-5: Rodri secures the axis, Fabián and Olmo occupy the half-spaces, Yamal holds the right for isolation and Porro supplies width. The insurance policy is the immediate counter-press — Argentina must not be allowed to play the first pass straight through midfield.',
+  faArgentinaT:'Argentina’s match plan',faArgentinaD:'Defend in a mid-block 4-4-2, with Tagliafico and the left midfielder doubling Yamal. On regain, find Messi in the right half-space first, then send Álvarez behind Spain’s high line. A slow possession contest would move the game onto Spain’s preferred terms.',
+  faSwingT:'Three fault lines',faSwingD:'1) Spain’s first six seconds after losing the ball; 2) whether Messi can receive on the turn in the right half-space; 3) set pieces and second balls. With the 90-minute draw near 30%, fitness, substitutions and the goalkeeper layer may decide it.',
+  faSpainXiT:'Spain predicted XI · 4-2-3-1',faSpainXi:'Unai Simón; Pedro Porro, Cubarsí, Laporte, Cucurella; Rodri, Fabián; Yamal, Olmo, Baena; Oyarzabal.',faSpainStars:'Based on the semi-final, not the official team sheet. Oyarzabal has five goals; Yamal has no serious injury, while Porro remains a minor muscular doubt pending the final check. Pedri, Nico Williams and Ferran Torres are the principal variations.',
+  faArgentinaXiT:'Argentina predicted XI · 4-4-2',faArgentinaXi:'Emiliano Martínez; Montiel/Molina, Cristian Romero, Lisandro Martínez, Tagliafico; Simeone/De Paul, Paredes, Mac Allister, Enzo; Messi, Álvarez.',faArgentinaStars:'Based on the semi-final, not the official team sheet. Messi enters the final on eight goals and four assists; Lautaro is the biggest starting alternative or attacking substitute. Romero and Paredes have no confirmed absence or suspension.',
+  faSc1T:'Spain score first',faSc1D:'Argentina must introduce De Paul or Lautaro earlier and concede more space; the path bends toward 2–0 or 2–1.',
+  faSc2T:'Argentina score first',faSc2D:'Spain push both full-backs higher and add Pedri or Nico for control/depth; Messi gains more transition space.',
+  faSc3T:'Still 0–0 at 60′',faSc3D:'Spain have roughly one extra recovery day and no extra time in this run; Argentina bring knockout resilience and a stronger goalkeeper narrative.',
+  faSc4T:'Level after 90′',faSc4D:'Within the model’s draw path Spain advance about 51% — effectively even. Penalty skill is not separately modelled.',
+  faVerdictT:'Verdict',faVerdictD:'This final has no clear mismatch. Spain bring the steadier control, defence and recovery edge; Argentina bring greater scoring output, Messi and proven comeback capacity. The main 90-minute pick is 1–1; if forced to name the champion, the model only narrowly leans Spain. Predicted XIs, late fitness news, red cards and penalty skill are outside the current probabilities. Methodology demo, not betting advice.',
+  faSources:'Data through 16 Jul 2026 · Schedule and venue: <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/final-live-watch-teams-tickets" target="_blank" rel="noopener noreferrer">FIFA</a> · Match and player context: <a href="https://www.espn.co.uk/football/story/_/id/49370934/fifa-world-cup-final-argentina-vs-spain-need-know-predictions-odds" target="_blank" rel="noopener noreferrer">ESPN</a> / <a href="https://www.fotmob.com/matches/argentina-vs-spain/1ho257" target="_blank" rel="noopener noreferrer">FotMob</a> · Probabilities, scorelines and tournament records: this project’s reproducible data chain.',
  s3t:'Title Probability · World Map',
  s3d:'Championship-probability pillars rising from each of the 48 homelands (height ∝ √p, color ∝ p). The tallest golden beam marks the current favourite.',
  s4t:'Whom Did the Market Undervalue? · Sealed Pre-Kickoff',
@@ -838,14 +1090,14 @@ const I18N={zh:{
  s5t:'The Twelve Groups',s5d:'Bottom bar = group-winner probability · right % = reach round-of-32 · ★ = host.',
  s6t:'Match-by-Match · 72 Group Games',
  s6d:'Probability bars are pre-kickoff sealed forecasts (git + RFC3161 anchored, never edited): blue = left win, grey = draw, gold = right win. Green chip = real score; B = per-match Brier (lower is better). Knockout forecasts are sealed separately: §06 bracket + predictions/ko_forecasts.csv (each row appended before kickoff).',
-  s7t:'Final Four · Title Probabilities',s7d:'France, Spain, England and Argentina only. Title = model×market blend; the market column is the pre-quarter-final board conditioned on these four survivors, not live odds. Reach-final is the model conditional simulation. Click headers to sort.',
- sKOt:'Knockout Bracket · The Road to the Final',
+  s7t:'The Finalists · Probability Detail',s7d:'Spain and Argentina only. Title = model×market blend; the market column is the pre-quarter-final board conditioned on the two finalists, not live odds. The model column is the current conditional simulation. Click headers to sort.',
+ sKOt:'Knockout Bracket · The Final Is Set',
  sKOd:'Pairings derive from the real group tables and the officially announced bracket, rolling forward with results. Finished: real score, gold = advancing side, P = penalty shootout; upcoming: model advancement probability (σ=75 main model, extra time and penalties included, sealed before kickoff); grey codes = opponents not yet decided (e.g. W89 = winner of match 89).',
  bkR32:'R32',bkR16:'R16',bkQF:'QF',bkSF:'SF',bkF:'FINAL',bk3:'3rd place',bkPens:'P',
  navAlt:'Fun',
  altT:'The Alt-Data Arena · Paul\'s Wild Guesses',altBadge:'for fun · not in the model',
-  altD:'Purely for fun: the two semi-finals compared on a few <b>result-irrelevant</b> quirky metrics, gold = that metric\'s “winner”, plus a <b>subjective tactical read</b> (coach / style / the key) at the foot of each card. None of it <b>touches the prediction model</b> — Paul the octopus just grabbed boxes with his tentacles, after all.',
-  altMapCap:'Semi-final host cities (gold) · grey dots = US venues used earlier this tournament',
+  altD:'Purely for fun: the final compared on a few <b>result-irrelevant</b> quirky metrics, gold = that metric\'s “winner”, plus a <b>subjective tactical read</b>. None of it <b>touches the prediction model</b> — Paul the octopus just grabbed boxes with his tentacles, after all.',
+  altMapCap:'Final host city (gold) · grey dots = US venues used earlier this tournament',
  altHeight:'Avg height',altAge:'Avg age',altClimate:'Heat adaptation',altFlight:'Km flown',
  altHeightU:'cm',altAgeU:'yr',altFlightU:'km',
  altClimateHint:'venue temp − home July temp; smaller = better adapted',
@@ -943,8 +1195,9 @@ function setHero(i){
   f.src=fl(r.team,320);f.alt=nm(r.team);
   document.getElementById('champName').innerHTML=
     nm(r.team)+`<span class="en">Nº${i+1} · ${r.team} · ELO ${Math.round(r.elo)}</span>`;
+  const direct=D.final?(r.team===D.final.team1?D.final.p1_advance:D.final.p2_advance):null;
   document.getElementById('champSub').innerHTML = r.p_champion_model!=null
-    ? `${t('subBlend')} · ${t('subModel')} <b>${pct(r.p_champion_model)}</b> · ${t('subMarket')} <b>${pct(r.p_market_champ)}</b> · ${t('subFinal')} <b>${pct(r.p_final)}</b>`
+    ? `${t('subBlend')} · ${t('subModel')} <b>${pct(r.p_champion_model)}</b> · ${t('subMarket')} <b>${pct(r.p_market_champ)}</b>${direct!=null?` · ${t('subDirect')} <b>${pct(direct)}</b>`:` · ${t('subFinal')} <b>${pct(r.p_final)}</b>`}`
     : `${t('subProb')} [<b>${pct(r.p_s150)}</b>, <b>${pct(r.p_s0)}</b>] · ${t('subFinal')} <b>${pct(r.p_final)}</b> · ${t('subSF')} <b>${pct(r.p_sf)}</b>`;
   countUp(document.getElementById('champPct'),r.p_champion*100,1,900);
   document.querySelectorAll('#heroSide .rk').forEach((el,j)=>el.classList.toggle('active',j===i));
@@ -995,6 +1248,44 @@ function heroInit(){
     if(!document.hidden)heroTimer=setInterval(nextHero,5500);
     if(charts.globe){try{charts.globe.setOption({globe:{viewControl:{autoRotate:!document.hidden&&globeVisible}}})}catch(e){}}
   });
+}
+
+/* ---------- final: Spain vs Argentina ---------- */
+function finalAnalysis(){
+  const F=D.final,sec=document.getElementById('final-analysis-sec');
+  if(!F){if(sec)sec.style.display='none';return}
+  const sum=Object.fromEntries(D.summary.map(r=>[r.team,r]));
+  const A=sum[F.team1]||{},B=sum[F.team2]||{};
+  const sa=F.teams[F.team1],sb=F.teams[F.team2];
+  const record=s=>`${s.wins}-${s.draws}-${s.losses}`;
+  document.getElementById('finalBoard').innerHTML=`<div class="final-matchline">
+    <div class="final-team"><img src="${fl(F.team1,320)}" alt="${nm(F.team1)}"><div class="fn">${nm(F.team1)}</div><div class="fr">${record(sa)} · ${sa.gf}:${sa.ga} · ${t('faClean')} ${sa.clean_sheets}</div></div>
+    <div class="final-mid"><div class="final-venue">#${F.match} · ${t('faTime')} · ${cityLabel(F.city)}</div>
+      <div class="final-probs"><b>${pct(F.p1_advance)}</b><span>${t('faPure')}</span><b>${pct(F.p2_advance)}</b></div>
+      <div class="final-bar" aria-label="${t('faPure')}"><i class="sp" style="width:${(F.p1_advance*100).toFixed(2)}%"></i><i class="ar" style="width:${(F.p2_advance*100).toFixed(2)}%"></i></div>
+      <div class="final-sub">${t('faBlend')} · ${nm(F.team1)} <b>${pct(A.p_champion)}</b> — <b>${pct(B.p_champion)}</b> ${nm(F.team2)}</div></div>
+    <div class="final-team"><img src="${fl(F.team2,320)}" alt="${nm(F.team2)}"><div class="fn">${nm(F.team2)}</div><div class="fr">${record(sb)} · ${sb.gf}:${sb.ga} · ${t('faClean')} ${sb.clean_sheets}</div></div>
+  </div>`;
+  const top=(F.scorelines||[])[0];
+  const h=F.h2h;
+  document.getElementById('finalKpis').innerHTML=[
+    [F.xg1!=null?`${num(F.xg1,2)} – ${num(F.xg2,2)}`:'—',t('faXg')],
+    [top?`${top.score1}–${top.score2} · ${pct(top.p)}`:'—',t('faTopScore')],
+    [h?`${h.team1_wins}–${h.draws}–${h.team2_wins}`:'—',t('faH2H')+' · '+t('faH2HNote')]
+  ].map(([v,l])=>`<div class="final-kpi"><div class="v">${v}</div><div class="l">${l}</div></div>`).join('');
+  const seg=[['faW1','faW1',F.p1_win90],['faDr','faDraw',F.p_draw90],['faW2','faW2',F.p2_win90]];
+  seg.forEach(([id,label,p])=>{const el=document.getElementById(id);el.style.width=(p*100).toFixed(2)+'%';el.textContent=pct(p,0)});
+  document.getElementById('faWdlLabels').innerHTML=seg.map(([,label,p])=>`<span>${t(label)} <b>${pct(p)}</b></span>`).join('');
+  const scores=F.scorelines||[],mx=scores.length?scores[0].p:1;
+  document.getElementById('scoreList').innerHTML=scores.map(s=>`<div class="scoreline"><span class="sc">${s.score1}–${s.score2}</span><span class="sb"><i style="width:${(s.p/mx*100).toFixed(1)}%"></i></span><span class="sv">${pct(s.p)}</span></div>`).join('');
+  const rlbl={R32:t('bkR32'),R16:t('bkR16'),QF:t('bkQF'),SF:t('bkSF')};
+  document.getElementById('finalTeams').innerHTML=[F.team1,F.team2].map((team,idx)=>{
+    const s=F.teams[team],elo=idx?F.elo2:F.elo1;
+    const route=s.route.map(r=>`<span>${rlbl[r.round]||r.round} · ${nm(r.opponent)} <b>${r.gf}–${r.ga}</b></span>`).join('');
+    return `<article class="panel team-detail"><div class="tdh">${fimg(team,80)}${nm(team)}</div>
+      <div class="team-record"><div><b>${record(s)}</b><span>${t('faWin')}–${t('faDrawShort')}–${t('faLoss')}</span></div><div><b>${s.gf}–${s.ga}</b><span>${t('faGoals')}</span></div><div><b>${s.clean_sheets}</b><span>${t('faClean')}</span></div><div><b>${Math.round(elo)}</b><span>${t('faElo')}</span></div></div>
+      <div class="sec-no">${t('faRoute')}</div><div class="route">${route}</div></article>`
+  }).join('');
 }
 
 /* ---------- OpenPaul mascot: a short-legged octopus stands beside the active
@@ -1253,16 +1544,17 @@ function hideGlobe(){
 
 /* ---------- podium ---------- */
 function podium(){
-  const order=[0,1,2,3],cls=['p1','p2','p3','p4'],medal=['Nº1 · LEADER','Nº2','Nº3','Nº4'];
+  const order=CONTENDERS.map((_,i)=>i),cls=['p1','p2','p3','p4'],medal=['Nº1 · LEADER','Nº2','Nº3','Nº4'];
   document.getElementById('podium').innerHTML=order.map((si,i)=>{
     const r=CONTENDERS[si];
+    const direct=D.final?(r.team===D.final.team1?D.final.p1_advance:D.final.p2_advance):null;
     return `<div class="pcard ${cls[i]} reveal" style="transition-delay:${i*.1}s">
       <div class="medal">${medal[i]}</div>
       <img class="pflag" src="${fl(r.team,320)}" alt="${nm(r.team)}">
       <div class="pname">${nm(r.team)}</div>
       <div class="pper" data-flick="${pct(r.p_champion)}">${pct(r.p_champion)}</div>
       <div style="color:var(--dim);font-size:11px;font-family:var(--num)">${t('pmRange')} [${pct(r.p_s150)} – ${pct(r.p_s0)}]</div>
-      <div class="pmeta"><span>${t('pmFinal')} <b>${pct(r.p_final,0)}</b></span><span>${t('subModel')} <b>${pct(r.p_champion_model,0)}</b></span><span>${t('subMarket')} <b>${pct(r.p_market_champ,0)}</b></span></div>
+      <div class="pmeta">${direct!=null?`<span>${t('subDirect')} <b>${pct(direct)}</b></span>`:`<span>${t('pmFinal')} <b>${pct(r.p_final,0)}</b></span>`}<span>${t('subModel')} <b>${pct(r.p_champion_model,0)}</b></span><span>${t('subMarket')} <b>${pct(r.p_market_champ,0)}</b></span></div>
     </div>`}).join('');
 }
 
@@ -1393,7 +1685,7 @@ function bracket(){
     </div>`};
   const col=(ms,lbl,cls)=>`<div class="bk-col ${cls||''}"><h5>${lbl}</h5>${ms.map(card).join('')}</div>`;
   // current stage = earliest round that still has an undecided fixture
-  const ORDER=['R32','R16','QF','SF','THIRD','FINAL'];
+  const ORDER=['R32','R16','QF','SF','FINAL','THIRD'];
   let cur=null;
   for(const r of ORDER){if(D.ko.some(k=>k.round===r&&k.winner==null)){cur=r;break}}
   const cc=r=>cur===r?'cur':'';
@@ -1517,7 +1809,9 @@ const CELL={
   ev_sharp:r=>`<td class="num ${r.ev_sharp>0?'pos':'neg'}">${sgn(r.ev_sharp*100)}%</td>`};
 // knockout stage: only teams still in, and drop the pre-tournament odds/edge/EV + trivial (=100%) reached-round columns
 const COLS=()=>D.group_stage_done
-  ? [['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')]]
+  ? (D.final
+    ? [['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')]]
+    : [['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')]])
   : [['team',t('thTeam')],['elo','ELO'],['p_champion',t('thChampion')],['p_champion_model',t('thModel')],['p_market_champ',t('thMktNow')],['p_final',t('thFinal')],['p_sf',t('thSF')],
      ['p_qf',t('thQF')],['p_r16',t('thR16')],['p_r32',t('thR32')],['decimal_odds_sharp',t('thOdds')],['p_market_sharp',t('thImp')],['edge_sharp_pp',t('thEdge')],['ev_sharp',t('thEV')]];
 function table(){
@@ -1550,7 +1844,7 @@ function reveals(){
 /* ---------- lang toggle ---------- */
 function langRefresh(){
   applyStatic();renderBadges();buildHeroSide();setHero(heroIdx);renderHeroStats();
-  podium();bench();groupsSec();try{bracket()}catch(e){}matches();table();renderAlt();
+  podium();finalAnalysis();bench();groupsSec();try{bracket()}catch(e){}matches();table();renderAlt();
   try{paulLang()}catch(e){}
   // strip one-shot effects instantly after re-render
   document.querySelectorAll('[data-flick]').forEach(el=>{el.textContent=el.dataset.flick;el.removeAttribute('data-flick')});
@@ -1579,10 +1873,11 @@ if(document.body.classList.contains('ko')){
     const gh=s.querySelector('.ghost');if(gh)gh.textContent=nn;
   });
 }
-applyStatic();heroInit();stars();podium();bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();renderAlt();reveals();
+applyStatic();heroInit();stars();podium();finalAnalysis();bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();renderAlt();reveals();
 try{paulInit()}catch(e){}
 onSee('edge-sec',el=>{try{edge()}catch(e){} flickAll(el);growAll(el)},'0px 0px 200px 0px');
 onSee('podium-sec',el=>flickAll(el));
+onSee('final-analysis-sec',el=>{flickAll(el);growAll(el)});
 onSee('groups-sec',el=>{flickAll(el);growAll(el)});
 onSee('bracket-sec',el=>{flickAll(el);growAll(el)});
 onSee('alt-sec',el=>{try{altMap()}catch(e){} flickAll(el);growAll(el)},'0px 0px 150px 0px');

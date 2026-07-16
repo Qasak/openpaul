@@ -1,5 +1,5 @@
 """Fun 'alternative data' for the live knockout matchups (ENTERTAINMENT ONLY —
-never enters the prediction model). Per semi-final pairing we compare a bunch of
+never enters the prediction model). For the final pairing we compare a bunch of
 result-irrelevant quirky metrics, grouped on the site:
 
   This tournament (computed here from results.csv):
@@ -29,7 +29,7 @@ import math
 import os
 
 DATA = os.path.dirname(os.path.abspath(__file__)).replace("src", "data")
-SF_TEAMS = ["France", "Spain", "England", "Argentina"]
+FINALISTS = ["Spain", "Argentina"]
 
 # (lat, lng) of every 2026 host venue, keyed by the prefix used in the schedule
 COORDS = {
@@ -62,7 +62,8 @@ FIFA = {"Argentina": 1, "Spain": 2, "France": 3, "England": 4,
 HOME_TEMP = {"France": 25, "Spain": 33, "Argentina": 14, "England": 23,       # July high °C
              "Norway": 22, "Belgium": 23, "Switzerland": 25, "Morocco": 26}
 VENUE_TEMP = {"Foxborough": 28, "Inglewood": 29, "Miami Gardens": 32,
-              "Kansas City": 32, "Arlington": 35, "Atlanta": 31}
+              "Kansas City": 32, "Arlington": 35, "Atlanta": 31,
+              "East Rutherford": 29}
 
 # ---- qualitative tactical read (subjective/editorial; bilingual) ----
 COACH = {
@@ -77,8 +78,8 @@ COACH = {
 }
 STYLE = {
   "France":      {"zh": "务实反击 + 球星单点(姆巴佩速度、登贝莱/奥利塞边路)", "en": "pragmatic counters + star quality (Mbappé pace, Dembélé/Olise wings)"},
-  "Spain":       {"zh": "极致传控 + 高位逼抢(11 进球仅失 1 球)", "en": "relentless possession + high press (11 scored, one conceded)"},
-  "Argentina":   {"zh": "梅西调度 + 大赛抗压 + 定位球(本届 17 球)", "en": "Messi-orchestrated + big-game nous + set pieces (17 goals)"},
+  "Spain":       {"zh": "极致传控 + 高位逼抢 + 丢球后快速反抢", "en": "relentless possession + high press + immediate counter-press"},
+  "Argentina":   {"zh": "梅西调度 + 大赛抗压 + 转换与定位球", "en": "Messi-orchestrated + big-game nous + transitions and set pieces"},
   "England":     {"zh": "结构化控球 + 边路个人质量 + 高空优势", "en": "structured possession + wide quality + aerial edge"},
   "Norway":      {"zh": "直接 + 哈兰德支点 + 定位球(后防偏漏)", "en": "direct + Haaland focal point + set pieces (leaky at the back)"},
   "Belgium":     {"zh": "直接强攻(德凯特拉雷 + 卢卡库)", "en": "direct firepower (De Ketelaere + Lukaku)"},
@@ -86,10 +87,8 @@ STYLE = {
   "Morocco":     {"zh": "纪律密集防守 + 快速反击(2022四强底子)", "en": "disciplined low block + quick transitions (2022 semi-finalists)"},
 }
 MATCHUP_KEY = {
-  101: {"zh": "控球权之争背后是两种推进方式：西班牙靠短传和高位逼抢把比赛压进前场，法国则愿意让出球权，等姆巴佩、登贝莱和奥利塞冲击身后。法国 16 进球、仅失 2 球，西班牙 11 进球、仅失 1 球；真正的分水岭是西班牙丢球后能否在法国第一脚纵传前完成反抢。",
-        "en": "Two routes to the same end: Spain use short passing and a high press to camp in the attacking half; France are happy to concede possession and launch Mbappé, Dembélé and Olise into space. France have scored 16 and conceded two, Spain 11 and one — the hinge is whether Spain's counter-press can kill France's first forward pass."},
-  102: {"zh": "英格兰的身高、阵容深度与结构化压迫，对上阿根廷的梅西调度和淘汰赛经验。两队都已失 6 球，但阿根廷以 17 个进球领跑四强；英格兰若让梅西在中路从容转身会持续后退，反过来定位球与高空球则是冲击阿根廷最直接的入口。",
-        "en": "England's height, depth and structured press meet Argentina's Messi-led control and knockout experience. Both have conceded six, but Argentina lead the final four with 17 goals. Let Messi turn centrally and England will retreat all night; at the other end, set pieces and aerial pressure are England's clearest route in."},
+  104: {"zh": "西班牙要用持续控球和反抢把阿根廷压在低位，阿根廷则会寻找西班牙高位身后的第一脚纵向传递，并让梅西在中路接到面向球门的球。西班牙本届 13 进球仅失 1 球，阿根廷 19 进球但失 7 球：一边是控制与防守稳定性，一边是更强的终结产量与决赛经验。",
+        "en": "Spain will try to pin Argentina deep through sustained possession and counter-pressing; Argentina will look for the first vertical pass behind Spain's high line and for Messi receiving on the turn. Spain have scored 13 and conceded one, Argentina 19 and seven: control and defensive stability against greater scoring output and final-stage experience."},
 }
 
 
@@ -129,7 +128,7 @@ def _load_fixtures():
 
 def _tournament_stats():
     """gf/ga/gd/shootouts per team, computed from real results."""
-    st = {t: {"gf": 0, "ga": 0, "gd": 0, "shootouts": 0} for t in SF_TEAMS}
+    st = {t: {"gf": 0, "ga": 0, "gd": 0, "shootouts": 0} for t in FINALISTS}
     p = os.path.join(DATA, "results.csv")
     if not os.path.exists(p):
         return st
@@ -154,7 +153,7 @@ def build() -> dict:
     stats = _tournament_stats()
 
     flight = {}
-    for t in SF_TEAMS:
+    for t in FINALISTS:
         cs = [c for _, _, c in sorted(
             [(d, m, c) for d, m, a, b, c, g in rows if t in (a, b)],
             key=lambda x: (x[0], x[1]))]
@@ -174,18 +173,18 @@ def build() -> dict:
                 "coach_level": COACH[t]["level"], "style": STYLE[t],
                 "climate_gap": (venue_temp - HOME_TEMP[t]) if venue_temp is not None else None}
 
-    teams = {t: facts(t) for t in SF_TEAMS}
+    teams = {t: facts(t) for t in FINALISTS}
 
-    semifinals = [(d, m, a, b, c, g) for d, m, a, b, c, g in rows if g == "SF"]
+    finals = [(d, m, a, b, c, g) for d, m, a, b, c, g in rows if g == "FINAL"]
     matchups = []
-    for d, m, a, b, c, g in sorted(semifinals, key=lambda x: x[1]):
+    for d, m, a, b, c, g in sorted(finals, key=lambda x: x[1]):
         vtemp = VENUE_TEMP.get(_base(c))
         matchups.append({"match": m, "date": d, "city": c, "venue_temp": vtemp,
                          "team1": facts(a, vtemp), "team2": facts(b, vtemp),
                          "key": MATCHUP_KEY.get(m)})
 
     featured_cities = {_base(c): (m, a, b, d)
-                       for d, m, a, b, c, g in semifinals}
+                       for d, m, a, b, c, g in finals}
     seen, venues = set(), []
     for d, m, a, b, c, g in rows:
         base = _base(c)
@@ -201,7 +200,7 @@ def build() -> dict:
                      venue_temp=VENUE_TEMP.get(base))
         venues.append(v)
 
-    return {"stage": "SF", "teams": teams, "matchups": matchups, "venues": venues,
+    return {"stage": "FINAL", "teams": teams, "matchups": matchups, "venues": venues,
             "note": "entertainment only — not part of the prediction model",
             "sources": {"height": "givemesport.com 2026", "age": "rotowire.com 2026",
                         "value": "transfermarkt via planetfootball 2026",
