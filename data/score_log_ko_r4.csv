@@ -16,3 +16,4 @@ match,round,team1,team2,winner,p_advancer,brier,logloss,forecast_at
 99,QF,Norway,England,England,0.6085,0.3065,0.4968,2026-07-06T11:45:03Z
 100,QF,Argentina,Switzerland,Argentina,0.7155,0.1619,0.3348,2026-07-08T19:57:06Z
 101,SF,France,Spain,Spain,0.5313,0.4394,0.6324,2026-07-11T06:04:45Z
+102,SF,England,Argentina,Argentina,0.5877,0.34,0.5315,2026-07-12T15:28:59Z
