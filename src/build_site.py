@@ -116,6 +116,7 @@ def ensure_assets() -> str:
 
 PRE_SNAPSHOT = os.path.join(ROOT, "predictions",
                             "2026-06-11_round2_pretournament.csv")
+PENALTY_SHOOTOUTS = os.path.join(DATA, "penalty_shootouts.json")
 
 
 BLEND_MARKET_W = 0.5   # knockout-stage market weight (see market_champion_meta.json)
@@ -291,7 +292,127 @@ def build_final_analysis(d: dict) -> dict | None:
                                "draws": draws, "team2_wins": w2,
                                "gf1": gf1, "gf2": gf2,
                                "last_date": meetings[-1]["date"]}
+    try:
+        analysis["penalties"] = build_penalty_analysis(
+            team1, team2, analysis.get("p1_after_draw"))
+    except Exception as e:
+        print(f"NOTE: penalty analysis skipped ({e})")
     return analysis
+
+
+def build_penalty_analysis(team1: str, team2: str,
+                           p1_after_draw: float | None) -> dict:
+    """Build a transparent, non-model penalty-shootout comparison.
+
+    The source file stores match-level counts. Rates and splits are derived here
+    so the public page never relies on hand-written percentages. Keeper saves
+    are kept separate from off-target kicks; the displayed save rate uses every
+    kick faced as its conservative denominator.
+    """
+    with open(PENALTY_SHOOTOUTS, encoding="utf-8") as f:
+        raw = json.load(f)
+    cutoff = raw["recent_since"]
+
+    current = {team1: 0, team2: 0}
+    results_path = os.path.join(DATA, "results.csv")
+    if os.path.exists(results_path):
+        with open(results_path, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if r.get("winner") not in (team1, team2):
+                    continue
+                if r.get("score1") in (None, "") or r.get("score2") in (None, ""):
+                    continue
+                if int(r["score1"]) == int(r["score2"]):
+                    for team in current:
+                        if team in (r["team1"], r["team2"]):
+                            current[team] += 1
+
+    profiles = {}
+    for team in (team1, team2):
+        src = raw["teams"][team]
+        rows = sorted(src["shootouts"], key=lambda r: r["date"])
+        if not rows:
+            raise ValueError(f"no penalty history for {team}")
+        for r in rows:
+            for key in ("pens_for", "attempts_for", "pens_against",
+                        "attempts_against"):
+                if key not in r or int(r[key]) < 0:
+                    raise ValueError(
+                        f"bad {key} for {team} on {r.get('date', '?')}")
+            if (int(r["pens_for"]) > int(r["attempts_for"])
+                    or int(r["pens_against"]) > int(r["attempts_against"])):
+                raise ValueError(f"more goals than kicks for {team} on {r['date']}")
+            expected = "W" if int(r["pens_for"]) > int(r["pens_against"]) else "L"
+            if r["result"] != expected:
+                raise ValueError(f"bad shootout result for {team} on {r['date']}")
+
+        def record(items):
+            wins = sum(r["result"] == "W" for r in items)
+            return {"played": len(items), "wins": wins,
+                    "losses": len(items) - wins,
+                    "win_pct": wins / len(items) if items else None}
+
+        def kicks(items):
+            scored = sum(int(r["pens_for"]) for r in items)
+            attempts = sum(int(r["attempts_for"]) for r in items)
+            opponent_scored = sum(int(r["pens_against"]) for r in items)
+            opponent_attempts = sum(int(r["attempts_against"]) for r in items)
+            if not items:
+                return {
+                    "scored": 0, "attempts": 0, "conversion_pct": None,
+                    "opponent_scored": 0, "opponent_attempts": 0,
+                    "opponent_conversion_pct": None,
+                }
+            if not attempts or not opponent_attempts:
+                raise ValueError(f"empty kick totals for {team}")
+            return {
+                "scored": scored, "attempts": attempts,
+                "conversion_pct": scored / attempts,
+                "opponent_scored": opponent_scored,
+                "opponent_attempts": opponent_attempts,
+                "opponent_conversion_pct": opponent_scored / opponent_attempts,
+            }
+
+        world_cup = [r for r in rows if r["competition"] == "FIFA World Cup"]
+        recent = [r for r in rows if r["date"] >= cutoff]
+        kr = sorted(src["keeper"]["shootouts"], key=lambda r: r["date"])
+        faced = sum(int(r["faced"]) for r in kr)
+        saves = sum(int(r["saves"]) for r in kr)
+        off_target = sum(int(r.get("off_target", 0)) for r in kr)
+        if not faced or saves + off_target > faced:
+            raise ValueError(f"bad keeper totals for {team}")
+        keeper_wins = sum(r["result"] == "W" for r in kr)
+        keeper = {
+            "name": src["keeper"]["name"], "shootouts": len(kr),
+            "wins": keeper_wins, "losses": len(kr) - keeper_wins,
+            "faced": faced, "saves": saves, "off_target": off_target,
+            "goals": faced - saves - off_target,
+            "save_pct": saves / faced,
+            "on_target_save_pct": (saves / (faced - off_target)
+                                    if faced > off_target else None),
+            "history": list(reversed(kr)),
+        }
+        profiles[team] = {
+            "overall": record(rows), "world_cup": record(world_cup),
+            "recent": record(recent), "recent_history": list(reversed(recent)),
+            "kicks": kicks(rows), "recent_kicks": kicks(recent),
+            "current_tournament_shootouts": current[team], "keeper": keeper,
+            "taker_pool": src["taker_pool"],
+            "taker_note_zh": src["taker_note_zh"],
+            "taker_note_en": src["taker_note_en"],
+        }
+
+    model_after_draw = None
+    if p1_after_draw is not None:
+        model_after_draw = {team1: p1_after_draw, team2: 1.0 - p1_after_draw}
+    return {
+        "as_of": raw["as_of"], "recent_since": cutoff[:4],
+        "definition_zh": raw["definition_zh"],
+        "definition_en": raw["definition_en"],
+        "model_included": False, "model_after_draw": model_after_draw,
+        "teams": profiles,
+        "sources": raw["sources"],
+    }
 
 
 def build_payload() -> dict:
@@ -342,11 +463,11 @@ TEMPLATE = r"""<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>OpenPaul 🐙 · 2026 世界杯决赛分析：西班牙 vs 阿根廷</title>
-<meta name="description" content="2026 世界杯决赛：西班牙 vs 阿根廷。滚动 Elo + Dixon-Coles + 100,000 次蒙特卡洛，含夺冠概率、90 分钟胜平负、比分分布、晋级路径与战术拆解。">
+<meta name="description" content="2026 世界杯决赛：西班牙 vs 阿根廷。滚动 Elo + Dixon-Coles + 100,000 次蒙特卡洛，含夺冠概率、90 分钟胜平负、比分分布、战术拆解与点球大战能力对比。">
 <meta name="theme-color" content="#05070f">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="OpenPaul 🐙 · 2026 世界杯决赛：西班牙 vs 阿根廷">
-<meta property="og:description" content="决赛双雄落位 · 单场夺冠概率、90 分钟胜平负、最可能比分与完整战术分析 · 开球前存证，赛后公开核验">
+<meta property="og:description" content="决赛双雄落位 · 单场夺冠概率、90 分钟胜平负、最可能比分、完整战术与点球大战能力对比 · 开球前存证，赛后公开核验">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%99%3C/text%3E%3C/svg%3E">
 <style>
 __FONTCSS__
@@ -383,7 +504,7 @@ nav .links a{color:var(--dim);text-decoration:none;transition:color .2s}
 nav .links a:hover{color:var(--gold2)}
 .badge{font-size:11.5px;padding:3px 11px;border-radius:99px;border:1px solid var(--line);color:var(--dim)}
 .badge.live{color:var(--pos);border-color:rgba(58,214,168,.35)}
-@media(max-width:760px){nav .links a:not(#ghLink){display:none}.badge{display:none}}
+@media(max-width:760px){nav .links a:not(#ghLink):not(#langBtn){display:none}.badge{display:none}}
 
 /* hero */
 #hero{min-height:100vh;position:relative;display:flex;flex-direction:column;justify-content:center;
@@ -570,6 +691,26 @@ h2.sec-h{font-size:clamp(22px,2.6vw,34px);font-weight:800;letter-spacing:.01em}
 @media(max-width:900px){.final-matchline{grid-template-columns:1fr 1fr;gap:20px}.final-mid{grid-column:1/-1;grid-row:1}.final-team{grid-row:2}.final-grid,.final-tactics{grid-template-columns:1fr}.final-teams,.final-lineups{grid-template-columns:1fr}.scenario-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.final-board{padding:18px 14px}.final-matchline{grid-template-columns:1fr 1fr;gap:10px}.final-team img{width:70px;height:47px}.final-team .fn{font-size:19px}.final-probs b{font-size:31px}.final-kpis{grid-template-columns:1fr}.final-kpi{border-right:0;border-bottom:1px solid var(--line);padding:9px}.final-kpi:last-child{border-bottom:0}.team-record{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.scenario-grid{grid-template-columns:1fr}}
+
+/* penalty shootout comparison — historical evidence, not a model input */
+.pen-verdict{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);gap:26px;align-items:center;padding:24px}
+.pen-call .pen-tag{display:inline-block;font-family:var(--num);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(240,199,94,.35);border-radius:99px;padding:4px 9px;margin-bottom:10px}
+.pen-call h3{font-size:clamp(20px,2.4vw,29px);margin:0 0 7px}.pen-call p{font-size:12.5px;color:var(--dim);line-height:1.75;margin:0}
+.pen-model{min-width:0}.pen-model-title{font-size:11px;color:var(--dim);margin-bottom:7px}.pen-model-values{display:flex;justify-content:space-between;gap:12px;font-family:var(--num);font-size:12px}.pen-model-values b{color:var(--txt);font-size:16px}
+.pen-modelbar{height:10px;border-radius:99px;overflow:hidden;display:flex;background:var(--line);margin:8px 0}.pen-modelbar i{display:block;height:100%}.pen-modelbar .sp{background:linear-gradient(90deg,#e8b94f,var(--gold2))}.pen-modelbar .ar{background:linear-gradient(90deg,#6b9fe9,#9dc7ff)}
+.pen-model-note{font-size:10.5px;color:var(--dim);line-height:1.55}
+.pen-metrics{padding:22px 24px;margin-top:18px}.pen-teamheads{display:grid;grid-template-columns:1fr minmax(130px,.7fr) 1fr;gap:14px;align-items:center;margin-bottom:8px}.pen-teamhead{display:flex;align-items:center;gap:9px;font-weight:800}.pen-teamhead.right{justify-content:flex-end;text-align:right}.pen-teamhead img{width:38px;height:26px;border-radius:4px;object-fit:cover}.pen-teamheads .mid{text-align:center;font-family:var(--num);font-size:10px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+.pen-mrow{display:grid;grid-template-columns:64px minmax(90px,1fr) minmax(150px,.72fr) minmax(90px,1fr) 64px;gap:10px;align-items:center;padding:13px 0;border-top:1px solid var(--line)}
+.pen-mval{font-family:var(--num);font-weight:700;font-size:14px}.pen-mval.right{text-align:right}.pen-track{height:8px;border-radius:99px;background:#131d33;overflow:hidden}.pen-track i{display:block;height:100%;width:0;border-radius:inherit;transition:width .8s cubic-bezier(.2,.8,.2,1)}.pen-track.left i{margin-left:auto;background:linear-gradient(90deg,var(--golddeep),var(--gold2))}.pen-track.right i{background:linear-gradient(90deg,#4f78b6,#9dc7ff)}
+.pen-mlabel{text-align:center;min-width:0}.pen-mlabel b{display:block;font-size:11.5px}.pen-mlabel span{display:block;font-family:var(--num);font-size:9.5px;color:var(--dim);margin-top:2px}
+.pen-dual{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}.pen-card{padding:20px;min-width:0}.pen-card h3{display:flex;align-items:center;gap:9px;font-size:16px;margin:0 0 4px}.pen-card h3 img{width:32px;height:22px;border-radius:4px;object-fit:cover}.pen-card .pen-sub{font-size:10.5px;color:var(--dim);margin-bottom:14px}.pen-big{display:flex;align-items:baseline;gap:9px;margin-bottom:8px}.pen-big b{font-family:var(--num);font-size:29px}.pen-big span{font-size:11px;color:var(--dim)}
+.pen-kickbar{height:12px;border-radius:99px;overflow:hidden;display:flex;background:var(--line)}.pen-kickbar i{height:100%;display:block}.pen-kickbar .save{background:var(--pos)}.pen-kickbar .off{background:var(--gold)}.pen-kickbar .goal{background:#52627b}.pen-legend{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 14px;font-size:10px;color:var(--dim)}.pen-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}.pen-dot.save{background:var(--pos)}.pen-dot.off{background:var(--gold)}.pen-dot.goal{background:#52627b}
+.pen-history{display:grid;gap:6px}.pen-hrow{display:grid;grid-template-columns:54px 1fr auto auto;gap:8px;align-items:center;font-size:10.5px;color:var(--dim);padding-top:6px;border-top:1px solid rgba(27,39,64,.55)}.pen-hrow:first-child{border-top:0}.pen-hrow .opp{color:var(--txt);min-width:0}.pen-hrow .opp small{display:block;color:var(--dim);font-size:9px;line-height:1.25}.pen-hrow .res{font-family:var(--num);font-weight:700}.pen-hrow .res.win{color:var(--pos)}.pen-hrow .res.loss{color:var(--neg)}
+.pen-takers{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.pen-takers span{font-size:10.5px;border:1px solid var(--line);border-radius:99px;padding:5px 9px;color:var(--txt)}.pen-note{font-size:11.5px;line-height:1.7;color:var(--dim);margin:0}
+.pen-taker-rate{display:flex;align-items:baseline;gap:9px;margin:3px 0 13px}.pen-taker-rate b{font-family:var(--num);font-size:20px}.pen-taker-rate span{font-size:10.5px;color:var(--dim)}
+.pen-caveat{margin-top:18px;padding:20px 22px;border-left:3px solid #6b9fe9}.pen-caveat h3{font-size:15px;margin:0 0 6px}.pen-caveat p{font-size:11.5px;color:var(--dim);line-height:1.7;margin:0}.pen-sources{font-size:10.5px;color:var(--dim);line-height:1.65;margin-top:11px}.pen-sources a{color:var(--dim);text-decoration-color:var(--line)}.pen-sources a:hover{color:var(--gold2)}
+@media(max-width:900px){.pen-verdict{grid-template-columns:1fr}.pen-dual{grid-template-columns:1fr}}
+@media(max-width:560px){.pen-verdict,.pen-metrics,.pen-card{padding:18px 14px}.pen-teamheads{grid-template-columns:1fr 1fr}.pen-teamheads .mid{display:none}.pen-mrow{grid-template-columns:50px 1fr 1fr 50px;gap:8px}.pen-mlabel{grid-column:1/-1;grid-row:1}.pen-mval.left{grid-column:1;grid-row:2}.pen-track.left{grid-column:2;grid-row:2}.pen-track.right{grid-column:3;grid-row:2}.pen-mval.right{grid-column:4;grid-row:2}.pen-hrow{grid-template-columns:45px minmax(0,1fr) auto auto;gap:6px}}
 
 .grid2{display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
 @media(max-width:1020px){.grid2{grid-template-columns:1fr}}
@@ -870,6 +1011,19 @@ html.js .reveal.in{opacity:1;transform:none}
   <div class="final-sources" data-i18n="faSources"></div>
 </section>
 
+<section class="sec reveal" id="penalty-sec">
+  <div class="ghost" aria-hidden="true">04</div>
+  <div class="sec-head"><span class="sec-no">04</span><h2 class="sec-h" data-i18n="sPt">点球大战 · 谁更值得信任</h2></div>
+  <div class="sec-d" data-i18n="sPd">历史战绩、当前门将与潜在主罚手分层比较。所有点球数据均为背景证据，不改写主模型概率。</div>
+  <div class="panel pen-verdict" id="penVerdict"></div>
+  <div class="panel pen-metrics" id="penMetrics"></div>
+  <div class="pen-dual" id="penKeepers"></div>
+  <div class="pen-dual" id="penRecent"></div>
+  <div class="pen-dual" id="penTakers"></div>
+  <div class="panel pen-caveat"><h3 data-i18n="pkCaveatT">读法与限制</h3><p data-i18n="pkCaveatD"></p></div>
+  <div class="pen-sources" id="penSources"></div>
+</section>
+
 <section class="sec reveal koHidden" id="globe-sec">
   <div class="ghost" aria-hidden="true">03</div>
   <div class="sec-head"><span class="sec-no">03</span><h2 class="sec-h" data-i18n="s3t">夺冠概率 · 全球版图</h2></div>
@@ -980,7 +1134,8 @@ Czechia:'捷克',Austria:'奥地利',Denmark:'丹麦',Sweden:'瑞典',Paraguay:'
 'Ivory Coast':'科特迪瓦',Egypt:'埃及',Iran:'伊朗','New Zealand':'新西兰','Saudi Arabia':'沙特',
 'Cape Verde':'佛得角',Algeria:'阿尔及利亚',Jordan:'约旦',Uzbekistan:'乌兹别克斯坦','DR Congo':'刚果(金)',
 Ghana:'加纳',Panama:'巴拿马',Tunisia:'突尼斯',Scotland:'苏格兰',Haiti:'海地',Qatar:'卡塔尔',
-'South Africa':'南非',Iraq:'伊拉克','Bosnia and Herzegovina':'波黑','Curaçao':'库拉索'};
+'South Africa':'南非',Iraq:'伊拉克','Bosnia and Herzegovina':'波黑','Curaçao':'库拉索',
+Italy:'意大利',Russia:'俄罗斯',Chile:'智利',Yugoslavia:'南斯拉夫','Republic of Ireland':'爱尔兰'};
 const I18N={zh:{
   navTerrain:'3D 地形',navGlobe:'地球',navEdge:'价值',navBracket:'对阵',navMatches:'赛程',navPodium:'概率',navFinal:'决赛分析',navTable:'数据',
   overline:'决赛 · 2 队 · 1 场 <span class="ol2">· Monte Carlo ×100,000</span> · 开球前存证',
@@ -996,6 +1151,13 @@ const I18N={zh:{
  s1d:'24 支最强球队 × 6 个晋级阶段的三维概率山脉——最前排的金色山脊就是夺冠之路，身后的蓝色高墙是 32 强的入场概率。',
   s2t:'决赛胜率 · 两种口径',s2d:'头条夺冠概率为『模型 × 市场』融合值（<b>市场 WMKT · 模型 WMDL</b>）。市场部分来自 2026-07-08 八强赛前 FOX Sports 夺冠盘，幂法去水后仅在西班牙与阿根廷之间重新归一；这是条件化历史快照，<b>不是即时决赛赔率</b>。下一节单独给出不含市场的单场模型。',
   sFt:'冠军战 · 西班牙 vs 阿根廷',sFd:'把同一场决赛拆成四层：单场夺冠概率、90 分钟结果、比分分布与比赛计划。数值来自滚动 Elo + Dixon-Coles；战术与预计首发为编辑判断，不进入模型。',
+  sPt:'点球大战 · 谁更值得信任',sPd:'历史战绩、当前门将与潜在主罚手分层比较。所有点球数据均为背景证据，不改写主模型概率。',
+  pkEvidenceTag:'历史证据 · 非模型',pkVerdictT:'点球证据明显偏向阿根廷',pkVerdictD:'阿根廷在主要正式赛事 13 胜 6 负、世界杯 6 胜 1 负、2021 年以来 4 胜 0 负；西班牙分别为 7 胜 7 负、1 胜 4 负和 2 胜 3 负。马丁内斯点球大战扑出 8/18，西蒙为 6/24；主罚端阿根廷 71/91，也领先西班牙 48/67。西班牙只在“90 分钟打平后”的整体模型路径略占优势。',
+  pkModelT:'90 分钟打平后 · 最终夺冠模型',pkModelNote:'这条路径包含加时赛与默认 50/50 的点球分支，不是点球大战专属预测。',pkCompare:'同口径对比',
+  pkOverall:'国家队正式赛事',pkWorldCup:'世界杯',pkRecent:'2021 年以来',pkKeeperRate:'预计首发门将扑救率',pkConversion:'主罚转化率',pkRecentConversion:'球队 2021 年以来点球大战主罚命中率',pkRecord:'胜–负',pkCurrent:'本届点球大战',pkNone:'两队本届均为 0 次',
+  pkKeeperT:'门将层',pkKeeperSub:'国家队点球大战',pkFaced:'面对',pkSaved:'扑出',pkOff:'射偏 / 中框',pkGoals:'命中',pkSave:'扑救',pkGoal:'进球',
+  pkRecentT:'近期点球大战',pkTakersT:'潜在主罚手池',pkTakersSub:'预计可用人选 · 非官方顺序',pkW:'胜',pkL:'负',pkPens:'点球',
+  pkCaveatT:'读法与限制',pkCaveatD:'点球大战是极小样本，高度受主罚顺序、换人、伤停与临场心理影响。门将扑救率以“面对的全部罚球”为分母；对手射偏或击中门框单列，不算门将扑救。历史证据偏阿根廷，不等于一个可精确外推的新概率。',pkAsOf:'数据截至',pkScope:'统计口径',pkSources:'来源',
   faTime:'7月20日 03:00（北京时间）',faPure:'单场纯模型',faBlend:'融合头条',faElo:'滚动 Elo',fa90T:'90 分钟结果 · 纯模型',faScoreT:'最可能比分 · 90 分钟',
   faXg:'模型进球均值',faTopScore:'最高单一比分',faH2H:'历史交锋',faH2HNote:'仅作背景 · 不进模型',faRecord:'赛会战绩',faRoute:'淘汰赛路径',faClean:'零封',faGoals:'进球 / 失球',
   faW1:'西班牙胜',faDraw:'平局',faW2:'阿根廷胜',faWin:'胜',faDrawShort:'平',faLoss:'负',faPlayed:'场',
@@ -1007,8 +1169,8 @@ const I18N={zh:{
   faSc1T:'西班牙先得分',faSc1D:'阿根廷必须提前投入德保罗或劳塔罗，身后空间增大；比赛更接近 2–0 / 2–1。',
   faSc2T:'阿根廷先得分',faSc2D:'西班牙会抬高两名边后卫并增加佩德里或尼科的控球/纵深；梅西反击空间随之变大。',
   faSc3T:'60′ 仍是 0–0',faSc3D:'西班牙多约一天恢复且本届未踢加时；阿根廷则有更强的淘汰赛韧性与门将心理优势。',
-  faSc4T:'90′ 打平',faSc4D:'在模型的打平路径里，西班牙晋级约 51%，几乎五五开；点球能力未被单独建模。',
-  faVerdictT:'结论',faVerdictD:'这不是一场有明显强弱差的决赛。西班牙拥有更稳定的控制、防线和休息优势；阿根廷拥有更高的进球产量、梅西与逆风翻盘能力。主预测是 90 分钟 1–1；若必须选冠军，纯模型只微倾西班牙。预计首发、临场伤停、红牌与点球能力都不在当前概率中，本页为方法演示，非投注建议。',
+  faSc4T:'90′ 打平',faSc4D:'整体模型路径里西班牙最终夺冠约 51%，几乎五五开；它包含加时与默认 50/50 的点球分支。下一节的历史与人员证据则偏向阿根廷。',
+  faVerdictT:'结论',faVerdictD:'这不是一场有明显强弱差的决赛。西班牙拥有更稳定的控制、防线和休息优势；阿根廷拥有更高的进球产量、梅西与逆风翻盘能力。主预测是 90 分钟 1–1；若必须选冠军，纯模型只微倾西班牙。预计首发、临场伤停、红牌与下方点球证据都未进入当前概率，本页为方法演示，非投注建议。',
   faSources:'数据截至 2026-07-16 · 赛程与场馆：<a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/final-live-watch-teams-tickets" target="_blank" rel="noopener noreferrer">FIFA</a> · 赛况与球员数据：<a href="https://www.espn.co.uk/football/story/_/id/49370934/fifa-world-cup-final-argentina-vs-spain-need-know-predictions-odds" target="_blank" rel="noopener noreferrer">ESPN</a> / <a href="https://www.fotmob.com/matches/argentina-vs-spain/1ho257" target="_blank" rel="noopener noreferrer">FotMob</a> · 概率、比分分布与赛会统计：本项目可复现数据链。',
  s3t:'夺冠概率 · 全球版图',
  s3d:'48 支参赛队的夺冠概率立柱，矗立在各自国土之上（柱高 ∝ √概率，颜色 ∝ 概率）。最高的那道金光，就是此刻的头号热门。',
@@ -1069,6 +1231,13 @@ const I18N={zh:{
  s1d:'A 3-D probability massif: top 24 teams × 6 knockout stages. The golden ridge up front is the road to the title; the blue wall behind is the round-of-32 entry probability.',
   s2t:'The Final · Two Probability Lenses',s2d:'Headline title probabilities blend the model with the market (<b>WMKT market · WMDL model</b>). The market component is the 2026-07-08 pre-quarter-final FOX Sports title board, power de-vigged and re-normalised only across Spain and Argentina. It is a conditioned historical snapshot, <b>not live final odds</b>. The next section shows the market-free single-match model.',
   sFt:'The Championship Match · Spain vs Argentina',sFd:'One final, four layers: lift-the-cup probability, the 90-minute result, scoreline distribution and match plans. Numbers use rolling Elo + Dixon-Coles; tactics and predicted XIs are editorial and never enter the model.',
+  sPt:'Penalty Shoot-out · Whom Can You Trust?',sPd:'Historical record, current goalkeepers and likely takers compared in separate layers. Every penalty figure is background evidence and does not rewrite the main model.',
+  pkEvidenceTag:'historical evidence · not the model',pkVerdictT:'The shoot-out evidence clearly leans Argentina',pkVerdictD:'Argentina are 13–6 in major competitive shoot-outs, 6–1 at World Cups and 4–0 since 2021; Spain are 7–7, 1–4 and 2–3 respectively. Martínez has saved 8/18 shoot-out kicks faced against Simón’s 6/24, while Argentina also lead taker conversion, 71/91 to 48/67. Spain’s only edge is the broader model path after a 90-minute draw.',
+  pkModelT:'After a 90-minute draw · title model',pkModelNote:'This path includes extra time and a default 50/50 shoot-out branch; it is not a shoot-out-specific forecast.',pkCompare:'like-for-like comparison',
+  pkOverall:'senior competitive record',pkWorldCup:'World Cup',pkRecent:'since 2021',pkKeeperRate:'predicted starting keeper save rate',pkConversion:'taker conversion',pkRecentConversion:'team shoot-out conversion since 2021',pkRecord:'W–L',pkCurrent:'shoot-outs this tournament',pkNone:'both teams: 0',
+  pkKeeperT:'Goalkeeper layer',pkKeeperSub:'senior international shoot-outs',pkFaced:'faced',pkSaved:'saved',pkOff:'off target / woodwork',pkGoals:'scored',pkSave:'save',pkGoal:'goal',
+  pkRecentT:'Recent shoot-outs',pkTakersT:'Likely taker pool',pkTakersSub:'projected available players · not an official order',pkW:'W',pkL:'L',pkPens:'pens',
+  pkCaveatT:'How to read this',pkCaveatD:'Shoot-outs are tiny samples and depend heavily on order, substitutions, fitness and match-night psychology. Goalkeeper save rate uses every kick faced as the denominator; an opponent miss or woodwork is listed separately and never credited as a save. Argentina\'s evidence edge is not a new precisely estimable probability.',pkAsOf:'Data through',pkScope:'Scope',pkSources:'Sources',
   faTime:'20 Jul · 03:00 China Standard Time',faPure:'single-match model',faBlend:'headline blend',faElo:'rolling Elo',fa90T:'90-minute result · model only',faScoreT:'Most likely scores · 90 minutes',
   faXg:'model goal mean',faTopScore:'top exact score',faH2H:'historical H2H',faH2HNote:'context only · excluded from model',faRecord:'tournament record',faRoute:'knockout route',faClean:'clean sheets',faGoals:'goals for / against',
   faW1:'Spain win',faDraw:'Draw',faW2:'Argentina win',faWin:'W',faDrawShort:'D',faLoss:'L',faPlayed:'played',
@@ -1080,8 +1249,8 @@ const I18N={zh:{
   faSc1T:'Spain score first',faSc1D:'Argentina must introduce De Paul or Lautaro earlier and concede more space; the path bends toward 2–0 or 2–1.',
   faSc2T:'Argentina score first',faSc2D:'Spain push both full-backs higher and add Pedri or Nico for control/depth; Messi gains more transition space.',
   faSc3T:'Still 0–0 at 60′',faSc3D:'Spain have roughly one extra recovery day and no extra time in this run; Argentina bring knockout resilience and a stronger goalkeeper narrative.',
-  faSc4T:'Level after 90′',faSc4D:'Within the model’s draw path Spain advance about 51% — effectively even. Penalty skill is not separately modelled.',
-  faVerdictT:'Verdict',faVerdictD:'This final has no clear mismatch. Spain bring the steadier control, defence and recovery edge; Argentina bring greater scoring output, Messi and proven comeback capacity. The main 90-minute pick is 1–1; if forced to name the champion, the model only narrowly leans Spain. Predicted XIs, late fitness news, red cards and penalty skill are outside the current probabilities. Methodology demo, not betting advice.',
+  faSc4T:'Level after 90′',faSc4D:'The broader model path gives Spain roughly 51% to lift the trophy — effectively even — and includes extra time plus a default 50/50 shoot-out branch. The historical and personnel evidence in the next section leans Argentina.',
+  faVerdictT:'Verdict',faVerdictD:'This final has no clear mismatch. Spain bring the steadier control, defence and recovery edge; Argentina bring greater scoring output, Messi and proven comeback capacity. The main 90-minute pick is 1–1; if forced to name the champion, the model only narrowly leans Spain. Predicted XIs, late fitness news, red cards and the penalty evidence below are outside the current probabilities. Methodology demo, not betting advice.',
   faSources:'Data through 16 Jul 2026 · Schedule and venue: <a href="https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/final-live-watch-teams-tickets" target="_blank" rel="noopener noreferrer">FIFA</a> · Match and player context: <a href="https://www.espn.co.uk/football/story/_/id/49370934/fifa-world-cup-final-argentina-vs-spain-need-know-predictions-odds" target="_blank" rel="noopener noreferrer">ESPN</a> / <a href="https://www.fotmob.com/matches/argentina-vs-spain/1ho257" target="_blank" rel="noopener noreferrer">FotMob</a> · Probabilities, scorelines and tournament records: this project’s reproducible data chain.',
  s3t:'Title Probability · World Map',
  s3d:'Championship-probability pillars rising from each of the 48 homelands (height ∝ √p, color ∝ p). The tallest golden beam marks the current favourite.',
@@ -1145,7 +1314,7 @@ function applyStatic(){
 }
 const fl=(t,w=80)=>FLAG[t]?`flags/${FLAG[t]}-w${w<=80?80:320}.png`:'';
 const fimg=(t,w)=>FLAG[t]?`<img src="${fl(t,w||80)}" loading="lazy" alt="${nm(t)}">`:'';
-const pct=(x,d=1)=>x==null?'—':(x*100).toFixed(d)+'%';
+const pct=(x,d=1)=>Number.isFinite(x)?(x*100).toFixed(d)+'%':'—';
 const num=(x,d=2)=>x==null?'—':(+x).toFixed(d);
 const sgn=x=>x==null?'—':(x>0?'+':'')+(+x).toFixed(1);
 const hasGL=(()=>{try{const c=document.createElement('canvas');
@@ -1286,6 +1455,87 @@ function finalAnalysis(){
       <div class="team-record"><div><b>${record(s)}</b><span>${t('faWin')}–${t('faDrawShort')}–${t('faLoss')}</span></div><div><b>${s.gf}–${s.ga}</b><span>${t('faGoals')}</span></div><div><b>${s.clean_sheets}</b><span>${t('faClean')}</span></div><div><b>${Math.round(elo)}</b><span>${t('faElo')}</span></div></div>
       <div class="sec-no">${t('faRoute')}</div><div class="route">${route}</div></article>`
   }).join('');
+}
+
+/* ---------- penalty shootout: historical evidence, isolated from model ---------- */
+function penaltyAnalysis(){
+  const sec=document.getElementById('penalty-sec');
+  if(!sec)return;
+  try{
+    const F=D.final,P=F&&F.penalties;
+    if(!P||!P.teams){sec.style.display='none';return}
+    const teams=[F.team1,F.team2],A=P.teams[teams[0]],B=P.teams[teams[1]];
+    if(!A||!B)throw new Error('missing penalty profile');
+    sec.style.display='';
+    const byId=id=>{const el=document.getElementById(id);if(!el)throw new Error('missing '+id);return el};
+    const rec=r=>`${r.wins}-${r.losses}`;
+    const compNames={
+      'FIFA World Cup':{zh:'世界杯',en:'FIFA World Cup'},
+      'Copa America':{zh:'美洲杯',en:'Copa America'},
+      'UEFA EURO':{zh:'欧洲杯',en:'UEFA EURO'},
+      'FIFA Confederations Cup':{zh:'联合会杯',en:'Confederations Cup'},
+      'UEFA Nations League':{zh:'欧国联',en:'Nations League'},
+      'Artemio Franchi Cup':{zh:'弗兰基杯',en:'Artemio Franchi Cup'}
+    };
+    const comp=x=>(compNames[x]&&compNames[x][LANG])||x;
+    const model=P.model_after_draw||{},m0=model[teams[0]],m1=model[teams[1]];
+    byId('penVerdict').innerHTML=`<div class="pen-call">
+      <span class="pen-tag">${t('pkEvidenceTag')}</span><h3>${t('pkVerdictT')}</h3><p>${t('pkVerdictD')}</p>
+    </div><div class="pen-model"><div class="pen-model-title">${t('pkModelT')}</div>
+      <div class="pen-model-values"><span>${nm(teams[0])} <b>${pct(m0)}</b></span><span><b>${pct(m1)}</b> ${nm(teams[1])}</span></div>
+      <div class="pen-modelbar" aria-label="${t('pkModelT')}"><i class="sp" style="width:${m0!=null?(m0*100).toFixed(2):0}%"></i><i class="ar" style="width:${m1!=null?(m1*100).toFixed(2):0}%"></i></div>
+      <div class="pen-model-note">${t('pkModelNote')}</div></div>`;
+
+    const metrics=[
+      {label:t('pkOverall'),rateA:A.overall.win_pct,rateB:B.overall.win_pct,
+       detailA:`${t('pkRecord')} ${rec(A.overall)}`,detailB:`${t('pkRecord')} ${rec(B.overall)}`},
+      {label:t('pkWorldCup'),rateA:A.world_cup.win_pct,rateB:B.world_cup.win_pct,
+       detailA:`${t('pkRecord')} ${rec(A.world_cup)}`,detailB:`${t('pkRecord')} ${rec(B.world_cup)}`},
+      {label:t('pkRecent'),rateA:A.recent.win_pct,rateB:B.recent.win_pct,
+       detailA:`${t('pkRecord')} ${rec(A.recent)}`,detailB:`${t('pkRecord')} ${rec(B.recent)}`},
+      {label:t('pkKeeperRate'),rateA:A.keeper.save_pct,rateB:B.keeper.save_pct,
+       detailA:`${A.keeper.saves}/${A.keeper.faced}`,detailB:`${B.keeper.saves}/${B.keeper.faced}`},
+      {label:t('pkConversion'),rateA:A.kicks.conversion_pct,rateB:B.kicks.conversion_pct,
+       detailA:`${A.kicks.scored}/${A.kicks.attempts}`,detailB:`${B.kicks.scored}/${B.kicks.attempts}`}
+    ];
+    const barWidth=x=>Number.isFinite(x)?(x*100).toFixed(1):'0';
+    byId('penMetrics').innerHTML=`<div class="pen-teamheads">
+      <div class="pen-teamhead">${fimg(teams[0],80)}<span>${nm(teams[0])}</span></div><div class="mid">${t('pkCompare')}</div>
+      <div class="pen-teamhead right"><span>${nm(teams[1])}</span>${fimg(teams[1],80)}</div></div>
+      ${metrics.map(m=>`<div class="pen-mrow" aria-label="${m.label}: ${nm(teams[0])} ${pct(m.rateA)}, ${nm(teams[1])} ${pct(m.rateB)}">
+        <div class="pen-mval left">${pct(m.rateA)}</div><div class="pen-track left"><i data-w="${barWidth(m.rateA)}"></i></div>
+        <div class="pen-mlabel"><b>${m.label}</b><span>${m.detailA} · ${m.detailB}</span></div>
+        <div class="pen-track right"><i data-w="${barWidth(m.rateB)}"></i></div><div class="pen-mval right">${pct(m.rateB)}</div>
+      </div>`).join('')}
+      <div class="pen-model-note" style="margin-top:9px">${t('pkCurrent')} · ${nm(teams[0])} ${A.current_tournament_shootouts} · ${nm(teams[1])} ${B.current_tournament_shootouts}</div>`;
+
+    const historyRows=(rows,keeper)=>((Array.isArray(rows)?rows:[]).map(r=>`<div class="pen-hrow">
+      <span>${r.date.slice(0,4)}</span><span class="opp">${nm(r.opponent)}<small>${comp(r.competition)}</small></span>
+      <span class="detail">${keeper?`${r.saves}/${r.faced}`:`${r.pens_for}–${r.pens_against}`}</span>
+      <span class="res ${r.result==='W'?'win':'loss'}">${t(r.result==='W'?'pkW':'pkL')}</span></div>`).join(''));
+    const keeperCard=(team,p)=>{const k=p.keeper,saveW=k.saves/k.faced*100,offW=k.off_target/k.faced*100,goalW=k.goals/k.faced*100;return `<article class="panel pen-card">
+      <h3>${fimg(team,80)}${nm(team)} · ${k.name}</h3><div class="pen-sub">${t('pkKeeperT')} · ${t('pkKeeperSub')} · ${k.wins}-${k.losses}</div>
+      <div class="pen-big"><b>${k.saves}/${k.faced}</b><span>${t('pkSaved')} · ${pct(k.save_pct)}</span></div>
+      <div class="pen-kickbar" aria-label="${k.name}: ${t('pkSaved')} ${k.saves}, ${t('pkOff')} ${k.off_target}, ${t('pkGoals')} ${k.goals}"><i class="save" style="width:${saveW.toFixed(2)}%"></i><i class="off" style="width:${offW.toFixed(2)}%"></i><i class="goal" style="width:${goalW.toFixed(2)}%"></i></div>
+      <div class="pen-legend"><span><i class="pen-dot save"></i>${t('pkSave')} ${k.saves}</span><span><i class="pen-dot off"></i>${t('pkOff')} ${k.off_target}</span><span><i class="pen-dot goal"></i>${t('pkGoal')} ${k.goals}</span></div>
+      <div class="pen-history">${historyRows(k.history,true)}</div></article>`};
+    byId('penKeepers').innerHTML=keeperCard(teams[0],A)+keeperCard(teams[1],B);
+
+    const recentCard=(team,p)=>`<article class="panel pen-card"><h3>${fimg(team,80)}${nm(team)} · ${t('pkRecentT')}</h3>
+      <div class="pen-sub">${t('pkRecent')} · ${rec(p.recent)} · ${p.recent_kicks.scored}/${p.recent_kicks.attempts} (${pct(p.recent_kicks.conversion_pct)})</div><div class="pen-history">${historyRows(p.recent_history,false)}</div></article>`;
+    byId('penRecent').innerHTML=recentCard(teams[0],A)+recentCard(teams[1],B);
+
+    const takerCard=(team,p)=>`<article class="panel pen-card"><h3>${fimg(team,80)}${nm(team)} · ${t('pkTakersT')}</h3>
+      <div class="pen-sub">${t('pkTakersSub')}</div><div class="pen-takers">${(p.taker_pool||[]).map(x=>`<span>${x}</span>`).join('')}</div>
+      <p class="pen-note">${LANG==='zh'?p.taker_note_zh:p.taker_note_en}</p></article>`;
+    byId('penTakers').innerHTML=takerCard(teams[0],A)+takerCard(teams[1],B);
+    const definition=LANG==='zh'?P.definition_zh:P.definition_en;
+    const links=(P.sources||[]).map(s=>`<a href="${s.url}" target="_blank" rel="noopener noreferrer">${s.label}</a>`).join(' · ');
+    byId('penSources').innerHTML=`${t('pkAsOf')} <b>${P.as_of}</b> · ${t('pkScope')}: ${definition}<br>${t('pkSources')}: ${links}`;
+  }catch(e){
+    sec.style.display='none';
+    try{console.warn('penalty module hidden',e)}catch(_){}
+  }
 }
 
 /* ---------- OpenPaul mascot: a short-legged octopus stands beside the active
@@ -1844,7 +2094,7 @@ function reveals(){
 /* ---------- lang toggle ---------- */
 function langRefresh(){
   applyStatic();renderBadges();buildHeroSide();setHero(heroIdx);renderHeroStats();
-  podium();finalAnalysis();bench();groupsSec();try{bracket()}catch(e){}matches();table();renderAlt();
+  podium();finalAnalysis();try{penaltyAnalysis()}catch(e){}bench();groupsSec();try{bracket()}catch(e){}matches();table();renderAlt();
   try{paulLang()}catch(e){}
   // strip one-shot effects instantly after re-render
   document.querySelectorAll('[data-flick]').forEach(el=>{el.textContent=el.dataset.flick;el.removeAttribute('data-flick')});
@@ -1864,6 +2114,10 @@ document.getElementById('langBtn').addEventListener('click',e=>{
 /* ---------- boot ---------- */
 // knockout focus: body.ko (set server-side) hides the pre-tournament/group sections;
 // renumber the sections that remain visible so they read 01,02,03... not 02,06,08
+const penaltySec=document.getElementById('penalty-sec');
+const penaltyData=D.final&&D.final.penalties;
+if(penaltySec&&!(penaltyData&&penaltyData.teams&&
+  penaltyData.teams[D.final.team1]&&penaltyData.teams[D.final.team2]))penaltySec.remove();
 if(document.body.classList.contains('ko')){
   let n=0;
   document.querySelectorAll('.sec').forEach(s=>{
@@ -1873,11 +2127,12 @@ if(document.body.classList.contains('ko')){
     const gh=s.querySelector('.ghost');if(gh)gh.textContent=nn;
   });
 }
-applyStatic();heroInit();stars();podium();finalAnalysis();bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();renderAlt();reveals();
+applyStatic();heroInit();stars();podium();finalAnalysis();try{penaltyAnalysis()}catch(e){}bench();groupsSec();try{bracket()}catch(e){}matchTools();matches();table();renderAlt();reveals();
 try{paulInit()}catch(e){}
 onSee('edge-sec',el=>{try{edge()}catch(e){} flickAll(el);growAll(el)},'0px 0px 200px 0px');
 onSee('podium-sec',el=>flickAll(el));
 onSee('final-analysis-sec',el=>{flickAll(el);growAll(el)});
+onSee('penalty-sec',el=>{flickAll(el);growAll(el)});
 onSee('groups-sec',el=>{flickAll(el);growAll(el)});
 onSee('bracket-sec',el=>{flickAll(el);growAll(el)});
 onSee('alt-sec',el=>{try{altMap()}catch(e){} flickAll(el);growAll(el)},'0px 0px 150px 0px');

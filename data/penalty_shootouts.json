@@ -1,0 +1,520 @@
+{
+  "as_of": "2026-07-17",
+  "definition_en": "Senior men's major competitive shoot-outs in the FIFA World Cup, Copa America / UEFA EURO, FIFA Confederations Cup, UEFA Nations League and the CONMEBOL-UEFA champions match (Artemio Franchi Cup / Finalissima lineage). Friendlies and in-match penalties are excluded.",
+  "definition_zh": "成年男足国家队主要正式赛事点球大战：世界杯、美洲杯 / 欧洲杯、联合会杯、欧国联及欧美冠军杯（阿尔特米奥·弗兰基杯 / 欧美杯沿革）。友谊赛和比赛过程中的单个点球不计。",
+  "recent_since": "2021-01-01",
+  "teams": {
+    "Spain": {
+      "shootouts": [
+        {
+          "date": "1984-06-24",
+          "competition": "UEFA EURO",
+          "stage": "SF",
+          "opponent": "Denmark",
+          "result": "W",
+          "pens_for": 5,
+          "attempts_for": 5,
+          "pens_against": 4,
+          "attempts_against": 5
+        },
+        {
+          "date": "1986-06-22",
+          "competition": "FIFA World Cup",
+          "stage": "QF",
+          "opponent": "Belgium",
+          "result": "L",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 5,
+          "attempts_against": 5
+        },
+        {
+          "date": "1996-06-22",
+          "competition": "UEFA EURO",
+          "stage": "QF",
+          "opponent": "England",
+          "result": "L",
+          "pens_for": 2,
+          "attempts_for": 4,
+          "pens_against": 4,
+          "attempts_against": 4
+        },
+        {
+          "date": "2002-06-16",
+          "competition": "FIFA World Cup",
+          "stage": "R16",
+          "opponent": "Republic of Ireland",
+          "result": "W",
+          "pens_for": 3,
+          "attempts_for": 5,
+          "pens_against": 2,
+          "attempts_against": 5
+        },
+        {
+          "date": "2002-06-22",
+          "competition": "FIFA World Cup",
+          "stage": "QF",
+          "opponent": "South Korea",
+          "result": "L",
+          "pens_for": 3,
+          "attempts_for": 4,
+          "pens_against": 5,
+          "attempts_against": 5
+        },
+        {
+          "date": "2008-06-22",
+          "competition": "UEFA EURO",
+          "stage": "QF",
+          "opponent": "Italy",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 2,
+          "attempts_against": 4
+        },
+        {
+          "date": "2012-06-27",
+          "competition": "UEFA EURO",
+          "stage": "SF",
+          "opponent": "Portugal",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 2,
+          "attempts_against": 4
+        },
+        {
+          "date": "2013-06-27",
+          "competition": "FIFA Confederations Cup",
+          "stage": "SF",
+          "opponent": "Italy",
+          "result": "W",
+          "pens_for": 7,
+          "attempts_for": 7,
+          "pens_against": 6,
+          "attempts_against": 7
+        },
+        {
+          "date": "2018-07-01",
+          "competition": "FIFA World Cup",
+          "stage": "R16",
+          "opponent": "Russia",
+          "result": "L",
+          "pens_for": 3,
+          "attempts_for": 5,
+          "pens_against": 4,
+          "attempts_against": 4
+        },
+        {
+          "date": "2021-07-02",
+          "competition": "UEFA EURO",
+          "stage": "QF",
+          "opponent": "Switzerland",
+          "result": "W",
+          "pens_for": 3,
+          "attempts_for": 5,
+          "pens_against": 1,
+          "attempts_against": 4
+        },
+        {
+          "date": "2021-07-06",
+          "competition": "UEFA EURO",
+          "stage": "SF",
+          "opponent": "Italy",
+          "result": "L",
+          "pens_for": 2,
+          "attempts_for": 4,
+          "pens_against": 4,
+          "attempts_against": 5
+        },
+        {
+          "date": "2022-12-06",
+          "competition": "FIFA World Cup",
+          "stage": "R16",
+          "opponent": "Morocco",
+          "result": "L",
+          "pens_for": 0,
+          "attempts_for": 3,
+          "pens_against": 3,
+          "attempts_against": 4
+        },
+        {
+          "date": "2023-06-18",
+          "competition": "UEFA Nations League",
+          "stage": "Final",
+          "opponent": "Croatia",
+          "result": "W",
+          "pens_for": 5,
+          "attempts_for": 6,
+          "pens_against": 4,
+          "attempts_against": 6
+        },
+        {
+          "date": "2025-06-08",
+          "competition": "UEFA Nations League",
+          "stage": "Final",
+          "opponent": "Portugal",
+          "result": "L",
+          "pens_for": 3,
+          "attempts_for": 4,
+          "pens_against": 5,
+          "attempts_against": 5
+        }
+      ],
+      "keeper": {
+        "name": "Unai Simón",
+        "shootouts": [
+          {
+            "date": "2021-07-02",
+            "competition": "UEFA EURO",
+            "opponent": "Switzerland",
+            "result": "W",
+            "faced": 4,
+            "saves": 2,
+            "off_target": 1
+          },
+          {
+            "date": "2021-07-06",
+            "competition": "UEFA EURO",
+            "opponent": "Italy",
+            "result": "L",
+            "faced": 5,
+            "saves": 1,
+            "off_target": 0
+          },
+          {
+            "date": "2022-12-06",
+            "competition": "FIFA World Cup",
+            "opponent": "Morocco",
+            "result": "L",
+            "faced": 4,
+            "saves": 1,
+            "off_target": 0
+          },
+          {
+            "date": "2023-06-18",
+            "competition": "UEFA Nations League",
+            "opponent": "Croatia",
+            "result": "W",
+            "faced": 6,
+            "saves": 2,
+            "off_target": 0
+          },
+          {
+            "date": "2025-06-08",
+            "competition": "UEFA Nations League",
+            "opponent": "Portugal",
+            "result": "L",
+            "faced": 5,
+            "saves": 0,
+            "off_target": 0
+          }
+        ]
+      },
+      "taker_pool": [
+        "Mikel Oyarzabal",
+        "Rodri",
+        "Dani Olmo",
+        "Mikel Merino",
+        "Dani Carvajal",
+        "Aymeric Laporte"
+      ],
+      "taker_note_zh": "按预计决赛可用人选列出，并非官方主罚顺序。奥亚萨瓦尔与卡瓦哈尔有制胜点球经验；罗德里、奥尔莫都有命中与失手样本，整体顺序稳定性不如阿根廷。",
+      "taker_note_en": "Likely available finalists, not an official order. Oyarzabal and Carvajal have converted winning kicks; Rodri and Olmo both own makes and misses, leaving a less settled hierarchy than Argentina's."
+    },
+    "Argentina": {
+      "shootouts": [
+        {
+          "date": "1990-06-30",
+          "competition": "FIFA World Cup",
+          "stage": "QF",
+          "opponent": "Yugoslavia",
+          "result": "W",
+          "pens_for": 3,
+          "attempts_for": 5,
+          "pens_against": 2,
+          "attempts_against": 5
+        },
+        {
+          "date": "1990-07-03",
+          "competition": "FIFA World Cup",
+          "stage": "SF",
+          "opponent": "Italy",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 4,
+          "pens_against": 3,
+          "attempts_against": 5
+        },
+        {
+          "date": "1993-02-24",
+          "competition": "Artemio Franchi Cup",
+          "stage": "Final",
+          "opponent": "Denmark",
+          "result": "W",
+          "pens_for": 5,
+          "attempts_for": 6,
+          "pens_against": 4,
+          "attempts_against": 6
+        },
+        {
+          "date": "1993-06-27",
+          "competition": "Copa America",
+          "stage": "QF",
+          "opponent": "Brazil",
+          "result": "W",
+          "pens_for": 6,
+          "attempts_for": 6,
+          "pens_against": 5,
+          "attempts_against": 6
+        },
+        {
+          "date": "1993-07-01",
+          "competition": "Copa America",
+          "stage": "SF",
+          "opponent": "Colombia",
+          "result": "W",
+          "pens_for": 6,
+          "attempts_for": 6,
+          "pens_against": 5,
+          "attempts_against": 6
+        },
+        {
+          "date": "1995-07-17",
+          "competition": "Copa America",
+          "stage": "QF",
+          "opponent": "Brazil",
+          "result": "L",
+          "pens_for": 2,
+          "attempts_for": 4,
+          "pens_against": 4,
+          "attempts_against": 5
+        },
+        {
+          "date": "1998-06-30",
+          "competition": "FIFA World Cup",
+          "stage": "R16",
+          "opponent": "England",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 3,
+          "attempts_against": 5
+        },
+        {
+          "date": "2004-07-25",
+          "competition": "Copa America",
+          "stage": "Final",
+          "opponent": "Brazil",
+          "result": "L",
+          "pens_for": 2,
+          "attempts_for": 4,
+          "pens_against": 4,
+          "attempts_against": 4
+        },
+        {
+          "date": "2005-06-26",
+          "competition": "FIFA Confederations Cup",
+          "stage": "SF",
+          "opponent": "Mexico",
+          "result": "W",
+          "pens_for": 6,
+          "attempts_for": 6,
+          "pens_against": 5,
+          "attempts_against": 6
+        },
+        {
+          "date": "2006-06-30",
+          "competition": "FIFA World Cup",
+          "stage": "QF",
+          "opponent": "Germany",
+          "result": "L",
+          "pens_for": 2,
+          "attempts_for": 4,
+          "pens_against": 4,
+          "attempts_against": 4
+        },
+        {
+          "date": "2011-07-16",
+          "competition": "Copa America",
+          "stage": "QF",
+          "opponent": "Uruguay",
+          "result": "L",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 5,
+          "attempts_against": 5
+        },
+        {
+          "date": "2014-07-09",
+          "competition": "FIFA World Cup",
+          "stage": "SF",
+          "opponent": "Netherlands",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 4,
+          "pens_against": 2,
+          "attempts_against": 4
+        },
+        {
+          "date": "2015-06-26",
+          "competition": "Copa America",
+          "stage": "QF",
+          "opponent": "Colombia",
+          "result": "W",
+          "pens_for": 5,
+          "attempts_for": 7,
+          "pens_against": 4,
+          "attempts_against": 7
+        },
+        {
+          "date": "2015-07-04",
+          "competition": "Copa America",
+          "stage": "Final",
+          "opponent": "Chile",
+          "result": "L",
+          "pens_for": 1,
+          "attempts_for": 3,
+          "pens_against": 4,
+          "attempts_against": 4
+        },
+        {
+          "date": "2016-06-26",
+          "competition": "Copa America",
+          "stage": "Final",
+          "opponent": "Chile",
+          "result": "L",
+          "pens_for": 2,
+          "attempts_for": 4,
+          "pens_against": 4,
+          "attempts_against": 5
+        },
+        {
+          "date": "2021-07-06",
+          "competition": "Copa America",
+          "stage": "SF",
+          "opponent": "Colombia",
+          "result": "W",
+          "pens_for": 3,
+          "attempts_for": 4,
+          "pens_against": 2,
+          "attempts_against": 5
+        },
+        {
+          "date": "2022-12-09",
+          "competition": "FIFA World Cup",
+          "stage": "QF",
+          "opponent": "Netherlands",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 3,
+          "attempts_against": 5
+        },
+        {
+          "date": "2022-12-18",
+          "competition": "FIFA World Cup",
+          "stage": "Final",
+          "opponent": "France",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 4,
+          "pens_against": 2,
+          "attempts_against": 4
+        },
+        {
+          "date": "2024-07-04",
+          "competition": "Copa America",
+          "stage": "QF",
+          "opponent": "Ecuador",
+          "result": "W",
+          "pens_for": 4,
+          "attempts_for": 5,
+          "pens_against": 2,
+          "attempts_against": 4
+        }
+      ],
+      "keeper": {
+        "name": "Emiliano Martínez",
+        "shootouts": [
+          {
+            "date": "2021-07-06",
+            "competition": "Copa America",
+            "opponent": "Colombia",
+            "result": "W",
+            "faced": 5,
+            "saves": 3,
+            "off_target": 0
+          },
+          {
+            "date": "2022-12-09",
+            "competition": "FIFA World Cup",
+            "opponent": "Netherlands",
+            "result": "W",
+            "faced": 5,
+            "saves": 2,
+            "off_target": 0
+          },
+          {
+            "date": "2022-12-18",
+            "competition": "FIFA World Cup",
+            "opponent": "France",
+            "result": "W",
+            "faced": 4,
+            "saves": 1,
+            "off_target": 1
+          },
+          {
+            "date": "2024-07-04",
+            "competition": "Copa America",
+            "opponent": "Ecuador",
+            "result": "W",
+            "faced": 4,
+            "saves": 2,
+            "off_target": 0
+          }
+        ]
+      },
+      "taker_pool": [
+        "Lionel Messi",
+        "Gonzalo Montiel",
+        "Leandro Paredes",
+        "Lautaro Martínez",
+        "Julián Álvarez",
+        "Alexis Mac Allister"
+      ],
+      "taker_note_zh": "按预计决赛可用人选列出，并非官方主罚顺序。梅西承担高压首轮，蒙铁尔、帕雷德斯与劳塔罗在近年大战中反复命中；阿尔瓦雷斯和麦卡利斯特也在 2024 年命中。",
+      "taker_note_en": "Likely available finalists, not an official order. Messi carries first-kick pressure; Montiel, Paredes and Lautaro have repeatedly converted in recent shoot-outs, while Alvarez and Mac Allister scored in 2024."
+    }
+  },
+  "sources": [
+    {
+      "label": "FIFA · Argentina World Cup shoot-outs",
+      "url": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/argentina-penalty-shootouts"
+    },
+    {
+      "label": "FIFA · Morocco vs Spain (2022)",
+      "url": "https://www.fifa.com/en/articles/world-cup-qatar-2022-morocco-spain-match-review"
+    },
+    {
+      "label": "UEFA · EURO shoot-out table",
+      "url": "https://www.uefa.com/uefaeuro/history/news/0259-0e74d6e5f08a-91b1b93ffe14-1000--euro-penalty-shoot-outs-what-was-the-longest-who-saved-the-/"
+    },
+    {
+      "label": "UEFA · 2023 Nations League final",
+      "url": "https://www.uefa.com/uefanationsleague/news/0282-1849d8b2412c-f43f87000e15-1000--spain-win-nations-league-croatia-edged-out-on-penalties/"
+    },
+    {
+      "label": "UEFA · 2025 Nations League final",
+      "url": "https://www.uefa.com/uefanationsleague/match/2044949--portugal-vs-spain/"
+    },
+    {
+      "label": "CONMEBOL · Emiliano Martínez",
+      "url": "https://copaamerica.com/es/novedades/emiliano-martinez-arquero-penales-argentina-ecuador-copa-america"
+    },
+    {
+      "label": "RSSSF · Argentina international archive",
+      "url": "https://www.rsssf.org/tablesa/arg-intres.html"
+    }
+  ]
+}
