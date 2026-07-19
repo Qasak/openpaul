@@ -101,3 +101,5 @@ match,date,group,team1,team2,score1,score2,winner
 100,2026-07-11,QF,Argentina,Switzerland,3,1,Argentina
 101,2026-07-14,SF,France,Spain,0,2,Spain
 102,2026-07-15,SF,England,Argentina,1,2,Argentina
+103,2026-07-18,THIRD,France,England,4,6,England
+104,2026-07-19,FINAL,Spain,Argentina,1,0,Spain

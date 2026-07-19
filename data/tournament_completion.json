@@ -1,0 +1,17 @@
+{
+  "as_of": "2026-07-20",
+  "source": "ESPN scoreboard",
+  "source_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates={date}",
+  "matches": {
+    "103": {
+      "date": "2026-07-18",
+      "status": "STATUS_FULL_TIME",
+      "completed": true
+    },
+    "104": {
+      "date": "2026-07-19",
+      "status": "STATUS_FINAL_AET",
+      "completed": true
+    }
+  }
+}

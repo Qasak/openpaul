@@ -17,9 +17,9 @@
   },
   "params_path": "data/params_fit.json",
   "locked_matches": 72,
-  "locked_knockout": 30,
+  "locked_knockout": 32,
   "ko_lock_mismatches": 0,
-  "runtime_s": 21.2,
+  "runtime_s": 18.4,
   "third_alloc_fallbacks": 0,
   "third_alloc_source": "schedule_ko.csv (real pairings)",
   "elo_source": "rolled (data/elo_current.csv, src/elo_update.py)"
